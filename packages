@@ -1,0 +1,17 @@
+zsh
+git yay
+xorg-xinit xorg-server i3-gaps xf86-video-intel
+noto-fonts noto-fonts-emoji
+rxvt-unicode
+rofi
+pulseaudio pavucontrol
+scrot
+feh
+compton
+gtk3 adapta-gtk-theme
+screenfetch
+polybar(aur) jsoncpp
+awesome-terminal-fonts
+
+firefox
+telegram-desktop
