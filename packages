@@ -9,6 +9,6 @@ scrot
 feh
 compton
 gtk3 adapta-gtk-theme
-screenfetch
+neofetch
 polybar(aur) jsoncpp
 awesome-terminal-fonts

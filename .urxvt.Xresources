@@ -1,0 +1,15 @@
+URxvt*font: xft:Noto Sans Mono:size=11
+URxvt.letterSpace: -1
+URxvt.depth: 32
+
+URxvt.scrollBar: true
+URxvt.scrollstyle: plain
+
+URxvt*cursorBlink: true
+URxvt*cursorColor: #EAD49B
+
+URxvt*foreground: #fcfcfc
+URxvt*background: #232629
+
+URxvt.transparent: true
+URxvt.shading: 50
