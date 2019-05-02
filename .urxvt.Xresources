@@ -1,6 +1,5 @@
 URxvt*font: xft:Noto Sans Mono:size=11
 URxvt.letterSpace: -1
-URxvt.depth: 32
 
 URxvt.scrollBar: true
 URxvt.scrollstyle: plain
@@ -12,4 +11,4 @@ URxvt*foreground: #fcfcfc
 URxvt*background: #232629
 
 URxvt.transparent: true
-URxvt.shading: 50
+URxvt.shading: 60
