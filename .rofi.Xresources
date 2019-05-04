@@ -6,7 +6,7 @@ rofi.color-normal: argb:00000000, #EAD49B, argb:00000000, #1E272B, #78824B
 rofi.color-active: argb:00000000, #EAD49B, argb:00000000, #1E272B, #78824B
 rofi.color-urgent: argb:00000000, #EAD49B, argb:00000000, #1E272B, #78824B
 
-rofi.terminal: urxvt
+rofi.terminal: urxvtc
 rofi.separator-style: dash
 rofi.sidebar-mode: true
 rofi.lines: 10
