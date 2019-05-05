@@ -1,4 +1,4 @@
-zsh
+zsh zsh-completions
 git yay
 xorg-xinit xorg-server i3-gaps xf86-video-intel
 noto-fonts noto-fonts-emoji
