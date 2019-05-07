@@ -7,8 +7,8 @@ URxvt.scrollstyle: plain
 URxvt*cursorBlink: true
 URxvt*cursorColor: #EAD49B
 
-URxvt*foreground: #fcfcfc
-URxvt*background: #232629
+!URxvt*foreground: #fcfcfc
+!URxvt*background: #232629
 
 URxvt.transparent: true
 URxvt.shading: 60
