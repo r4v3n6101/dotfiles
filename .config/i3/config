@@ -126,7 +126,8 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # show exit windows
-bindsym $mod+Shift+e exec "~/.config/rofi/rofi-close-i3.sh"
+bindsym $mod+Shift+e exec "~/.config/scripts/rofi-close-i3.sh"
+bindsym --release Print exec --no-startup-id "~/.config/scripts/screenshot.sh"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

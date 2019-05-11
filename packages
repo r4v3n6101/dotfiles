@@ -5,10 +5,10 @@ noto-fonts noto-fonts-emoji
 rxvt-unicode
 rofi
 pulseaudio pavucontrol
-scrot
 feh
 compton
 gtk3 adapta-gtk-theme
 neofetch
-polybar(aur) jsoncpp
+polybar jsoncpp
 awesome-terminal-fonts
+imagemagick xclip
