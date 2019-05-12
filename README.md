@@ -1,2 +1,2 @@
 # dotfiles
-My linux's configs based on: https://github.com/nixlad/dotfiles & https://github.com/CSaratakij/i3-rice-rin-shelter
+My linux's configs based on a lot of another configs
