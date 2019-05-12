@@ -11,4 +11,5 @@ gtk3 adapta-gtk-theme
 neofetch
 polybar jsoncpp
 awesome-terminal-fonts
-imagemagick xclip
+flameshot
+dex

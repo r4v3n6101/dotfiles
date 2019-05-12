@@ -245,3 +245,4 @@ exec_always --no-startup-id setxkbmap -layout us,ru -option 'grp:ctrl_shift_togg
 exec_always --no-startup-id feh --bg-fill ~/bg.jpg
 exec_always --no-startup-id compton -b -f
 exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id dex -a
