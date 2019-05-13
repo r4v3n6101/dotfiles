@@ -1,15 +1,4 @@
-#if __has_include(".colors.Xresources")
-#include ".colors.Xresources"
-#endif
-
-#if __has_include(".xft.Xresources")
-#include ".xft.Xresources"
-#endif
-
-#if __has_include(".rofi.Xresources")
-#include ".rofi.Xresources"
-#endif
-
-#if __has_include(".urxvt.Xresources")
-#include ".urxvt.Xresources"
-#endif
+#include ".Xresources.d/colors"
+#include ".Xresources.d/xft"
+#include ".Xresources.d/rofi"
+#include ".Xresources.d/urxvt"
