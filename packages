@@ -1,15 +1,41 @@
+# Shell
 zsh zsh-completions
+
+# nuff said
 git yay
+
+# X windows and i3wm (gaps)
 xorg-xinit xorg-server i3-gaps xf86-video-intel
-noto-fonts noto-fonts-emoji
+
+# Fonts
+noto-fonts noto-fonts-emoji awesome-terminal-fonts
+
+# Terminal
 rxvt-unicode
+
+# Simple&useful menu 
 rofi
+
+# Audio server and mixer
 pulseaudio pavucontrol
+
+# For bg
 feh
+
+# Window compositor (used for opacity)
 compton
+
+# GTK apps
 gtk3 adapta-gtk-theme
+
+# Some info
 neofetch
+
+# Bar
 polybar jsoncpp
-awesome-terminal-fonts
+
+# For making screenshots
 flameshot
+
+# Utility for autostart programs
 dex
