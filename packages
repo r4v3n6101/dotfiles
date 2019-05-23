@@ -45,3 +45,6 @@ connman cmst
 
 # Notification manager
 dunst
+
+# File manager
+ranger atool zip unzip unrar
