@@ -39,3 +39,9 @@ flameshot
 
 # Utility for autostart programs
 dex
+
+# Network manager
+connman cmst
+
+# Notification manager
+dunst
