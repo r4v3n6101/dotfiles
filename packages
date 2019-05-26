@@ -26,7 +26,7 @@ feh
 compton
 
 # GTK apps
-gtk3 adapta-gtk-theme
+gtk3 adapta-gtk-theme adwaita-icon-theme
 
 # Some info
 neofetch
