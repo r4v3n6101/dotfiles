@@ -48,3 +48,9 @@ dunst
 
 # File manager
 ranger atool zip unzip unrar
+
+# Process manager
+htop
+
+# SSH (for remote connection by lan)
+openssh
