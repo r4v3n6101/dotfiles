@@ -55,8 +55,8 @@ module-margin-left = 0
 module-margin-right = 0
 
 font-0 = Hack:fontformat=truetype:size=9;1
-font-1 = Hack:fontformat=truetype:size=9;1
-font-2 = FontAwesome:fontformat=truetype:size=9;1
+font-1 = NotoSans:fontformat=truetype:size=9;1
+font-2 = FontAwesome:fontformat=truetype:size=12;1
 
 modules-left = i3 xwindow
 modules-center = date
@@ -191,12 +191,13 @@ label-foreground = ${colors.my_color7}
 [module/volume]
 type = internal/pulseaudio
 use-ui-max = true
-interval = 2
+interval = 3
 
 format-volume = <ramp-volume> <label-volume>
-label-muted = 🔇 muted
+label-muted =  muted
 label-muted-foreground = #666
 
-ramp-volume-0 = 🔈
-ramp-volume-1 = 🔉
-ramp-volume-2 = 🔊
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
