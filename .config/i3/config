@@ -254,3 +254,4 @@ exec_always --no-startup-id feh --bg-fill ~/bg.jpg
 exec_always --no-startup-id compton -b -f
 exec_always --no-startup-id ~/.config/scripts/launch_polybar.sh
 exec_always --no-startup-id dex -a
+exec_always --no-startup-id dunst
