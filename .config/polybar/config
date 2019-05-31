@@ -60,7 +60,7 @@ font-2 = FontAwesome:fontformat=truetype:size=12;1
 
 modules-left = i3 xwindow
 modules-center = date
-modules-right = battery volume
+modules-right = battery volume keyboard
 
 tray-position = right
 tray-padding = 9
@@ -201,3 +201,10 @@ ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
 
+[module/keyboard]
+type = internal/xkeyboard
+
+blacklist-0 = num lock
+blacklist-1 = scroll lock
+
+format =  <label-layout> 
