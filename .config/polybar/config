@@ -6,9 +6,6 @@
 ;-------------------------------------------------
 
 
-REMOVE ALL COMMENTS AND ADD VOLUME MODULE THEN NOT FORGET COMMIT
-
-
 [colors]
 ;My colors are set from .Xresources to match everything else
 my_background 	= ${xrdb:background}
@@ -77,47 +74,23 @@ type = internal/i3
 label-unfocused-background = ${colors.my_background}
 label-unfocused-foreground = ${colors.my_foreground}
 
-; Available tokens:
-;   %mode%
-; Default: %mode%
 label-mode = %mode%
 label-mode-padding = 2
 label-mode-background = ${colors.my_color7}
 
-; Available tokens:
-;   %name%
-;   %icon%
-;   %index%
-;   %output%
-; Default: %icon%  %name%
 label-focused = %index%
 label-focused-foreground = ${colors.my_foreground}
 label-focused-background = ${colors.my_background}
 label-focused-underline = ${colors.my_color7}
 label-focused-padding = 2
 
-; Available tokens:
-;   %name%
-;   %icon%
-;   %index%
-; Default: %icon%  %name%
 label-unfocused = %index%
 label-unfocused-padding = 2
 
-; Available tokens:
-;   %name%
-;   %icon%
-;   %index%
-; Default: %icon%  %name%
 label-visible = %index%
 label-visible-underline = ${colors.my_foreground}
 label-visible-padding = 4
 
-; Available tokens:
-;   %name%
-;   %icon%
-;   %index%
-; Default: %icon%  %name%
 label-urgent = %index%
 label-urgent-foreground = ${colors.my_foreground}
 label-urgent-background = ${colors.my_background}
@@ -144,7 +117,7 @@ label = %date% %time%
 type = internal/battery
 battery = BAT1
 adapter = AC
-full-at = 99
+full-at = 100
 
 format-full-background = ${colors.my_background}
 format-charging-background = ${colors.my_background}
@@ -193,8 +166,8 @@ type = internal/pulseaudio
 use-ui-max = true
 interval = 3
 
-format-volume = <ramp-volume> <label-volume>
-label-muted =  muted
+format-volume = "<ramp-volume> <label-volume> "
+label-muted = " muted " 
 label-muted-foreground = #666
 
 ramp-volume-0 = 
@@ -207,4 +180,5 @@ type = internal/xkeyboard
 blacklist-0 = num lock
 blacklist-1 = scroll lock
 
-format =  <label-layout> 
+format = " <label-layout> "
+format-spacing = 0
