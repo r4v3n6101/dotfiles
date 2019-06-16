@@ -6,6 +6,8 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 syntax on
@@ -18,4 +20,4 @@ set confirm
 set autoindent
 set title
 
-map <C-n> :NERDTreeToggle<CR>
+map <C-o> :NERDTreeToggle<CR>
