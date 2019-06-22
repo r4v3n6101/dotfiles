@@ -5,7 +5,7 @@ zsh zsh-completions
 git yay
 
 # X windows and i3wm (gaps)
-xorg-xinit xorg-server i3-gaps xf86-video-intel
+xorg-xinit xorg-server i3-gaps xf86-video- #(choose video driver by yourself)
 
 # Fonts
 noto-fonts noto-fonts-emoji awesome-terminal-fonts
