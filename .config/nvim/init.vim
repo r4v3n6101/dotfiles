@@ -4,7 +4,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 "Plug 'easymotion/vim-easymotion'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'valloric/youcompleteme'
+"Plug 'valloric/youcompleteme'
 call plug#end()
 
 syntax on
