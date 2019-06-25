@@ -43,11 +43,8 @@ dex
 # Network manager
 connman cmst
 
-# Notification manager
-dunst
-
-# File manager
-ranger atool zip unzip unrar
+# Notification
+dunst libnotify
 
 # Process manager
 htop
