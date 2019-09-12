@@ -114,22 +114,18 @@ label = %date% %time%
 
 [module/battery]
 type = internal/battery
-battery = BAT1
-adapter = AC
+battery = BAT0
+adapter = ADP0
 full-at = 100
 
 format-full-background = ${colors.my_background}
 format-charging-background = ${colors.my_background}
 format-charging = "⁣  <label-charging> <animation-charging> "
-format-charging-underline = ${colors.my_color7}
 
 format-discharging-background = ${colors.my_background}
 format-discharging = "⁣ <label-discharging> <ramp-capacity> "
-format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix-foreground = ${colors.my_background}
-format-full-underline = ${self.format-charging-underline}
-
 format-charing-background = ${colors.my_background}
 
 ramp-capacity-0 = 
