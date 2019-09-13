@@ -121,14 +121,11 @@ label-discharging = %time% %percentage%%
 label-charging = %time% %percentage%%
 
 format-full-background = ${colors.my_background}
+format-full = " <label-full>  "
 format-charging-background = ${colors.my_background}
 format-charging = "⁣  <label-charging> <animation-charging> "
-
 format-discharging-background = ${colors.my_background}
 format-discharging = "⁣ <label-discharging> <ramp-capacity> "
-
-format-full-prefix-foreground = ${colors.my_background}
-format-charing-background = ${colors.my_background}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -181,7 +178,11 @@ format = " <label-layout> "
 format-spacing = 0
 
 [module/backlight]
-type = internal/backlight
-card = amdgpu_bl0
+type = custom/script
+interval = 0.2
+exec = light -G
+scroll-up = light -A 5 
+scroll-down = light -U 5
 
+label = %output%
 format = " <label> "
