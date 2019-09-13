@@ -51,3 +51,6 @@ htop
 
 # SSH (for remote connection by lan)
 openssh
+
+# Brightness control
+brightnessctl
