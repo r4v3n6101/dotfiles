@@ -56,11 +56,10 @@ font-1 = FontAwesome:fontformat=truetype:size=12;1
 
 modules-left = i3 xwindow
 modules-center = date
-modules-right = battery volume keyboard
+modules-right = battery backlight volume keyboard
 
 tray-position = right
 tray-padding = 9
-tray-transparent = false
 tray-offset-y = 0%
 tray-offset-x = 0%
 tray-maxsize = 18
@@ -117,6 +116,9 @@ type = internal/battery
 battery = BAT0
 adapter = ADP0
 full-at = 100
+
+label-discharging = %time% %percentage%%
+label-charging = %time% %percentage%%
 
 format-full-background = ${colors.my_background}
 format-charging-background = ${colors.my_background}
@@ -177,3 +179,9 @@ blacklist-1 = scroll lock
 
 format = " <label-layout> "
 format-spacing = 0
+
+[module/backlight]
+type = internal/backlight
+card = amdgpu_bl0
+
+format = " <label> "
