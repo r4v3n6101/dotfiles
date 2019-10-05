@@ -41,7 +41,7 @@ flameshot
 dex
 
 # Network manager
-connman cmst
+NetworkManager network-manager-applet
 
 # Notification
 dunst libnotify
