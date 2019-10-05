@@ -54,3 +54,6 @@ openssh
 
 # Brightness control
 light
+
+# Text editor
+neovim
