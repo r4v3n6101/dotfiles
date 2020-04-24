@@ -22,7 +22,6 @@ set noswapfile
 set number
 set mouse=a
 set mousehide
-set confirm
 set autoindent
 set title
 set ruler
