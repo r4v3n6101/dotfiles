@@ -1,4 +1,1 @@
-#include ".Xresources.d/colors"
-#include ".Xresources.d/xft"
-#include ".Xresources.d/rofi"
-#include ".Xresources.d/urxvt"
+.config/xorg/.Xresources

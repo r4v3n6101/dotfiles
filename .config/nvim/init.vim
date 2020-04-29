@@ -31,13 +31,13 @@ set hidden
 map <C-n> :NERDTreeToggle<CR>
 
 "Add visual formatting
-nmap <C-y>r :YcmRestartServer<CR>
-nmap <C-y>g :YcmCompleter GoTo<CR> 
-nmap <C-y>G :YcmCompleter GoToImprecise<CR> 
-nmap <C-y>t :YcmCompleter GoToType<CR>
-nmap <C-y>dc :YcmCompleter GoToDeclaration<CR>
-nmap <C-y>df :YcmCompleter GoToDefinition<CR>
-nmap <C-y>f :YcmCompleter FixIt<CR>
+nmap <C-x>g :YcmCompleter GoTo<CR> 
+nmap <C-x>G :YcmCompleter GoToImprecise<CR> 
+nmap <C-x>t :YcmCompleter GoToType<CR>
+nmap <C-x>c :YcmCompleter GoToDeclaration<CR>
+nmap <C-x>f :YcmCompleter GoToDefinition<CR>
+nmap <C-x>i :YcmCompleter GoToImplementation<CR>
+nmap <C-f> :YcmCompleter FixIt<CR>
 
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 let g:ycm_disable_for_files_larger_than_kb = 5000
