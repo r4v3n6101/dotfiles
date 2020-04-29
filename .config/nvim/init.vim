@@ -7,9 +7,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ycm-core/YouCompleteMe'
 "Plug 'easymotion/vim-easymotion'
 "Plug 'terryma/vim-multiple-cursors'
-"Plug 'valloric/youcompleteme'
 call plug#end()
 
 syntax on
@@ -28,4 +28,16 @@ set ruler
 set novisualbell
 set hidden
 
-map <C-o> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+
+"Add visual formatting
+nmap <C-y>r :YcmRestartServer<CR>
+nmap <C-y>g :YcmCompleter GoTo<CR> 
+nmap <C-y>G :YcmCompleter GoToImprecise<CR> 
+nmap <C-y>t :YcmCompleter GoToType<CR>
+nmap <C-y>dc :YcmCompleter GoToDeclaration<CR>
+nmap <C-y>df :YcmCompleter GoToDefinition<CR>
+nmap <C-y>f :YcmCompleter FixIt<CR>
+
+let g:ycm_goto_buffer_command = 'new-or-existing-tab'
+let g:ycm_disable_for_files_larger_than_kb = 5000
