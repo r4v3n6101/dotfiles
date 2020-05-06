@@ -45,3 +45,6 @@ nmap <F2> :YcmCompleter RefactorRename
 
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 let g:ycm_disable_for_files_larger_than_kb = 5000
+let g:ycm_rls_binary_path = 'rls'
+let g:ycm_rustc_binary_path = 'rustc'
+let g:ycm_clangd_binary_path = 'clangd'
