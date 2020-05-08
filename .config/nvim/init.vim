@@ -42,6 +42,7 @@ nmap <C-c>ged :YcmCompleter GetDoc<CR>
 nmap <C-c>r :YcmRestartServer<CR>
 nmap <C-c>f :YcmCompleter FixIt<CR>
 nmap <F2> :YcmCompleter RefactorRename 
+nmap <C-c>F :YcmCompleter Format<CR>
 
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 let g:ycm_disable_for_files_larger_than_kb = 5000
