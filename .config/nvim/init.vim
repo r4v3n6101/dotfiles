@@ -7,9 +7,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ycm-core/YouCompleteMe'
-"Plug 'easymotion/vim-easymotion'
-"Plug 'terryma/vim-multiple-cursors'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 syntax on
@@ -19,6 +17,7 @@ set encoding=utf-8
 set fileencodings=utf8,cp1251
 set nobackup
 set noswapfile
+set nowritebackup
 set number
 set mouse=a
 set mousehide
@@ -27,25 +26,58 @@ set title
 set ruler
 set novisualbell
 set hidden
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
 
 map <C-n> :NERDTreeToggle<CR>
 
-"Add visual formatting
-nmap <C-c>g :YcmCompleter GoTo<CR> 
-nmap <C-c>G :YcmCompleter GoToImprecise<CR> 
-nmap <C-c>gt :YcmCompleter GoToType<CR>
-nmap <C-c>gdc :YcmCompleter GoToDeclaration<CR>
-nmap <C-c>gdf :YcmCompleter GoToDefinition<CR>
-nmap <C-c>gi :YcmCompleter GoToImplementation<CR>
-nmap <C-c>gr :YcmCompleter GoToReferences<CR>
-nmap <C-c>ged :YcmCompleter GetDoc<CR>
-nmap <C-c>r :YcmRestartServer<CR>
-nmap <C-c>f :YcmCompleter FixIt<CR>
-nmap <F2> :YcmCompleter RefactorRename 
-nmap <C-c>F :YcmCompleter Format<CR>
+inoremap <silent><expr> <TAB>
+	\ pumvisible() ? "\<C-n>" :
+	\ <SID>check_back_space() ? "\<TAB>" :
+	\ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-let g:ycm_goto_buffer_command = 'new-or-existing-tab'
-let g:ycm_disable_for_files_larger_than_kb = 5000
-let g:ycm_rls_binary_path = 'rls'
-let g:ycm_rustc_binary_path = 'rustc'
-let g:ycm_clangd_binary_path = 'clangd'
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <c-space> coc#refresh()
+
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <F2> <Plug>(coc-rename)
+nmap <C-c>f <Plug>(coc-fix-current)
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+command! -nargs=0 Format :call CocAction('format')
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}

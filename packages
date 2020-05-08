@@ -56,7 +56,10 @@ openssh
 light
 
 # Text editor
-neovim
+neovim 
+
+#Nvim's CoC requires this
+nodejs npm
 
 # Good muxer
 tmux
