@@ -5,6 +5,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -34,6 +35,18 @@ set signcolumn=yes
 set background=dark
 
 map <silent> <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "~",
+    \ "Staged"    : "+",
+    \ "Untracked" : "u",
+    \ "Renamed"   : "->",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "-",
+    \ "Dirty"     : "x",
+    \ "Clean"     : "v",
+    \ 'Ignored'   : 'i',
+    \ "Unknown"   : "?"
+    \ }
 
 inoremap <silent><expr> <TAB>
 	\ pumvisible() ? "\<C-n>" :
