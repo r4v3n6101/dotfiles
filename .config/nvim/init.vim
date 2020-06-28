@@ -98,6 +98,13 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+" Show all diagnostics.
+nmap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nmap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nmap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+
 function! GitStatus()
   let [a,m,r] = GitGutterGetHunkSummary()
   return printf('+%d ~%d -%d', a, m, r)
