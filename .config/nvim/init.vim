@@ -10,6 +10,8 @@ Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'airblade/vim-gitgutter'
+Plug 'https://gitlab.com/code-stats/code-stats-vim.git'
+Plug 'vim-airline/vim-airline'
 call plug#end()
 
 syntax on
@@ -106,3 +108,6 @@ function! GitStatus()
   return printf('+%d ~%d -%d', a, m, r)
 endfunction
 set statusline+=%=%{GitStatus()}
+
+let g:airline_section_x = airline#section#create_right(['tagbar', 'filetype', '%{CodeStatsXp()}'])
+source ~/.config/nvim/codestats_token.nvim
