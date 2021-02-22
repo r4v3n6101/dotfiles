@@ -11,7 +11,7 @@ xorg-xinit xorg-server i3-gaps xf86-video- #(choose video driver by yourself)
 noto-fonts noto-fonts-emoji awesome-terminal-fonts
 
 # Terminal
-rxvt-unicode
+alacritty
 
 # Simple&useful menu 
 rofi
@@ -32,7 +32,7 @@ gtk3 adapta-gtk-theme adwaita-icon-theme
 neofetch
 
 # Bar
-polybar jsoncpp
+polybar
 
 # For making screenshots
 flameshot
