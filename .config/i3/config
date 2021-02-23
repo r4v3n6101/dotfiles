@@ -229,6 +229,9 @@ mode "$mode_gaps_outer" {
     bindsym Escape mode "default"
 }
 
+# Startup script
+exec_always --no-startup-id ~/.config/scripts/startup.sh
+
 set_from_resource	$background	background
 set_from_resource	$foreground	foreground
 set_from_resource	$color0		color0
@@ -255,6 +258,3 @@ client.unfocused       	$foreground	$background	$foreground	$color4		$color4
 client.focused_inactive	$foreground	$background	$foreground	$color4		$color4
 client.urgent		$foreground	$background	$foreground	$color4		$color4
 client.placeholder	$foreground	$background	$foreground	$color4		$color4
-
-# Startup script
-exec_always --no-startup-id ~/.config/scripts/startup.sh
