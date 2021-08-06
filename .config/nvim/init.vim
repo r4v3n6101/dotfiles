@@ -12,6 +12,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'airblade/vim-gitgutter'
 Plug 'https://gitlab.com/code-stats/code-stats-vim.git'
 Plug 'vim-airline/vim-airline'
+Plug 'lambdalisue/suda.vim'
 call plug#end()
 
 syntax on
@@ -110,3 +111,5 @@ set statusline+=%=%{GitStatus()}
 
 let g:airline_section_x = airline#section#create_right(['tagbar', 'filetype', '%{CodeStatsXp()}'])
 source ~/.config/nvim/codestats_token.nvim
+
+let g:suda_smart_edit = 1
