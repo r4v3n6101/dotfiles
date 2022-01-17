@@ -13,7 +13,7 @@ cmp.setup({
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
     ['<Tab>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
@@ -34,3 +34,14 @@ cmp.setup({
 
 -- rust-tools.nvim
 require('rust-tools').setup({})
+
+-- nvim-treesitter
+require('nvim-treesitter.configs').setup({
+  ensure_installed = {'rust'},
+  highlight = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+})
