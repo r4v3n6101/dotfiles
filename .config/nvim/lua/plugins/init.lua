@@ -6,7 +6,9 @@ end
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  use { 'hrsh7th/nvim-cmp', requires = { 
+  use { 
+    'hrsh7th/nvim-cmp', 
+    requires = { 
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
@@ -14,12 +16,18 @@ require('packer').startup(function(use)
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
     },
+    config = require('plugins.cmp'),
   }
   use {
     'nvim-treesitter/nvim-treesitter',
+    config = require('plugins.treesitter'),
     run = ':TSUpdate'
   }
-  use { 'simrat39/rust-tools.nvim', requires = { 'neovim/nvim-lspconfig' } }
+  use { 
+    'simrat39/rust-tools.nvim', 
+    requires = { 'neovim/nvim-lspconfig' },
+    config = require('plugins.rust-tools')
+  }
 
   vim.cmd([[
     autocmd BufWritePost */plugins/init.lua source <afile> | PackerCompile

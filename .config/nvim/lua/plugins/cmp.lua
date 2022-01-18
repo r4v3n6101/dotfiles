@@ -1,4 +1,3 @@
--- cmp plugin (completion)
 local cmp = require('cmp')
 
 cmp.setup({
@@ -29,19 +28,5 @@ cmp.setup({
     { name = 'buffer' },
     { name = 'calc' },
     { name = 'vsnip' },
-  },
-})
-
--- rust-tools.nvim
-require('rust-tools').setup({})
-
--- nvim-treesitter
-require('nvim-treesitter.configs').setup({
-  ensure_installed = {'rust'},
-  highlight = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
   },
 })
