@@ -3,9 +3,20 @@ local opt = vim.opt
 local cmd = vim.cmd
 local exec = vim.api.nvim_exec
 
+
 -- Main settings
 opt.number = true
 opt.signcolumn = 'yes'
+opt.list = true
+opt.listchars = {
+  tab = "▸ ",
+  nbsp = "⍽",
+  extends = "⟩",
+  precedes = "⟨",
+  trail = "-",
+  space = ".",
+  eol = "↲",
+}
 
 -- Tab settings
 cmd([[
