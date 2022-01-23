@@ -7,6 +7,7 @@ end
 vim.cmd([[packadd packer.nvim]])
 require('packer').startup(function()
   use 'wbthomason/packer.nvim'
+  use 'neovim/nvim-lspconfig'
   use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -24,17 +25,16 @@ require('packer').startup(function()
     config = function() require('plugins.treesitter') end,
     run = ':TSUpdate'
   }
-  use { 
-    'simrat39/rust-tools.nvim',
+  use {
+    'nvim-lualine/lualine.nvim',
+    config = function() require('plugins.lualine') end,
     requires = {
-      'neovim/nvim-lspconfig',
       'nvim-lua/lsp-status.nvim',
-      {
-        'nvim-lualine/lualine.nvim', 
-        config = function() require('plugins.lualine') end,
-      },
       'arkav/lualine-lsp-progress',
     },
+  }
+  use { 
+    'simrat39/rust-tools.nvim',
     config = function() require('plugins.rust-tools') end,
   }
   use {
