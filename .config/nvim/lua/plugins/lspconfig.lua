@@ -59,7 +59,7 @@ require('rust-tools').setup {
     server = {on_attach = on_attach, capabilities = capabilities}
 }
 
-vim.cmd([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)]])
+vim.cmd([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting()]])
 
 -- yaml LSP
 lspconfig.yamlls.setup {
