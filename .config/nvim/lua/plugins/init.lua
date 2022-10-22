@@ -10,9 +10,13 @@ end
 vim.cmd([[packadd packer.nvim]])
 require('packer').startup(function()
     use 'wbthomason/packer.nvim'
+
+    -- syntax highlighting, lsp
     use {
         'neovim/nvim-lspconfig',
-        config = function() require('plugins.lspconfig') end
+        config = function()
+            require('plugins.lspconfig')
+        end
     }
     use {
         'hrsh7th/nvim-cmp',
@@ -20,28 +24,68 @@ require('packer').startup(function()
             'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path',
             'hrsh7th/cmp-calc', 'hrsh7th/cmp-vsnip', 'hrsh7th/vim-vsnip'
         },
-        config = function() require('plugins.cmp') end
+        config = function()
+            require('plugins.cmp')
+        end
     }
     use {
         'nvim-treesitter/nvim-treesitter',
-        config = function() require('plugins.treesitter') end,
-        run = ':TSUpdate'
+        run = ':TSUpdate',
+        config = function()
+            require('nvim-treesitter.configs').setup({
+                ensure_installed = { 'rust', 'lua' },
+                highlight = { enable = true },
+                indent = { enable = true }
+            })
+        end,
     }
+
+    --[[ use {
+        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        config = function() require('plugins.lsplines') end,
+    } ]] --
+
+    -- visual
     use {
         'nvim-lualine/lualine.nvim',
-        config = function() require('plugins.lualine') end,
-        requires = {'nvim-lua/lsp-status.nvim', 'arkav/lualine-lsp-progress'}
+        requires = { 'nvim-lua/lsp-status.nvim', 'arkav/lualine-lsp-progress' },
+        config = function()
+            require('lualine').setup({
+                options = { theme = 'gruvbox', icons_enabled = false },
+                sections = { lualine_c = { 'lsp_progress' } }
+            })
+        end,
     }
-    use {'savq/melange', config = function() require('plugins.melange') end}
+    use {
+        'savq/melange',
+        config = function()
+            vim.opt.termguicolors = true
+            vim.cmd([[colorscheme melange]])
+        end
+    }
     use {
         'lukas-reineke/indent-blankline.nvim',
-        config = function() require('plugins.indent-blankline') end
+        config = function()
+            require("indent_blankline").setup {
+                show_end_of_line = true,
+                space_char_blankline = " "
+            }
+        end
     }
-    use 'simrat39/rust-tools.nvim'
 
-    vim.cmd([[
-    autocmd BufWritePost */plugins/init.lua source <afile> | PackerCompile
-  ]])
+    -- lang plugins
+    use 'simrat39/rust-tools.nvim'
+    use {
+        'saecki/crates.nvim',
+        tag = 'v0.3.0',
+        event = { "BufRead Cargo.toml" },
+        requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+        config = function()
+            require('plugins.crates')
+        end
+    }
+
+    vim.cmd([[ autocmd BufWritePost */plugins/init.lua source <afile> | PackerCompile ]])
 
     if packer_bootstrap then require('packer').sync() end
 end)

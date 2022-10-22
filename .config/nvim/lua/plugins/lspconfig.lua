@@ -2,22 +2,24 @@ local lspconfig = require('lspconfig')
 local lsp_status = require('lsp-status')
 lsp_status.register_progress()
 
+local kmap = vim.keymap.set
+
+local opts = { noremap = true, silent = true }
+kmap('n', '<space>e', vim.diagnostic.open_float, opts)
+kmap('n', '[d', vim.diagnostic.goto_prev, opts)
+kmap('n', ']d', vim.diagnostic.goto_next, opts)
 local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    local map = vim.api.nvim_buf_set_keymap
-    local default_opts = {noremap = true, silent = true}
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
-    map(bufnr, 'n', 'K', [[ <cmd>lua vim.lsp.buf.hover()<CR> ]], default_opts)
-    map(bufnr, 'n', 'gd', [[ <cmd>lua vim.lsp.buf.definition()<CR> ]],
-        default_opts)
-    map(bufnr, 'n', 'gi', [[ <cmd>lua vim.lsp.buf.implementation()<CR> ]],
-        default_opts)
-    map(bufnr, 'n', 'gr', [[ <cmd>lua vim.lsp.buf.references()<CR> ]],
-        default_opts)
-    map(bufnr, 'n', 'ga', [[ <cmd>lua vim.lsp.buf.code_action()<CR> ]],
-        default_opts)
-    map(bufnr, 'n', 'gf', [[ <cmd>lua vim.lsp.buf.formatting()<CR> ]],
-        default_opts)
+    kmap('n', 'K', vim.lsp.buf.hover, bufopts)
+    kmap('n', 'gd', vim.lsp.buf.definition, bufopts)
+    kmap('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    kmap('n', 'gr', vim.lsp.buf.references, bufopts)
+
+    kmap('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+    kmap('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    kmap('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 
     lsp_status.on_attach(client)
 end
@@ -42,21 +44,21 @@ lspconfig.sumneko_lua.setup {
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {'vim'}
+                globals = { 'vim' }
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
                 library = vim.api.nvim_get_runtime_file("", true)
             },
             -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {enable = false}
+            telemetry = { enable = false }
         }
     }
 }
 
 -- rust-tools commands
 require('rust-tools').setup {
-    server = {on_attach = on_attach, capabilities = capabilities}
+    server = { on_attach = on_attach, capabilities = capabilities }
 }
 
 vim.cmd([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting()]])
