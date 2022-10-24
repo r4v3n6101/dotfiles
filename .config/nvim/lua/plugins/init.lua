@@ -47,14 +47,10 @@ require('packer').startup(function()
 
     -- visual
     use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-lua/lsp-status.nvim', 'arkav/lualine-lsp-progress' },
+        'j-hui/fidget.nvim',
         config = function()
-            require('lualine').setup({
-                options = { theme = 'gruvbox', icons_enabled = false },
-                sections = { lualine_c = { 'lsp_progress' } }
-            })
-        end,
+            require('fidget').setup()
+        end
     }
     use {
         'savq/melange',

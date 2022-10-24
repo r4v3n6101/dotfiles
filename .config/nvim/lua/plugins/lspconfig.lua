@@ -1,6 +1,4 @@
 local lspconfig = require('lspconfig')
-local lsp_status = require('lsp-status')
-lsp_status.register_progress()
 
 local kmap = vim.keymap.set
 
@@ -20,11 +18,9 @@ local on_attach = function(client, bufnr)
     kmap('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     kmap('n', '<space>rn', vim.lsp.buf.rename, bufopts)
     kmap('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-
-    lsp_status.on_attach(client)
 end
 
-local capabilities = lsp_status.capabilities
+local capabilities = {}
 
 -- Lua LSP
 local runtime_path = vim.split(package.path, ';')
