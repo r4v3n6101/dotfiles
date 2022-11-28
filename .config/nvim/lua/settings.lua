@@ -2,6 +2,7 @@ local opt = vim.opt
 local cmd = vim.cmd
 local exec = vim.api.nvim_exec
 
+vim.g.mapleader = ","
 
 -- Main settings
 opt.number = true

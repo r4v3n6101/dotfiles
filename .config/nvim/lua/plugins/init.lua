@@ -68,6 +68,13 @@ require('packer').startup(function()
             }
         end
     }
+    use {
+        'nvim-telescope/telescope.nvim', tag = '0.1.0',
+        requires = { 'nvim-lua/plenary.nvim' },
+        config = function ()
+            require("plugins.telescope")
+        end
+    }
 
     -- lang plugins
     use 'simrat39/rust-tools.nvim'
@@ -75,7 +82,7 @@ require('packer').startup(function()
         'saecki/crates.nvim',
         tag = 'v0.3.0',
         event = { "BufRead Cargo.toml" },
-        requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+        requires = { 'nvim-lua/plenary.nvim' },
         config = function()
             require('plugins.crates')
         end

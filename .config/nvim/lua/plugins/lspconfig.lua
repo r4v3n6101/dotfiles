@@ -3,7 +3,7 @@ local lspconfig = require('lspconfig')
 local kmap = vim.keymap.set
 
 local opts = { noremap = true, silent = true }
-kmap('n', '<space>e', vim.diagnostic.open_float, opts)
+kmap('n', '<space>d', vim.diagnostic.open_float, opts)
 kmap('n', '[d', vim.diagnostic.goto_prev, opts)
 kmap('n', ']d', vim.diagnostic.goto_next, opts)
 local on_attach = function(client, bufnr)
@@ -11,12 +11,12 @@ local on_attach = function(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
     kmap('n', 'K', vim.lsp.buf.hover, bufopts)
+    kmap('n', 'ga', vim.lsp.buf.code_action, bufopts)
     kmap('n', 'gd', vim.lsp.buf.definition, bufopts)
     kmap('n', 'gi', vim.lsp.buf.implementation, bufopts)
     kmap('n', 'gr', vim.lsp.buf.references, bufopts)
 
-    kmap('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    kmap('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    kmap('n', '<space>r', vim.lsp.buf.rename, bufopts)
     kmap('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
