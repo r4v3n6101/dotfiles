@@ -53,10 +53,10 @@ require('packer').startup(function()
         end
     }
     use {
-        'savq/melange',
+        'jacoborus/tender.vim',
         config = function()
             vim.opt.termguicolors = true
-            vim.cmd([[colorscheme melange]])
+            vim.cmd([[colorscheme tender]])
         end
     }
     use {
