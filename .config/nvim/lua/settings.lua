@@ -1,14 +1,10 @@
-local opt = vim.opt
-local cmd = vim.cmd
-local exec = vim.api.nvim_exec
-
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 
 -- Main settings
-opt.number = true
-opt.signcolumn = 'yes'
-opt.list = true
-opt.listchars = {
+vim.opt.number = true
+vim.opt.signcolumn = 'yes'
+vim.opt.list = true
+vim.opt.listchars = {
     tab = "▸ ",
     nbsp = "⍽",
     extends = "⟩",
@@ -19,17 +15,13 @@ opt.listchars = {
 }
 
 -- Tab settings
-cmd([[
-filetype indent plugin on
-syntax enable
-]])
-opt.expandtab = true
-opt.shiftwidth = 4
-opt.tabstop = 4
-opt.smartindent = true
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.smartindent = true
 
 -- Highlight after yank
-exec([[
+vim.api.nvim_exec([[
 augroup YankHighlight
 autocmd!
 autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
