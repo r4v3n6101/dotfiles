@@ -35,7 +35,7 @@ local function cfg()
     -- Optional complete extension
     local status, cmp = pcall(require, "cmp")
     if (status) then
-        vim.api.nvim_create_autocmd("BufRead", {
+        vim.api.nvim_create_autocmd("BufReadPre", {
             group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
             pattern = "Cargo.toml",
             callback = function()
@@ -48,6 +48,6 @@ end
 return {
     'saecki/crates.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
-    event = "BufEnter Cargo.toml",
+    event = "BufReadPre Cargo.toml",
     config = cfg
 }
