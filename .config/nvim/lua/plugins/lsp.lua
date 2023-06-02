@@ -75,7 +75,7 @@ return {
                     kmap('n', '<C-k>', vim.lsp.buf.signature_help, opts("signature help [lspconfig]"))
                     kmap('n', '<leader>D', vim.lsp.buf.type_definition, opts("type definition [lspconfig]"))
                     kmap('n', '<leader>r', vim.lsp.buf.rename, opts("rename [lspconfig]"))
-                    kmap({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts("code action [lspconfig]"))
+                    kmap({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, opts("code action [lspconfig]"))
                     kmap('n', 'gr', vim.lsp.buf.references, opts("show references [lspconfig]"))
                     kmap('n', '<leader>f', vim.lsp.buf.format, opts("format [lspconfig]"))
                 end
