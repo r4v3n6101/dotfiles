@@ -2,12 +2,23 @@ return {
     'nvim-telescope/telescope.nvim',
     dependencies = {
         'nvim-lua/plenary.nvim',
+        "debugloop/telescope-undo.nvim",
+    },
+    keys = {
+        { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files [telescope.nvim]" },
+        { "<leader>fg", "<cmd>Telescope live_grep<cr>",  desc = "Find by grep [telescope.nvim]" },
+        { "<leader>fh", "<cmd>Telescope help_tags<cr>",  desc = "Find in help tags [telescope.nvim]" },
+        { "<leader>fj", "<cmd>Telescope jumplist<cr>",   desc = "Find in jumplist [telescope.nvim]" },
+        { "<leader>fr", "<cmd>Telescope registers<cr>",  desc = "Find in registers [telescope.nvim]" },
+        { "<leader>fm", "<cmd>Telescope marks<cr>",      desc = "Find in marks [telescope.nvim]" },
+        { "<leader>fu", "<cmd>Telescope undo<cr>",       desc = "Find in undo tree [telescope.nvim]" },
     },
     config = function()
-        local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "find files [telescope.nvim]" })
-        vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "find by grep [telescope.nvim]" })
-        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "find in buffers [telescope.nvim]" })
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = "find in help tags [telescope.nvim]" })
+        require("telescope").setup({
+            extensions = {
+                undo = {},
+            },
+        })
+        require("telescope").load_extension("undo")
     end
 }

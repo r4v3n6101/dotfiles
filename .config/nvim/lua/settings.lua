@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 
 -- Main settings
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.signcolumn = 'yes'
 vim.opt.list = true
 vim.opt.listchars = {
@@ -13,6 +14,13 @@ vim.opt.listchars = {
     space = ".",
     eol = "↲",
 }
+vim.opt.termguicolors = true
+vim.opt.updatetime = 300
+vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
+
+-- Disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Tab settings
 vim.opt.expandtab = true

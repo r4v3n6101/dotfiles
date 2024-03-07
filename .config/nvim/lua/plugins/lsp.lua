@@ -1,32 +1,41 @@
-local kmap = vim.keymap.set
-local function opts(buf, desc)
-    return { buffer = buf, desc = desc }
-end
-
 return {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-            vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-            vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-            vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = function(ev)
                     local b = ev.buf
                     vim.bo[b].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-                    kmap('n', 'gD', vim.lsp.buf.declaration, opts(b, "go to declaration [lspconfig]"))
-                    kmap('n', 'gd', vim.lsp.buf.definition, opts(b, "go to definition [lspconfig]"))
-                    kmap('n', 'K', vim.lsp.buf.hover, opts(b, "hover [lspconfig]"))
-                    kmap('n', 'gi', vim.lsp.buf.implementation, opts(b, "go to implementation [lspconfig]"))
-                    kmap('n', '<C-k>', vim.lsp.buf.signature_help, opts(b, "signature help [lspconfig]"))
-                    kmap('n', '<leader>r', vim.lsp.buf.rename, opts(b, "rename [lspconfig]"))
-                    kmap({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, opts(b, "code action [lspconfig]"))
-                    kmap('n', 'gr', vim.lsp.buf.references, opts(b, "show references [lspconfig]"))
-                    kmap('n', '<leader>f', vim.lsp.buf.format, opts(b, "format [lspconfig]"))
+                    -- Diagnostics
+                    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float,
+                        { buffer = b, desc = "Open diagnostic float window [nivm-lspconfig]" })
+                    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev,
+                        { buffer = b, desc = "Goto previous diagnostic [nvim-lspconfig]" })
+                    vim.keymap.set('n', ']d', vim.diagnostic.goto_next,
+                        { buffer = b, desc = "Goto next diagnostic [nvim-lspconfig]" })
+
+                    -- Go to + references
+                    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,
+                        { buffer = b, desc = "Go to declaration [nvim-lspconfig]" })
+                    vim.keymap.set('n', 'gd', vim.lsp.buf.definition,
+                        { buffer = b, desc = "Go to definition [nvim-lspconfig]" })
+                    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,
+                        { buffer = b, desc = "Go to implementation [nvim-lspconfig]" })
+                    vim.keymap.set('n', 'gr', vim.lsp.buf.references,
+                        { buffer = b, desc = "Show references [nvim-lspconfig]" })
+
+                    -- Help
+                    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = b, desc = "Hover [nvim-lspconfig]" })
+                    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
+                        { buffer = b, desc = "Signature help [nvim-lspconfig]" })
+
+                    -- Code actions
+                    vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action,
+                        { buffer = b, desc = "Code action [nvim-lspconfig]" })
+                    vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { buffer = b, desc = "Rename [nvim-lspconfig]" })
+                    vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = b, desc = "Format [nvim-lspconfig]" })
                 end
             })
         end
@@ -35,9 +44,7 @@ return {
     {
         "williamboman/mason.nvim",
         build = ":MasonUpdate",
-        config = function()
-            require "mason".setup()
-        end
+        opts = {},
     },
 
     -- Temporary, later will be replaced with core functional of neovim
@@ -103,35 +110,22 @@ return {
     },
 
     {
-        "rcarriga/nvim-dap-ui",
-        dependencies = {
-            "mfussenegger/nvim-dap"
-        },
-        config = function()
-            local dap = require 'dap'
-            local dapui = require 'dapui'
-            dapui.setup()
+        'j-hui/fidget.nvim',
+        opts = {},
+    },
 
-            vim.api.nvim_create_autocmd('LspAttach', {
-                group = vim.api.nvim_create_augroup('UserDapConfig', {}),
-                callback = function(ev)
-                    local b = ev.buf
 
-                    kmap('n', '<leader>db', dap.toggle_breakpoint, opts(b, "toggle breakpoint [dap]"))
-                    kmap('n', '<leader>dc', dap.toggle_breakpoint, opts(b, "continue execution [dap]"))
-                    kmap('n', '<leader>do', dap.step_over, opts(b, "step over [dap]"))
-                    kmap('n', '<leader>di', dap.step_into, opts(b, "step into [dap]"))
-
-                    kmap('n', '<leader>du', dapui.toggle, opts(b, "open ui [dap-ui]"))
-                end
-            })
-        end
+    {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = {},
     },
 
     {
-        "jay-babu/mason-nvim-dap.nvim",
-        config = function()
-            require('mason-nvim-dap').setup()
-        end
-    }
+        "hedyhli/outline.nvim",
+        keys = {
+            { "<C-s>", "<cmd>Outline<cr>", "Toggle outline (code structure) [outline.nvim]" }
+        },
+        opts = {},
+    },
 }

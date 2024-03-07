@@ -16,38 +16,34 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
     event = "BufReadPre Cargo.toml",
     config = function()
-        local crates = require('crates')
+        local crates = require 'crates'
         crates.setup()
 
-        local kmap = vim.keymap.set
-        local function opts(desc)
-            return { desc = desc, silent = true }
-        end
+        vim.keymap.setup('n', "<leader>cu", crates.update_crate,
+            { desc = "Update crate [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>cu", crates.update_crate,
+            { desc = "Update crate [crates.nvim]", silent = true })
+        vim.keymap.setup('v', "<leader>cu", crates.update_crates,
+            { desc = "Update crates (visual) [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>ca", crates.update_all_crates,
+            { desc = "Update all crates [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>cU", crates.upgrade_crate,
+            { desc = "Upgrade crate [crates.nvim]", silent = true })
+        vim.keymap.setup('v', "<leader>cU", crates.upgrade_crates,
+            { desc = "Upgrade crates (visual) [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>cA", crates.upgrade_all_crates,
+            { desc = "Upgrade all crates [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>cH", crates.open_homepage,
+            { desc = "Open homepage [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>cR", crates.open_repository,
+            { desc = "Open repository [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>cD", crates.open_documentation,
+            { desc = "Open documentation [crates.nvim]", silent = true })
+        vim.keymap.setup('n', "<leader>cC", crates.open_crates_io,
+            { desc = "Open crates.io [crates.nvim]", silent = true })
+        vim.keymap.setup('n', 'K', function() show_documentation(crates) end,
+            { noremap = true, silent = true })
 
-        kmap('n', '<leader>cu', crates.update_crate, opts("update crate [crates.nvim]"))
-        kmap('v', '<leader>cu', crates.update_crates, opts("update crates (visual) [crates.nvim]"))
-        kmap('n', '<leader>ca', crates.update_all_crates, opts("update all crates [crates.nvim]"))
-        kmap('n', '<leader>cU', crates.upgrade_crate, opts("upgrade crate [crates.nvim]"))
-        kmap('v', '<leader>cU', crates.upgrade_crates, opts("upgrade crates (visual) [crates.nvim]"))
-        kmap('n', '<leader>cA', crates.upgrade_all_crates, opts("upgrade all crates [crates.nvim]"))
-        kmap('n', '<leader>cH', crates.open_homepage, opts("open homepage [crates.nvim]"))
-        kmap('n', '<leader>cR', crates.open_repository, opts("open repository [crates.nvim]"))
-        kmap('n', '<leader>cD', crates.open_documentation, opts("open documentation [crates.nvim]"))
-        kmap('n', '<leader>cC', crates.open_crates_io, opts("open crates.io [crates.nvim]"))
-
-
-        kmap('n', 'K', function() show_documentation(crates) end, { noremap = true, silent = true })
-
-        -- Optional complete extension
-        local status, cmp = pcall(require, "cmp")
-        if (status) then
-            vim.api.nvim_create_autocmd("BufReadPre", {
-                group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
-                pattern = "Cargo.toml",
-                callback = function()
-                    cmp.setup.buffer({ sources = { { name = "crates" } } })
-                end,
-            })
-        end
+        require 'cmp'.setup.buffer({ sources = { { name = "crates" } } })
     end
 }
