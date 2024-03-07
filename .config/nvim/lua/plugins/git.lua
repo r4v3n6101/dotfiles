@@ -39,12 +39,12 @@ return {
                     { buffer = bufnr, desc = "Show diff [gitsigns.nvim]" })
                 vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>',
                     { buffer = bufnr, desc = "Select hunk (text object) [gitsigns.nvim]" })
-
-                vim.keymap.set('n', '<leader>hq', function() gs.setqflist("all") end,
-                    { buffer = bufnr, desc = "Open quickfix (hunks for git directory) [gitsigns.nvim]" })
                 vim.keymap.set('n', '<leader>hl', gs.setloclist,
                     { buffer = bufnr, desc = "Open loclist (hunks for file) [gitsigns.nvim]" })
             end
         }
+
+        vim.keymap.set('n', '<leader>hq', "<cmd>Gitsigns setqflist all<cr>",
+            { desc = "Open quickfix (hunks for git directory) [gitsigns.nvim]" })
     end
 }
