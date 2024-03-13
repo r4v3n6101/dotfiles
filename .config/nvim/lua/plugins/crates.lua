@@ -1,49 +1,34 @@
-local function show_documentation(crates)
-    local filetype = vim.bo.filetype
-    if vim.tbl_contains({ 'vim', 'help' }, filetype) then
-        vim.cmd('h ' .. vim.fn.expand('<cword>'))
-    elseif vim.tbl_contains({ 'man' }, filetype) then
-        vim.cmd('Man ' .. vim.fn.expand('<cword>'))
-    elseif vim.fn.expand('%:t') == 'Cargo.toml' and crates.popup_available() then
-        crates.show_popup()
-    else
-        vim.lsp.buf.hover()
-    end
-end
-
 return {
-    'saecki/crates.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+    'Saecki/crates.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
     event = "BufReadPre Cargo.toml",
     config = function()
         local crates = require 'crates'
         crates.setup()
 
-        vim.keymap.setup('n', "<leader>cu", crates.update_crate,
-            { desc = "Update crate [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>cu", crates.update_crate,
-            { desc = "Update crate [crates.nvim]", silent = true })
-        vim.keymap.setup('v', "<leader>cu", crates.update_crates,
-            { desc = "Update crates (visual) [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>ca", crates.update_all_crates,
-            { desc = "Update all crates [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>cU", crates.upgrade_crate,
-            { desc = "Upgrade crate [crates.nvim]", silent = true })
-        vim.keymap.setup('v', "<leader>cU", crates.upgrade_crates,
-            { desc = "Upgrade crates (visual) [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>cA", crates.upgrade_all_crates,
-            { desc = "Upgrade all crates [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>cH", crates.open_homepage,
-            { desc = "Open homepage [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>cR", crates.open_repository,
-            { desc = "Open repository [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>cD", crates.open_documentation,
-            { desc = "Open documentation [crates.nvim]", silent = true })
-        vim.keymap.setup('n', "<leader>cC", crates.open_crates_io,
-            { desc = "Open crates.io [crates.nvim]", silent = true })
-        vim.keymap.setup('n', 'K', function() show_documentation(crates) end,
-            { noremap = true, silent = true })
+        local bufnr = vim.api.nvim_get_current_buf()
 
-        require 'cmp'.setup.buffer({ sources = { { name = "crates" } } })
+        vim.keymap.setup('n', "<leader>cu", crates.update_crate,
+            { buffer = bufnr, silent = true, desc = "Update crate [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>cu", crates.update_crate,
+            { buffer = bufnr, silent = true, desc = "Update crate [crates.nvim]" })
+        vim.keymap.setup('v', "<leader>cu", crates.update_crates,
+            { buffer = bufnr, silent = true, desc = "Update crates (visual) [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>ca", crates.update_all_crates,
+            { buffer = bufnr, silent = true, desc = "Update all crates [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>cU", crates.upgrade_crate,
+            { buffer = bufnr, silent = true, desc = "Upgrade crate [crates.nvim]" })
+        vim.keymap.setup('v', "<leader>cU", crates.upgrade_crates,
+            { buffer = bufnr, silent = true, desc = "Upgrade crates (visual) [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>cA", crates.upgrade_all_crates,
+            { buffer = bufnr, silent = true, desc = "Upgrade all crates [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>cH", crates.open_homepage,
+            { buffer = bufnr, silent = true, desc = "Open homepage [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>cR", crates.open_repository,
+            { buffer = bufnr, silent = true, desc = "Open repository [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>cD", crates.open_documentation,
+            { buffer = bufnr, silent = true, desc = "Open documentation [crates.nvim]" })
+        vim.keymap.setup('n', "<leader>cC", crates.open_crates_io,
+            { buffer = bufnr, silent = true, desc = "Open crates.io [crates.nvim]" })
     end
 }

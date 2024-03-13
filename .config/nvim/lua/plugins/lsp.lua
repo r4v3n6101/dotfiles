@@ -32,7 +32,7 @@ return {
                         { buffer = b, desc = "Signature help [nvim-lspconfig]" })
 
                     -- Code actions
-                    vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action,
+                    vim.keymap.set({ 'n', 'v' }, '<leader>c', vim.lsp.buf.code_action,
                         { buffer = b, desc = "Code action [nvim-lspconfig]" })
                     vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { buffer = b, desc = "Rename [nvim-lspconfig]" })
                     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = b, desc = "Format [nvim-lspconfig]" })
@@ -47,9 +47,6 @@ return {
         opts = {},
     },
 
-    -- Temporary, later will be replaced with core functional of neovim
-    { "simrat39/rust-tools.nvim" },
-
     {
         "williamboman/mason-lspconfig.nvim",
         config = function()
@@ -57,28 +54,6 @@ return {
                 handlers = {
                     function(server_name)
                         require("lspconfig")[server_name].setup {}
-                    end,
-
-                    ["rust_analyzer"] = function()
-                        -- codelldb as Rust's DAP
-                        local mason_registry = require('mason-registry')
-                        local codelldb_root = mason_registry.get_package("codelldb"):get_install_path() .. "/extension/"
-                        local codelldb_path = codelldb_root .. "adapter/codelldb"
-                        local liblldb_path = codelldb_root .. "lldb/lib/liblldb"
-
-                        local this_os = vim.loop.os_uname().sysname
-                        if this_os:find "Windows" then
-                            codelldb_path = codelldb_root .. "adapter\\codelldb.exe"
-                            liblldb_path = codelldb_root .. "lldb\\lib\\liblldb.dll"
-                        else
-                            liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
-                        end
-
-                        require("rust-tools").setup {
-                            dap = {
-                                adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-                            }
-                        }
                     end,
 
                     ["lua_ls"] = function()
@@ -128,4 +103,54 @@ return {
         },
         opts = {},
     },
+
+    {
+        'kevinhwang91/nvim-ufo',
+        dependencies = {
+            'kevinhwang91/promise-async'
+        },
+        config = function()
+            vim.o.foldcolumn = '1'
+            vim.o.foldlevel = 99
+            vim.o.foldlevelstart = 99
+            vim.o.foldenable = true
+
+            local handler = function(virtText, lnum, endLnum, width, truncate)
+                local newVirtText = {}
+                local suffix = (' ~ %d '):format(endLnum - lnum)
+                local sufWidth = vim.fn.strdisplaywidth(suffix)
+                local targetWidth = width - sufWidth
+                local curWidth = 0
+                for _, chunk in ipairs(virtText) do
+                    local chunkText = chunk[1]
+                    local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                    if targetWidth > curWidth + chunkWidth then
+                        table.insert(newVirtText, chunk)
+                    else
+                        chunkText = truncate(chunkText, targetWidth - curWidth)
+                        local hlGroup = chunk[2]
+                        table.insert(newVirtText, { chunkText, hlGroup })
+                        chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                        -- str width returned from truncate() may less than 2nd argument, need padding
+                        if curWidth + chunkWidth < targetWidth then
+                            suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+                        end
+                        break
+                    end
+                    curWidth = curWidth + chunkWidth
+                end
+                table.insert(newVirtText, { suffix, 'MoreMsg' })
+                return newVirtText
+            end
+
+            require('ufo').setup({
+                fold_virt_text_handler = handler
+            })
+
+            vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = "Open all folds [nvim-ufo]" })
+            vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = "Close all folds [nvim-ufo]" })
+            vim.keymap.set('n', 'zv', function() require('ufo').peekFoldedLinesUnderCursor() end,
+                { desc = "View fold under cursor [nvim-ufo]" })
+        end
+    }
 }
