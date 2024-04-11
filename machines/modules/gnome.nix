@@ -1,5 +1,4 @@
 { pkgs, lib, ... }: {
-  nixpkgs.config.allowUnfree = true;
   environment = {
     defaultPackages = with pkgs; [
       google-chrome
