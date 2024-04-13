@@ -7,7 +7,6 @@
 
   time.timeZone = "Europe/Moscow";
   i18n = {
-    supportedLocales = [ "all" ];
     defaultLocale = "en_GB.UTF-8";
   };
 
