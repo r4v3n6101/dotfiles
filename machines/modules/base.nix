@@ -6,15 +6,13 @@
   };
 
   time.timeZone = "Europe/Moscow";
-  i18n = {
-    defaultLocale = "en_GB.UTF-8";
-  };
 
   environment.systemPackages = with pkgs; [
     git
     git-crypt
     gnupg
     htop
+    xclip
     neovim
     inetutils
     pciutils

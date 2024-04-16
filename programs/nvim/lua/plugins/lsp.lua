@@ -2,6 +2,33 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            -- rust-analyzer
+            require 'lspconfig'.rust_analyzer.setup {}
+
+            -- lua-ls
+            local runtime_path = vim.split(package.path, ';')
+            table.insert(runtime_path, "lua/?.lua")
+            table.insert(runtime_path, "lua/?/init.lua")
+
+            require 'lspconfig'.lua_ls.setup {
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = 'LuaJIT',
+                            path = runtime_path
+                        },
+                        diagnostics = {
+                            globals = { 'vim' }
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true)
+                        },
+                        telemetry = { enable = false }
+                    }
+                }
+            }
+
+            -- Keymaps for lsp servers
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = function(ev)
@@ -38,49 +65,6 @@ return {
                     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = b, desc = "Format [nvim-lspconfig]" })
                 end
             })
-        end
-    },
-
-    {
-        "williamboman/mason.nvim",
-        build = ":MasonUpdate",
-        opts = {},
-    },
-
-    {
-        "williamboman/mason-lspconfig.nvim",
-        config = function()
-            require 'mason-lspconfig'.setup {
-                handlers = {
-                    function(server_name)
-                        require("lspconfig")[server_name].setup {}
-                    end,
-
-                    ["lua_ls"] = function()
-                        local runtime_path = vim.split(package.path, ';')
-                        table.insert(runtime_path, "lua/?.lua")
-                        table.insert(runtime_path, "lua/?/init.lua")
-
-                        require 'lspconfig'.lua_ls.setup {
-                            settings = {
-                                Lua = {
-                                    runtime = {
-                                        version = 'LuaJIT',
-                                        path = runtime_path
-                                    },
-                                    diagnostics = {
-                                        globals = { 'vim' }
-                                    },
-                                    workspace = {
-                                        library = vim.api.nvim_get_runtime_file("", true)
-                                    },
-                                    telemetry = { enable = false }
-                                }
-                            }
-                        }
-                    end
-                }
-            }
         end
     },
 
