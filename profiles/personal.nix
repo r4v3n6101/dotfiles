@@ -5,6 +5,7 @@
       EDITOR = "nvim";
     };
     packages = with pkgs; [
+      neovide
       rustup
     ];
   };
