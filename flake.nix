@@ -15,31 +15,31 @@
       system = "x86_64-linux";
       specialArgs = {
         pkgs = import nixpkgs {
-	  inherit system;
-	  config.allowUnfree = true;
-	};
-	pkgs-stable = import nixpkgs-stable {
-	  inherit system;
-	  config.allowUnfree = true;
-	};
+          inherit system;
+          config.allowUnfree = true;
+        };
+        pkgs-stable = import nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+        };
       };
       modules = [
         ./machines/msi.nix
-	home-manager.nixosModules.home-manager
+        home-manager.nixosModules.home-manager
         {
-	  home-manager.useUserPackages = true;
-	  home-manager.useGlobalPkgs = true;
-	  home-manager.extraSpecialArgs = specialArgs;
-	  home-manager.users = {
-	    r4v3n6101 = import ./profiles/personal.nix;
-	    ak = {
-	      imports = [
-	        ./profiles/work.nix
-	        ./profiles/workbench.nix
-	      ];
-	    };
-	  };
-	}
+          home-manager.useUserPackages = true;
+          home-manager.useGlobalPkgs = true;
+          home-manager.extraSpecialArgs = specialArgs;
+          home-manager.users = {
+            r4v3n6101 = import ./profiles/personal.nix;
+            ak = {
+              imports = [
+                ./profiles/work.nix
+                ./profiles/workbench.nix
+              ];
+            };
+          };
+        }
       ];
     };
   };

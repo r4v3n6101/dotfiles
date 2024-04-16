@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, ... }: {
   imports = [
     ./modules/fs.nix
     ./modules/base.nix
@@ -13,8 +13,8 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   hardware.firmware = with pkgs; [
-      linux-firmware
-      sof-firmware 
+    linux-firmware
+    sof-firmware
   ];
 
   virtualisation.docker.rootless = {

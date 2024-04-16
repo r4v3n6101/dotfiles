@@ -6,15 +6,15 @@
     ];
     gnome = {
       excludePackages = (with pkgs; [
-	gnome-tour
-	gedit
+        gnome-tour
+        gedit
       ]) ++ (with pkgs.gnome; [
-	gnome-characters
-	gnome-music
-	epiphany
-	iagno
-	hitori
-	atomix
+        gnome-characters
+        gnome-music
+        epiphany
+        iagno
+        hitori
+        atomix
       ]);
     };
   };
@@ -47,6 +47,6 @@
   };
 
   systemd.services = {
-    NetworkManager-wait-online.wantedBy = lib.mkForce [];
+    NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
   };
 }
