@@ -18,7 +18,10 @@
     pciutils
     usbutils
   ];
-  programs.gnupg.agent.enable = true;
+  programs = {
+    gnupg.agent.enable = true;
+    ssh.startAgent = true;
+  };
 
   nix = {
     settings = {
