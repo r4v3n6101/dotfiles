@@ -23,5 +23,15 @@
   };
 
   services.tailscale.enable = true;
+  services.avahi = {
+    enable = true;
+    ipv4 = true;
+    ipv6 = true;
+    publish = {
+      enable = true;
+      userServices = true;
+      domain = true;
+    };
+  };
 }
 

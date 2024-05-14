@@ -4,6 +4,7 @@
     packages = with pkgs; [
       lua-language-server
       neovide
+      gcc
       rustup
     ];
   };
