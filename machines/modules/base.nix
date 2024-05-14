@@ -17,6 +17,7 @@
     inetutils
     pciutils
     usbutils
+    ripgrep
   ];
   programs = {
     gnupg.agent.enable = true;
