@@ -8,6 +8,7 @@
   time.timeZone = "Europe/Moscow";
 
   environment.systemPackages = with pkgs; [
+    busybox
     git
     git-crypt
     gnupg
