@@ -24,7 +24,7 @@
           inherit system overlays;
           config.allowUnfree = true;
         };
-        rust = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile
+        customRustBuild = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile
           ./rust-toolchain.toml;
         pkgs-stable = import nixpkgs-stable {
           inherit system;
@@ -45,7 +45,6 @@
             };
           };
         }
-        ({ rust, ... }: { environment.systemPackages = [ rust ]; })
       ];
     };
   };
