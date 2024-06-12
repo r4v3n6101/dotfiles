@@ -1,12 +1,7 @@
 { pkgs, ... }: {
   home = {
     stateVersion = "23.11";
-    packages = with pkgs; [
-      lua-language-server
-      neovide
-      gcc
-      rustup
-    ];
+    packages = with pkgs; [ lua-language-server neovide clang ];
   };
 
   xdg.configFile.nvim = {
@@ -17,9 +12,7 @@
     enable = true;
     userName = "r4v3n6101";
     userEmail = "raven6107@gmail.com";
-    extraConfig = {
-      init.defaultBranch = "master";
-    };
+    extraConfig = { init.defaultBranch = "master"; };
     signing = {
       signByDefault = true;
       key = "4D87A757C10D8905";

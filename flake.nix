@@ -8,16 +8,24 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager }: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, rust-overlay }: {
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
     nixosConfigurations.msi = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
-      specialArgs = {
+      specialArgs = rec {
+        overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
-          inherit system;
+          inherit system overlays;
           config.allowUnfree = true;
         };
+        rust = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile
+          ./rust-toolchain.toml;
         pkgs-stable = import nixpkgs-stable {
           inherit system;
           config.allowUnfree = true;
@@ -33,13 +41,11 @@
           home-manager.users = {
             r4v3n6101 = import ./profiles/personal.nix;
             ak = {
-              imports = [
-                ./profiles/work.nix
-                ./profiles/workbench.nix
-              ];
+              imports = [ ./profiles/work.nix ./profiles/workbench.nix ];
             };
           };
         }
+        ({ rust, ... }: { environment.systemPackages = [ rust ]; })
       ];
     };
   };

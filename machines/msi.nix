@@ -12,10 +12,7 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  hardware.firmware = with pkgs; [
-    linux-firmware
-    sof-firmware
-  ];
+  hardware.firmware = with pkgs; [ linux-firmware sof-firmware ];
 
   virtualisation.docker.rootless = {
     enable = true;

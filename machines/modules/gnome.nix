@@ -1,14 +1,8 @@
 { pkgs, lib, ... }: {
   environment = {
-    defaultPackages = with pkgs; [
-      google-chrome
-      telegram-desktop
-    ];
+    defaultPackages = with pkgs; [ google-chrome telegram-desktop ];
     gnome = {
-      excludePackages = (with pkgs; [
-        gnome-tour
-        gedit
-      ]) ++ (with pkgs.gnome; [
+      excludePackages = (with pkgs; [ gnome-tour gedit ]) ++ (with pkgs.gnome; [
         gnome-characters
         gnome-music
         epiphany
@@ -32,11 +26,7 @@
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
     };
-    udev = {
-      packages = with pkgs; [
-        gnome.gnome-settings-daemon
-      ];
-    };
+    udev = { packages = with pkgs; [ gnome.gnome-settings-daemon ]; };
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -46,7 +36,5 @@
     };
   };
 
-  systemd.services = {
-    NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
-  };
+  systemd.services = { NetworkManager-wait-online.wantedBy = lib.mkForce [ ]; };
 }
