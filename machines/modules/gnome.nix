@@ -2,14 +2,14 @@
   environment = {
     defaultPackages = with pkgs; [ google-chrome telegram-desktop ];
     gnome = {
-      excludePackages = (with pkgs; [ gnome-tour gedit ]) ++ (with pkgs.gnome; [
-        gnome-characters
-        gnome-music
-        epiphany
-        iagno
-        hitori
-        atomix
-      ]);
+      excludePackages = (with pkgs; [ gnome-tour gedit epiphany ])
+        ++ (with pkgs.gnome; [
+          gnome-characters
+          gnome-music
+          iagno
+          hitori
+          atomix
+        ]);
     };
   };
 
