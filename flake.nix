@@ -19,17 +19,27 @@
     nixosConfigurations.msi = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       specialArgs = rec {
-        overlays = [ (import rust-overlay) ];
+        overlays = [
+          (import rust-overlay)
+          # Fucking bullshit company
+          (final: prev: {
+            jetbrains-toolbox = prev.jetbrains-toolbox.overrideAttrs (oa: {
+              src =
+                oa.src.overrideAttrs { curlOpts = "-x http://127.0.0.1:1080"; };
+            });
+          })
+        ];
+
         pkgs = import nixpkgs {
           inherit system overlays;
           config.allowUnfree = true;
         };
-        customRustBuild = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile
-          ./rust-toolchain.toml;
         pkgs-stable = import nixpkgs-stable {
           inherit system;
           config.allowUnfree = true;
         };
+        customRustBuild = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile
+          ./rust-toolchain.toml;
       };
       modules = [
         ./machines/msi.nix
