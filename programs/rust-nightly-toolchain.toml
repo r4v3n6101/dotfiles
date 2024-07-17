@@ -1,4 +1,0 @@
-[toolchain]
-channel = "nightly"
-components = [ "rustfmt", "rustc", "rust-src", "cargo", "rust-analyzer" ]
-profile = "default"

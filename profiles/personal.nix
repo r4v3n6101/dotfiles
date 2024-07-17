@@ -5,7 +5,7 @@
       lua-language-server
       neovide
       clang
-      (rust-bin.fromRustupToolchainFile ../programs/rust-nightly-toolchain.toml)
+      (rust-bin.fromRustupToolchainFile ../programs/rust/apple-silicon-nithly.toml)
     ];
   };
 

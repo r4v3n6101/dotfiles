@@ -1,0 +1,5 @@
+[toolchain]
+channel = "nightly"
+components = [ "rustfmt", "rustc", "rust-src", "cargo", "rust-analyzer"]
+targets = [ "aarch64-apple-darwin" ]
+profile = "default"
