@@ -1,7 +1,12 @@
-{ pkgs, customRustBuild, ... }: {
+{ pkgs, ... }: {
   home = {
     stateVersion = "23.11";
-    packages = with pkgs; [ lua-language-server neovide clang customRustBuild ];
+    packages = with pkgs; [
+      lua-language-server
+      neovide
+      clang
+      (rust-bin.fromRustupToolchainFile ../programs/rust-nightly-toolchain.toml)
+    ];
   };
 
   xdg.configFile.nvim = {
