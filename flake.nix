@@ -23,7 +23,6 @@
         rust-overlay.overlays.default
         (final: prev: { final.config.allowUnfree = true; })
       ];
-      homeManagerPersonal = { specialArgs }: { };
     in {
       darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
         specialArgs = { inherit inputs; };
