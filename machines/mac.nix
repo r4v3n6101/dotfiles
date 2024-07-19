@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }: {
+{ pkgs, inputs, ... }: {
   nix = {
     extraOptions = ''
       auto-optimise-store = true

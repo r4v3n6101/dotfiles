@@ -20,15 +20,10 @@
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, rust-overlay }:
     let
       overlays = [
-        (import rust-overlay)
+        rust-overlay.overlays.default
         (final: prev: { final.config.allowUnfree = true; })
       ];
-      homeManagerPersonal = { specialArgs }: {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = specialArgs;
-        home-manager.users.r4v3n6101 = import ./profiles/personal.nix;
-      };
+      homeManagerPersonal = { specialArgs }: { };
     in {
       darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
         specialArgs = { inherit inputs; };
@@ -42,7 +37,15 @@
           }
           ./machines/mac.nix
           home-manager.darwinModules.home-manager
-          (homeManagerPersonal { inherit specialArgs; })
+          ({ pkgs, ... }: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = specialArgs // {
+              customRustBuild = pkgs.rust-bin.fromRustupToolchainFile
+                ./programs/rust/apple-silicon-nightly.toml;
+            };
+            home-manager.users.r4v3n6101 = import ./profiles/personal.nix;
+          })
         ];
       };
     };
