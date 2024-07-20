@@ -1,8 +1,8 @@
-{ pkgs, customRustBuild, ... }: {
+{ pkgs, ... }: {
   home = {
     stateVersion = "23.11";
     sessionVariables = { EDITOR = "nvim"; };
-    packages = with pkgs; [ lua-language-server clang customRustBuild ];
+    packages = with pkgs; [ lua-language-server direnv ];
   };
 
   # Copy all neovim configs
