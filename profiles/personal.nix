@@ -2,7 +2,7 @@
   home = {
     stateVersion = "23.11";
     sessionVariables = { EDITOR = "nvim"; };
-    packages = with pkgs; [ lua-language-server direnv ];
+    packages = with pkgs; [ ripgrep lua-language-server direnv ];
   };
 
   # Copy all neovim configs
