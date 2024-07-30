@@ -4,16 +4,7 @@ vim.opt.relativenumber = true
 vim.opt.signcolumn = 'yes'
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.list = true
-vim.opt.listchars = {
-    tab = "▸ ",
-    nbsp = "⍽",
-    extends = "⟩",
-    precedes = "⟨",
-    trail = "-",
-    space = ".",
-    eol = "↲",
-}
+vim.opt.list = false
 
 vim.opt.termguicolors = true
 vim.opt.updatetime = 300
