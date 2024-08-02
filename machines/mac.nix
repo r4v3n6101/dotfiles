@@ -4,7 +4,6 @@
       extra-platforms = aarch64-darwin x86_64-darwin
       experimental-features = nix-command flakes
     '';
-    linux-builder.enable = true;
   };
 
   environment.systemPackages = with pkgs; [ neovim gnupg htop neofetch ];
