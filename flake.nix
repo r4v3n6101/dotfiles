@@ -1,4 +1,4 @@
-	{
+{
   description = "My NixOS configuration";
 
   inputs = {
@@ -14,7 +14,7 @@
   };
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
-    let 
+    let
       overlays = [ (final: prev: { final.config.allowUnfree = true; }) ];
       specialArgs = { inherit inputs; };
       hmConfiguration = {
@@ -40,9 +40,7 @@
 
         system = "aarch64-darwin";
         modules = [
-          {
-            users.users.r4v3n6101.home = "/Users/r4v3n6101";
-          }
+          { users.users.r4v3n6101.home = "/Users/r4v3n6101"; }
           ./machines/mac.nix
           home-manager.darwinModules.home-manager
           hmConfiguration

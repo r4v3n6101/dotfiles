@@ -1,9 +1,5 @@
 { pkgs, lib, ... }: {
-  imports = [
-    ./modules/fs.nix
-    ./modules/base.nix
-    ./modules/users.nix
-  ];
+  imports = [ ./modules/fs.nix ./modules/base.nix ./modules/users.nix ];
 
   boot.loader = {
     systemd-boot.enable = true;

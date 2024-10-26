@@ -10,5 +10,5 @@
     };
   };
 
-  swapDevices = [ { device = "/dev/disk/by-partlabel/swap"; } ];
+  swapDevices = [{ device = "/dev/disk/by-partlabel/swap"; }];
 }
