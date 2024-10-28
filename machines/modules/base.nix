@@ -18,7 +18,11 @@
     pciutils
     usbutils
   ];
-  programs.gnupg.agent.enable = true;
+
+  programs = {
+    gnupg.agent.enable = true;
+    direnv.enable = true;
+  };
 
   services.openssh.enable = true;
 
