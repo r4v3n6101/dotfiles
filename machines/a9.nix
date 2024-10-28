@@ -6,6 +6,8 @@
     efi.canTouchEfiVariables = true;
   };
 
+  services.logind.lidSwitch = "ignore";
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   hardware.firmware = [ pkgs.linux-firmware ];
 }
