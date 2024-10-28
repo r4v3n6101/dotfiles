@@ -7,6 +7,7 @@
   };
 
   services.logind.lidSwitch = "ignore";
+  networking.hostName = "a9";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   hardware.firmware = [ pkgs.linux-firmware ];
