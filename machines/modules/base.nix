@@ -7,7 +7,7 @@
   time.timeZone = "Europe/Moscow";
   i18n = {
     supportedLocales = [ "all" ];
-    defaultLocale = "en_US.UTF-8";
+    defaultLocale = "C.UTF-8";
   };
 
   environment.systemPackages = with pkgs; [
