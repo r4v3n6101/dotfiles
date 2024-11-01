@@ -17,6 +17,9 @@
     inetutils
     pciutils
     usbutils
+    libimobiledevice
+    ifuse
+    bluetuith
   ];
 
   programs = {
@@ -24,7 +27,17 @@
     direnv.enable = true;
   };
 
-  services.openssh.enable = true;
+  hardware = {
+    bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+    };
+  };
+
+  services = {
+    openssh.enable = true;
+    usbmuxd.enable = true;
+  };
 
   nix = {
     settings = {
