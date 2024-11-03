@@ -12,6 +12,7 @@
 
   environment.systemPackages = with pkgs; [
     gnupg
+    tmux
     htop
     neovim
     inetutils
@@ -19,19 +20,14 @@
     usbutils
     libimobiledevice
     ifuse
-    bluetuith
   ];
 
+  users.defaultUserShell = pkgs.fish;
+
   programs = {
+    fish.enable = true;
     gnupg.agent.enable = true;
     direnv.enable = true;
-  };
-
-  hardware = {
-    bluetooth = {
-        enable = true;
-        powerOnBoot = true;
-    };
   };
 
   services = {
