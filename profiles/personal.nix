@@ -11,7 +11,17 @@
     recursive = true;
   };
 
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    sshKeys = [
+      "0E843183132D66EB88F277CCD456B950A2A2C83F"
+      "3A9816E4CBC252B8DB6B16D6AAD6015A6BB1D3E8"
+    ];
+  };
+
   programs = {
+    gpg.enable = true;
     git = {
       enable = true;
       userName = "r4v3n6101";

@@ -24,10 +24,6 @@
   users.defaultUserShell = pkgs.fish;
 
   programs = {
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
     fish.enable = true;
     direnv.enable = true;
   };
