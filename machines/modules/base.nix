@@ -11,7 +11,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    gnupg
     tmux
     htop
     neovim
@@ -25,8 +24,11 @@
   users.defaultUserShell = pkgs.fish;
 
   programs = {
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
     fish.enable = true;
-    gnupg.agent.enable = true;
     direnv.enable = true;
   };
 
