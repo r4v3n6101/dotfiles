@@ -22,13 +22,7 @@
   };
 
   programs = {
-    bash = {
-      enable = true;
-      bashrcExtra = ''
-        gpg-connect-agent /bye
-        export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-      '';
-    };
+    fish.enable = true;
 
     gpg.enable = true;
 
