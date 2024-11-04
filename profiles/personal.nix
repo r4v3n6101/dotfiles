@@ -22,6 +22,14 @@
   };
 
   programs = {
+    bash = {
+      enable = true;
+      bashrcExtra = ''
+        gpg-connect-agent /bye
+        export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+      '';
+    };
+
     gpg.enable = true;
 
     git = {

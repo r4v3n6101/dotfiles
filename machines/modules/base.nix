@@ -21,12 +21,7 @@
     ifuse
   ];
 
-  users.defaultUserShell = pkgs.fish;
-
-  programs = {
-    fish.enable = true;
-    direnv.enable = true;
-  };
+  programs = { direnv.enable = true; };
 
   services = {
     openssh = {
