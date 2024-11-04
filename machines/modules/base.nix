@@ -31,7 +31,14 @@
   };
 
   services = {
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      ports = [ 30000 ];
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "yes";
+      };
+    };
     usbmuxd.enable = true;
   };
 

@@ -26,5 +26,12 @@
     };
   };
 
-  services = { logind.lidSwitch = "ignore"; };
+  services = {
+    yggdrasil = {
+      enable = true;
+      persistentKeys = true;
+      settings = { Peers = [ "tcp://srv.itrus.su:7991" ]; };
+    };
+    logind.lidSwitch = "ignore";
+  };
 }
