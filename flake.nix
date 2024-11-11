@@ -23,7 +23,9 @@
         home-manager.extraSpecialArgs = specialArgs;
         home-manager.users.r4v3n6101 = import ./profiles/personal.nix;
       };
-    in {
+    in
+    {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
       nixosConfigurations.a9 = nixpkgs.lib.nixosSystem rec {
         inherit specialArgs;
 
