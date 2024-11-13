@@ -21,6 +21,7 @@
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = specialArgs;
+        home-manager.backupFileExtension = "build";
         home-manager.users.r4v3n6101 = import ./profiles/personal.nix;
       };
     in

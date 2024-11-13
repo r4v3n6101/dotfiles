@@ -16,7 +16,7 @@
 
   networking.hostName = "a9";
 
-  environment.systemPackages = with pkgs; [ bluetuith ];
+  environment.systemPackages = with pkgs; [ bluetuith iw ];
 
   hardware = {
     firmware = [ pkgs.linux-firmware ];
