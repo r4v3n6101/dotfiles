@@ -15,7 +15,6 @@
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
     let
-      overlays = [ (final: prev: { final.config.allowUnfree = true; }) ];
       specialArgs = { inherit inputs; };
       hmConfiguration = {
         home-manager.useGlobalPkgs = true;
@@ -32,6 +31,7 @@
 
         system = "x86_64-linux";
         modules = [
+          { nixpkgs.config.allowUnfree = true; }
           ./machines/a9.nix
           home-manager.nixosModules.home-manager
           hmConfiguration

@@ -14,10 +14,11 @@
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
+    enableBashIntegration = true;
+    enableScDaemon = true;
     pinentryPackage = pkgs.pinentry-curses;
     sshKeys = [
-      "0E843183132D66EB88F277CCD456B950A2A2C83F"
-      "3A9816E4CBC252B8DB6B16D6AAD6015A6BB1D3E8"
+      "E04D21AA50401B5B50A33197228E62F0FEC4BBED"
     ];
   };
 
@@ -33,7 +34,7 @@
       extraConfig = { init.defaultBranch = "master"; };
       signing = {
         signByDefault = true;
-        key = "4D87A757C10D8905";
+        key = "0D87F470A4316B35";
       };
     };
 

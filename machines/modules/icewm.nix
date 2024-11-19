@@ -3,7 +3,7 @@
     grim
     wl-clipboard
     vlc
-    firefox
+    google-chrome
     alacritty
   ];
 
