@@ -18,7 +18,7 @@
     enableScDaemon = true;
     pinentryPackage = pkgs.pinentry-curses;
     sshKeys = [
-      "E04D21AA50401B5B50A33197228E62F0FEC4BBED"
+      "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
     ];
   };
 
@@ -34,7 +34,7 @@
       extraConfig = { init.defaultBranch = "master"; };
       signing = {
         signByDefault = true;
-        key = "0D87F470A4316B35";
+        key = "4C51A28DF1BBAECC";
       };
     };
 
