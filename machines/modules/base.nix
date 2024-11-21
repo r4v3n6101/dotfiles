@@ -11,6 +11,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    dig
     wget
     tmux
     htop
@@ -18,6 +19,7 @@
     nmap
     ffmpeg-full
     yt-dlp
+    iperf
     xclip
     neovim
     inetutils
@@ -47,6 +49,8 @@
   };
 
   nix = {
+    optimise.automatic = true;
+    gc.automatic = true;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       trusted-users = [ "root" "@wheel" ];

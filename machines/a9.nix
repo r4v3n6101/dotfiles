@@ -2,7 +2,6 @@
   imports = [
     ./modules/fs.nix
     ./modules/base.nix
-    ./modules/users.nix
     ./modules/icewm.nix
   ];
 
@@ -14,16 +13,18 @@
     };
   };
 
-  networking.hostName = "a9";
-
-  environment.systemPackages = with pkgs; [ bluetuith iw ];
-
   hardware = {
     firmware = [ pkgs.linux-firmware ];
     bluetooth = {
       enable = true;
       powerOnBoot = true;
     };
+  };
+
+  environment.systemPackages = with pkgs; [ bluetuith iw ];
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark;
   };
 
   services = {
@@ -45,5 +46,11 @@
       };
     };
     logind.lidSwitch = "ignore";
+  };
+
+  networking.hostName = "a9";
+  users.users.r4v3n6101 = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "wireshark" "networkmanager" ];
   };
 }
