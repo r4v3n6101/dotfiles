@@ -1,4 +1,5 @@
 vim.opt.autochdir = true
+vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.signcolumn = 'yes'
