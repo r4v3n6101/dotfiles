@@ -55,7 +55,7 @@ return {
 
                     -- Help
                     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = b, desc = "Hover [nvim-lspconfig]" })
-                    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
+                    vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help,
                         { buffer = b, desc = "Signature help [nvim-lspconfig]" })
 
                     -- Code actions
@@ -70,13 +70,6 @@ return {
 
     {
         'j-hui/fidget.nvim',
-        opts = {},
-    },
-
-
-    {
-        "ray-x/lsp_signature.nvim",
-        event = "VeryLazy",
         opts = {},
     },
 

@@ -1,5 +1,9 @@
 return {
     {
+        "lambdalisue/suda.vim",
+    },
+
+    {
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
@@ -31,19 +35,6 @@ return {
         init = function()
             vim.cmd([[colorscheme catppuccin]])
         end
-    },
-
-    {
-        "nvim-tree/nvim-tree.lua",
-        version = "*",
-        lazy = false,
-        dependencies = {
-            "nvim-tree/nvim-web-devicons"
-        },
-        keys = {
-            { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "Open filetree [nvim-tree.lua]" },
-        },
-        opts = {},
     },
 
     {

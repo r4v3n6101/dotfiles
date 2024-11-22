@@ -11,7 +11,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    gdb
     dig
     wget
     tmux
