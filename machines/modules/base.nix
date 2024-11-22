@@ -11,14 +11,13 @@
   };
 
   environment.systemPackages = with pkgs; [
+    gdb
     dig
     wget
     tmux
     htop
     lm_sensors
     nmap
-    ffmpeg-full
-    yt-dlp
     iperf
     xclip
     neovim
