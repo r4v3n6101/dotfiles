@@ -1,6 +1,64 @@
 return {
+    { "lambdalisue/suda.vim", },
+
     {
-        "lambdalisue/suda.vim",
+        "stevearc/oil.nvim",
+        opts = {
+            delete_to_trash = true,
+        },
+    },
+
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        opts = {}
+    },
+
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+        end,
+        opts = {},
+    },
+
+    {
+        "folke/trouble.nvim",
+        config = true,
+    },
+
+    {
+        'nvim-treesitter/nvim-treesitter',
+        config = function()
+            require 'nvim-treesitter.configs'.setup {
+                ensure_installed = { "c", "rust", "lua", "vim", "vimdoc", "markdown", "markdown_inline" },
+                sync_install = false,
+                auto_install = true,
+                ignore_install = { "javascript" },
+                highlight = {
+                    enable = true,
+                    disable = { "rust" },
+                },
+                indent = {
+                    enable = true
+                }
+            }
+            vim.wo.foldmethod = 'expr'
+            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+            vim.wo.foldlevel = 99
+        end
+    },
+
+    {
+        'nvim-treesitter/nvim-treesitter-context',
+        dependencies = { 'nvim-treesitter/nvim-treesitter' },
+        config = function()
+            require 'treesitter-context'.setup {}
+            vim.keymap.set("n", "[c", function() require("treesitter-context").go_to_context(vim.v.count1) end,
+                { silent = true, desc = "Go to context (upwards) [nvim-treesitter-context]" })
+        end
     },
 
     {
@@ -35,33 +93,5 @@ return {
         init = function()
             vim.cmd([[colorscheme catppuccin]])
         end
-    },
-
-    {
-        "stevearc/oil.nvim",
-        opts = {
-            delete_to_trash = true,
-        },
-    },
-
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        main = "ibl",
-        opts = {}
-    },
-
-    {
-        "folke/which-key.nvim",
-        event = "VeryLazy",
-        init = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
-        end,
-        opts = {},
-    },
-
-    {
-        "folke/trouble.nvim",
-        config = true,
     }
 }

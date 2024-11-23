@@ -2,7 +2,7 @@
   home = {
     stateVersion = "23.11";
     sessionVariables = { EDITOR = "nvim"; };
-    packages = with pkgs; [ tree tokei gdb ripgrep lua-language-server ];
+    packages = with pkgs; [ tree tokei clang ripgrep lua-language-server ];
   };
 
   # Copy all neovim configs
