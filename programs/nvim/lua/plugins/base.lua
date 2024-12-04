@@ -25,11 +25,6 @@ return {
     },
 
     {
-        "folke/trouble.nvim",
-        config = true,
-    },
-
-    {
         'nvim-treesitter/nvim-treesitter',
         config = function()
             require 'nvim-treesitter.configs'.setup {
@@ -55,7 +50,9 @@ return {
         'nvim-treesitter/nvim-treesitter-context',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
         config = function()
-            require 'treesitter-context'.setup {}
+            require 'treesitter-context'.setup {
+                max_lines = 6,
+            }
             vim.keymap.set("n", "[c", function() require("treesitter-context").go_to_context(vim.v.count1) end,
                 { silent = true, desc = "Go to context (upwards) [nvim-treesitter-context]" })
         end

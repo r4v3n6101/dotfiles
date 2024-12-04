@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,7 +14,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
+  outputs = inputs@{ self, nixpkgs, neovim-nightly-overlay, nix-darwin, home-manager }:
     let
       specialArgs = { inherit inputs; };
       hmConfiguration = {
@@ -31,7 +32,12 @@
 
         system = "x86_64-linux";
         modules = [
-          { nixpkgs.config.allowUnfree = true; }
+          {
+            nixpkgs = {
+              overlays = [ neovim-nightly-overlay.overlays.default ];
+              config.allowUnfree = true;
+            };
+          }
           ./machines/a9.nix
           home-manager.nixosModules.home-manager
           hmConfiguration

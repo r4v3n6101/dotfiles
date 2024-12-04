@@ -15,21 +15,7 @@ return {
         { "<leader>fu", "<cmd>Telescope undo initial_mode=normal<cr>",      desc = "Find in undo tree [telescope.nvim]" },
     },
     config = function()
-        local mappings = {
-            ["<C-q>"] = function(prompt_bufnr)
-                require("trouble.sources.telescope").open(prompt_bufnr, { focus = true })
-            end,
-            ["<M-q>"] = function(prompt_bufnr)
-                require("trouble.sources.telescope").open(prompt_bufnr, { focus = true })
-            end
-        };
         require("telescope").setup({
-            defaults = {
-                mappings = {
-                    i = mappings,
-                    n = mappings,
-                },
-            },
             extensions = {
                 undo = {},
             },
