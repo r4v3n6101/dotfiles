@@ -32,11 +32,22 @@ return {
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = function(ev)
-                    local b = ev.buf
+                    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+                    -- Enable auto-completion
+                    -- vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 
                     -- Help
                     vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help,
-                        { buffer = b, desc = "Signature help [nvim-lspconfig]" })
+                        { buffer = ev.buf, desc = "Signature help [nvim-lspconfig]" })
+
+                    -- Format on save
+                    vim.api.nvim_create_autocmd('BufWritePre', {
+                        buffer = ev.buf,
+                        callback = function()
+                            vim.lsp.buf.format({ bufnr = ev.buf, id = client.id })
+                        end,
+                    })
                 end
             })
         end

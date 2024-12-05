@@ -51,7 +51,7 @@ return {
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
         config = function()
             require 'treesitter-context'.setup {
-                max_lines = 6,
+                max_lines = 3,
             }
             vim.keymap.set("n", "[c", function() require("treesitter-context").go_to_context(vim.v.count1) end,
                 { silent = true, desc = "Go to context (upwards) [nvim-treesitter-context]" })
