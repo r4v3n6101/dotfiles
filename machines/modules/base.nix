@@ -19,7 +19,6 @@
     nmap
     iperf
     xclip
-    neovim
     inetutils
     pciutils
     usbutils
