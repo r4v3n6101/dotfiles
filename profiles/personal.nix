@@ -1,7 +1,22 @@
 { pkgs, ... }: {
   home = {
     stateVersion = "23.11";
-    packages = with pkgs; [ tmux tree tokei ripgrep lua-language-server htop nmap iperf ];
+    packages = with pkgs; [
+      # Man pages
+      man-pages
+      linux-manual
+      man-pages-posix
+      # Main utils I use
+      htop
+      nmap
+      iperf
+      tmux
+      tree
+      tokei
+      # For neovim
+      ripgrep
+      lua-language-server
+    ];
   };
 
   # Copy all neovim configs
@@ -11,10 +26,12 @@
   };
 
   programs = {
+    man = {
+      enable = true;
+      generateCaches = true;
+    };
     fish.enable = true;
-
     gpg.enable = true;
-
     git = {
       enable = true;
       userName = "r4v3n6101";
@@ -25,7 +42,6 @@
         key = "4C51A28DF1BBAECC";
       };
     };
-
     neovim = {
       enable = true;
       package = pkgs.neovim;
