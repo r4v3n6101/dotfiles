@@ -1,25 +1,13 @@
 { pkgs, ... }: {
   home = {
     stateVersion = "23.11";
-    sessionVariables = { EDITOR = "nvim"; };
-    packages = with pkgs; [ tree tokei clang ripgrep lua-language-server ];
+    packages = with pkgs; [ tmux tree tokei ripgrep lua-language-server htop nmap iperf ];
   };
 
   # Copy all neovim configs
   xdg.configFile.nvim = {
     source = ../programs/nvim;
     recursive = true;
-  };
-
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    enableBashIntegration = true;
-    enableScDaemon = true;
-    pinentryPackage = pkgs.pinentry-curses;
-    sshKeys = [
-      "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
-    ];
   };
 
   programs = {
@@ -46,5 +34,16 @@
       vimdiffAlias = true;
       defaultEditor = true;
     };
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    enableBashIntegration = true;
+    enableScDaemon = true;
+    pinentryPackage = pkgs.pinentry-curses;
+    sshKeys = [
+      "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
+    ];
   };
 }

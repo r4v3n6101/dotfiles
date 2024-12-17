@@ -13,11 +13,7 @@
   environment.systemPackages = with pkgs; [
     dig
     wget
-    tmux
-    htop
     lm_sensors
-    nmap
-    iperf
     xclip
     inetutils
     pciutils
