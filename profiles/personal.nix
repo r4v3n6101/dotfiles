@@ -28,7 +28,7 @@
   programs = {
     man = {
       enable = true;
-      generateCaches = true;
+      generateCaches = false;
     };
     fish.enable = true;
     gpg.enable = true;
