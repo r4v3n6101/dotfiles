@@ -4,8 +4,8 @@
     packages = with pkgs; [
       # Man pages
       man-pages
-      linux-manual
       man-pages-posix
+      linux-manual
       # Main utils I use
       htop
       nmap
@@ -13,7 +13,7 @@
       tmux
       tree
       tokei
-      # For neovim
+      # Neovim
       ripgrep
       lua-language-server
     ];
