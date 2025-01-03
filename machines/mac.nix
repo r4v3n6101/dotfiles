@@ -6,13 +6,6 @@
     '';
   };
 
-  environment.systemPackages = with pkgs; [ neovim gnupg htop neofetch ];
-
-  programs = {
-    gnupg.agent.enable = true;
-    zsh.enable = true;
-  };
-
   services.nix-daemon.enable = true;
 
   security.pam.enableSudoTouchIdAuth = true;
