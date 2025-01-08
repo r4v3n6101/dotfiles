@@ -44,12 +44,18 @@
         ];
       };
 
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
       darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
         inherit specialArgs;
 
         system = "aarch64-darwin";
         modules = [
-          { users.users.r4v3n6101.home = "/Users/r4v3n6101"; }
+          {
+            nixpkgs = {
+              overlays = [ neovim-nightly-overlay.overlays.default ];
+              config.allowUnfree = true;
+            };
+          }
           ./machines/mac.nix
           home-manager.darwinModules.home-manager
           hmConfiguration

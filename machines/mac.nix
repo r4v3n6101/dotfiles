@@ -1,22 +1,39 @@
 { pkgs, inputs, ... }: {
+  system.stateVersion = 4;
+
   nix = {
+    optimise.automatic = true;
+    gc.automatic = true;
     extraOptions = ''
       extra-platforms = aarch64-darwin x86_64-darwin
       experimental-features = nix-command flakes
     '';
   };
 
-  environment.systemPackages = with pkgs; [ neovim gnupg htop neofetch ];
-
-  programs = {
-    gnupg.agent.enable = true;
-    zsh.enable = true;
+  users.users.r4v3n6101 = {
+    home = "/Users/r4v3n6101";
+    shell = pkgs.fish;
   };
-
-  services.nix-daemon.enable = true;
 
   security.pam.enableSudoTouchIdAuth = true;
 
-  system.configurationRevision = inputs.rev or inputs.dirtyRev or null;
-  system.stateVersion = 4;
+  networking = {
+    computerName = "🫨💼";
+    hostName = "r4mac";
+  };
+
+  environment.shells = [ pkgs.fish ];
+
+  programs = {
+    fish.enable = true;
+    direnv.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+  };
+
+  services = {
+    nix-daemon.enable = true;
+  };
 }

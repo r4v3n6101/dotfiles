@@ -5,7 +5,6 @@
       # Man pages
       man-pages
       man-pages-posix
-      linux-manual
       # Main utils I use
       htop
       nmap
@@ -55,7 +54,6 @@
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
-    enableBashIntegration = true;
     enableScDaemon = true;
     pinentryPackage = pkgs.pinentry-curses;
     sshKeys = [
