@@ -27,6 +27,7 @@
   programs = {
     fish.enable = true;
     direnv.enable = true;
+    # HM won't run it for some reason, so run system wide
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
