@@ -46,7 +46,6 @@
       NSGlobalDomain = {
         AppleInterfaceStyleSwitchesAutomatically = true;
         AppleICUForce24HourTime = false;
-        "com.apple.keyboard.fnState" = false;
         "com.apple.sound.beep.feedback" = 1;
       };
       dock = {
@@ -81,7 +80,6 @@
         ShowPathbar = true;
         _FXSortFoldersFirst = true;
       };
-      ".GlobalPreferences"."com.apple.mouse.scaling" = -1.0;
     };
   };
 }
