@@ -20,6 +20,7 @@
   networking = {
     computerName = "🫨💼";
     hostName = "r4mac";
+    wakeOnLan.enable = true;
   };
 
   environment.shells = [ pkgs.fish ];
@@ -36,5 +37,51 @@
 
   services = {
     nix-daemon.enable = true;
+    openssh.enable = true;
+  };
+
+
+  system = {
+    defaults = {
+      NSGlobalDomain = {
+        AppleInterfaceStyleSwitchesAutomatically = true;
+        AppleICUForce24HourTime = false;
+        "com.apple.keyboard.fnState" = false;
+        "com.apple.sound.beep.feedback" = 1;
+      };
+      dock = {
+        magnification = true;
+        mineffect = "genie";
+        minimize-to-application = true;
+        persistent-apps = [
+          "/System/Cryptexes/App/System/Applications/Safari.app"
+          "/System/Applications/Messages.app"
+          "/System/Applications/FaceTime.app"
+          "/System/Applications/Photos.app"
+          "/System/Applications/Music.app"
+          "/System/Applications/Calendar.app"
+          "/System/Applications/Reminders.app"
+          "/System/Applications/Notes.app"
+          "/System/Applications/Mail.app"
+          "/System/Applications/System Settings.app"
+        ];
+        show-recents = false;
+        showhidden = true;
+      };
+      menuExtraClock = {
+        FlashDateSeparators = false;
+        Show24Hour = false;
+        ShowAMPM = true;
+        ShowSeconds = true;
+      };
+      finder = {
+        FXRemoveOldTrashItems = true;
+        FXPreferredViewStyle = "icnv";
+        NewWindowTarget = "Home";
+        ShowPathbar = true;
+        _FXSortFoldersFirst = true;
+      };
+      ".GlobalPreferences"."com.apple.mouse.scaling" = -1.0;
+    };
   };
 }
