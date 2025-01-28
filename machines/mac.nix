@@ -35,16 +35,27 @@
     };
   };
 
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "uninstall";
+      upgrade = true;
+    };
+    masApps = {
+      "Telegram" = 747648890;
+    };
+  };
+
   services = {
     nix-daemon.enable = true;
     openssh.enable = true;
   };
 
-
   system = {
     defaults = {
       NSGlobalDomain = {
-        AppleInterfaceStyleSwitchesAutomatically = true;
+        AppleInterfaceStyle = "Dark";
         AppleICUForce24HourTime = false;
         "com.apple.sound.beep.feedback" = 1;
       };
@@ -54,10 +65,12 @@
         minimize-to-application = true;
         persistent-apps = [
           "/System/Cryptexes/App/System/Applications/Safari.app"
+          "/Applications/Telegram.app"
           "/System/Applications/Messages.app"
           "/System/Applications/FaceTime.app"
-          "/System/Applications/Photos.app"
           "/System/Applications/Music.app"
+          "/System/Applications/Podcasts.app"
+          "/System/Applications/Photos.app"
           "/System/Applications/Calendar.app"
           "/System/Applications/Reminders.app"
           "/System/Applications/Notes.app"

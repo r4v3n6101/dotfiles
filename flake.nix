@@ -1,5 +1,5 @@
 {
-  description = "My NixOS configuration";
+  description = "My NixOS/nix-darwin configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -12,9 +12,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
-  outputs = inputs@{ self, nixpkgs, neovim-nightly-overlay, nix-darwin, home-manager }:
+  outputs = inputs@{ self, nixpkgs, neovim-nightly-overlay, nix-darwin, home-manager, nix-homebrew }:
     let
       specialArgs = { inherit inputs; };
       hmConfiguration = {
@@ -39,6 +40,7 @@
             };
           }
           ./machines/a9.nix
+
           home-manager.nixosModules.home-manager
           hmConfiguration
         ];
@@ -57,6 +59,16 @@
             };
           }
           ./machines/mac.nix
+
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "r4v3n6101";
+            };
+          }
+
           home-manager.darwinModules.home-manager
           hmConfiguration
         ];
