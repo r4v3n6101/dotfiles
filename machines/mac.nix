@@ -4,6 +4,9 @@
   nix = {
     optimise.automatic = true;
     gc.automatic = true;
+    settings = {
+      trusted-users = [ "root" "@admin" ];
+    };
     extraOptions = ''
       extra-platforms = aarch64-darwin x86_64-darwin
       experimental-features = nix-command flakes
@@ -77,7 +80,7 @@
           "/System/Applications/Mail.app"
           "/System/Applications/System Settings.app"
         ];
-        show-recents = false;
+        show-recents = true;
         showhidden = true;
       };
       menuExtraClock = {
