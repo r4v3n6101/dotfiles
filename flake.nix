@@ -28,25 +28,32 @@
     in
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
-      nixosConfigurations.a9 = nixpkgs.lib.nixosSystem rec {
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
+
+      nixosConfigurations.aarch64_vm = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+
+        system = "aarch64-linux";
+        modules = [
+          {
+            nixpkgs.config.allowUnfree = true;
+          }
+          ./machines/vm.nix
+        ];
+      };
+
+      nixosConfigurations.x86_vm = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
 
         system = "x86_64-linux";
         modules = [
           {
-            nixpkgs = {
-              overlays = [ neovim-nightly-overlay.overlays.default ];
-              config.allowUnfree = true;
-            };
+            nixpkgs.config.allowUnfree = true;
           }
-          ./machines/a9.nix
-
-          home-manager.nixosModules.home-manager
-          hmConfiguration
+          ./machines/vm.nix
         ];
       };
 
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
       darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
         inherit specialArgs;
 
@@ -75,4 +82,3 @@
       };
     };
 }
-

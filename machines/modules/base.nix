@@ -10,35 +10,12 @@
     defaultLocale = "C.UTF-8";
   };
 
-  environment.systemPackages = with pkgs; [
-    dig
-    wget
-    lm_sensors
-    xclip
-    inetutils
-    pciutils
-    usbutils
-    libimobiledevice
-    ifuse
-  ];
-
   users.defaultUserShell = pkgs.fish;
+
+  environment.systemPackages = [ pkgs.neovim ];
 
   programs = {
     fish.enable = true;
-    direnv.enable = true;
-  };
-
-  services = {
-    openssh = {
-      enable = true;
-      ports = [ 30000 ];
-      settings = {
-        PasswordAuthentication = false;
-        PermitRootLogin = "yes";
-      };
-    };
-    usbmuxd.enable = true;
   };
 
   nix = {
