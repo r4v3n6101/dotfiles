@@ -12,7 +12,7 @@
 
   users.defaultUserShell = pkgs.fish;
 
-  environment.systemPackages = [ pkgs.neovim ];
+  environment.systemPackages = [ pkgs.vim pkgs.git ];
 
   programs = {
     fish.enable = true;
