@@ -2,6 +2,7 @@
   system.stateVersion = 4;
 
   nix = {
+    enable = true;
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
@@ -51,7 +52,6 @@
   };
 
   services = {
-    nix-daemon.enable = true;
     openssh.enable = true;
   };
 

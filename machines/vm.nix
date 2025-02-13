@@ -2,7 +2,6 @@
   imports = [
     ./modules/fs.nix
     ./modules/base.nix
-    ./modules/icewm.nix
   ];
 
   boot = {
