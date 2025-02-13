@@ -2,7 +2,7 @@
   system.stateVersion = 4;
 
   nix = {
-    enable = true;
+    enable = false;
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
