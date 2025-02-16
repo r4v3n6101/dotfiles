@@ -1,8 +1,8 @@
 { pkgs, inputs, ... }: {
-  system.stateVersion = 4;
+  system.stateVersion = 5;
 
   nix = {
-    enable = false;
+    enable = true;
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
