@@ -1,5 +1,5 @@
 { pkgs, inputs, ... }: {
-  system.stateVersion = 5;
+  system.stateVersion = 6;
 
   nix = {
     enable = true;
@@ -18,8 +18,6 @@
     home = "/Users/r4v3n6101";
     shell = pkgs.fish;
   };
-
-  security.pam.enableSudoTouchIdAuth = true;
 
   networking = {
     computerName = "🫨💼";
@@ -50,6 +48,8 @@
       "Telegram" = 747648890;
     };
   };
+
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   services = {
     openssh.enable = true;
