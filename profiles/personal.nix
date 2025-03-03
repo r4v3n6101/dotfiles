@@ -16,6 +16,7 @@
       # Neovim
       ripgrep
       lua-language-server
+      nixd
     ];
   };
 

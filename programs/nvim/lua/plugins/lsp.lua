@@ -2,6 +2,9 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            -- nixd
+            require 'lspconfig'.nixd.setup {}
+
             -- rust-analyzer
             require 'lspconfig'.rust_analyzer.setup {}
 

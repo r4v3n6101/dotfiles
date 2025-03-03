@@ -54,7 +54,7 @@
         ];
       };
 
-      darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
+      darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
         inherit specialArgs;
 
         system = "aarch64-darwin";

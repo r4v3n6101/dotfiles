@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ ... }: {
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-partlabel/nixos";
