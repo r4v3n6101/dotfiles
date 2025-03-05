@@ -14,9 +14,10 @@
       tree
       tokei
       # Neovim
-      ripgrep
       lua-language-server
       nixd
+      # Games
+      gzdoom
     ];
   };
 
@@ -27,12 +28,18 @@
   };
 
   programs = {
+    fish.enable = true;
+    gpg.enable = true;
+    ripgrep.enable = true;
     man = {
       enable = true;
       generateCaches = false;
     };
-    fish.enable = true;
-    gpg.enable = true;
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      nix-direnv.enable = true;
+    };
     git = {
       enable = true;
       userName = "r4v3n6101";

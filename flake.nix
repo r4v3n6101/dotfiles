@@ -12,10 +12,9 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
-  outputs = inputs@{ self, nixpkgs, neovim-nightly-overlay, nix-darwin, home-manager, nix-homebrew }:
+  outputs = inputs@{ self, nixpkgs, neovim-nightly-overlay, nix-darwin, home-manager }:
     let
       specialArgs = { inherit inputs; };
       hmConfiguration = {
@@ -66,15 +65,6 @@
             };
           }
           ./machines/mac.nix
-
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = true;
-              user = "r4v3n6101";
-            };
-          }
 
           home-manager.darwinModules.home-manager
           hmConfiguration
