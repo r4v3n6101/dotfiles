@@ -1,5 +1,9 @@
 return {
     {
+        "mrcjkb/rustaceanvim",
+        lazy = false,
+    },
+    {
         "neovim/nvim-lspconfig",
         config = function()
             -- nixd
@@ -11,70 +15,74 @@ return {
                 rustc_source = vim.env.RUSTC_SRC
             end
 
-            local target_dir = true
+            local target_dir = nil
             local default_target_dir = vim.fn.getenv('CARGO_TARGET_DIR')
             if default_target_dir ~= vim.v.null then
                 target_dir = default_target_dir .. "/rust-analyzer"
             end
 
-            require 'lspconfig'.rust_analyzer.setup {
-                handlers = {
-                    ["experimental/serverStatus"] = function(_, result, ctx, _)
-                        if result.quiescent then
-                            for _, bufnr in ipairs(vim.lsp.get_buffers_by_client_id(ctx.client_id)) do
-                                vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-                                vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            vim.g.rustaceanvim = {
+                server = {
+                    handlers = {
+                        ["experimental/serverStatus"] = function(_, result, ctx, _)
+                            if result.quiescent then
+                                for _, bufnr in ipairs(vim.lsp.get_buffers_by_client_id(ctx.client_id)) do
+                                    vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+                                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                                end
                             end
-                        end
-                    end,
-                },
-                settings = {
-                    ['rust-analyzer'] = {
-                        cargo = {
-                            allFeatures = true,
-                            targetDir = target_dir,
-                        },
-                        completion = {
-                            autoimport = {
+                        end,
+                    },
+                    default_settings = {
+                        ["rust-analyzer"] = {
+                            files = {
+                                excludeDirs = { ".direnv", ".git", ".gitlab" }
+                            },
+                            cargo = {
+                                allFeatures = true,
+                                targetDir = target_dir,
+                            },
+                            completion = {
+                                autoimport = {
+                                    enable = true,
+                                },
+                            },
+                            checkOnSave = {
+                                command = "clippy",
+                            },
+                            inlayHints = {
+                                bindingModeHints = {
+                                    enable = true,
+                                },
+                                closureReturnTypeHints = {
+                                    enable = "always",
+                                },
+                                discriminantHints = {
+                                    enable = "always",
+                                },
+                                lifetimeElisionHints = {
+                                    enable = "skip_trivial",
+                                    useParameterNames = true,
+                                },
+                                rangeExclusiveHints = {
+                                    enable = true,
+                                },
+                                expressionAdjustmentHints = {
+                                    -- Currently broken: https://github.com/neovim/neovim/issues/29647
+                                    -- enable = "reborrow",
+                                    -- mode = "postfix",
+                                },
+                            },
+                            procMacro = {
                                 enable = true,
                             },
-                        },
-                        checkOnSave = {
-                            command = "clippy",
-                        },
-                        inlayHints = {
-                            bindingModeHints = {
-                                enable = true,
+                            rustc = {
+                                source = rustc_source,
                             },
-                            closureReturnTypeHints = {
-                                enable = "always",
-                            },
-                            discriminantHints = {
-                                enable = "always",
-                            },
-                            lifetimeElisionHints = {
-                                enable = "skip_trivial",
-                                useParameterNames = true,
-                            },
-                            rangeExclusiveHints = {
-                                enable = true,
-                            },
-                            expressionAdjustmentHints = {
-                                -- Currently broken: https://github.com/neovim/neovim/issues/29647
-                                -- enable = "reborrow",
-                                -- mode = "postfix",
-                            },
-                        },
-                        procMacro = {
-                            enable = true,
-                        },
-                        rustc = {
-                            source = rustc_source,
-                        },
+                        }
                     }
-                }
+                },
             }
-
 
             -- lua-ls
             local runtime_path = vim.split(package.path, ';')
@@ -108,7 +116,7 @@ return {
                     -- Enable auto-completion
                     -- vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 
-                    -- Inlay hints
+                    -- Virtual text (inlay hints & diagnostics)
                     vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
                     vim.diagnostic.config {
                         virtual_text = true,

@@ -14,7 +14,6 @@
       tree
       tokei
       # Neovim
-      lua-language-server
       nixd
       # Games
       gzdoom
