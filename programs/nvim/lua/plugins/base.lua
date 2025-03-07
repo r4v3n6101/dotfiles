@@ -25,6 +25,31 @@ return {
     },
 
     {
+        'stevearc/quicker.nvim',
+        event = "FileType qf",
+        config = function()
+            require("quicker").setup({
+                keys = {
+                    {
+                        ">",
+                        function()
+                            require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+                        end,
+                        desc = "Expand quickfix context [quicker.nvim]",
+                    },
+                    {
+                        "<",
+                        function()
+                            require("quicker").collapse()
+                        end,
+                        desc = "Collapse quickfix context [quicker.nvim]",
+                    },
+                },
+            })
+        end
+    },
+
+    {
         'nvim-treesitter/nvim-treesitter',
         config = function()
             require 'nvim-treesitter.configs'.setup {

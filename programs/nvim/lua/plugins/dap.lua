@@ -19,5 +19,11 @@ return {
             require("dapui").setup()
             vim.keymap.set('n', "<leader>du", require 'dapui'.toggle, { desc = "Open DAP UI [nvim-dap-ui]" });
         end
+    },
+    {
+        'theHamsta/nvim-dap-virtual-text',
+        config = function()
+            require("nvim-dap-virtual-text").setup()
+        end
     }
 }
