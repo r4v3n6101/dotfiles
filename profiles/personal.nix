@@ -15,8 +15,6 @@
       tokei
       # Neovim
       nixd
-      # Games
-      gzdoom
     ];
   };
 
