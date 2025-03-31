@@ -1,4 +1,3 @@
-vim.opt.autochdir = true
 vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -10,6 +9,7 @@ vim.opt.list = false
 vim.opt.termguicolors = true
 vim.opt.updatetime = 300
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
+vim.opt.switchbuf:append { 'usetab', 'newtab' }
 
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
