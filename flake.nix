@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils . url = "github:numtide/flake-utils";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,7 +14,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, neovim-nightly-overlay, nix-darwin, home-manager }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, nix-darwin, home-manager }:
     let
       specialArgs = { inherit inputs; };
 
@@ -59,7 +58,7 @@
           modules = [
             {
               nixpkgs = {
-                overlays = [ neovim-nightly-overlay.overlays.default ];
+                overlays = [ ];
                 config.allowUnfree = true;
               };
             }
