@@ -114,5 +114,10 @@ return {
         init = function()
             vim.cmd([[colorscheme catppuccin]])
         end
-    }
+    },
+
+    {
+        "nvim-tree/nvim-web-devicons",
+        opts = {}
+    },
 }

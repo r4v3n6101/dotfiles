@@ -27,6 +27,8 @@
 
   environment.shells = [ pkgs.fish ];
 
+  fonts.packages = [ pkgs.nerd-fonts.hack ];
+
   programs = {
     fish.enable = true;
     # TODO : HM won't run it for some reason, so run system wide
