@@ -107,6 +107,14 @@ return {
                 }
             }
 
+            -- Remove default bindings
+            vim.keymap.del('n', 'grn')
+            vim.keymap.del('n', 'gra')
+            vim.keymap.del('n', 'grr')
+            vim.keymap.del('n', 'gri')
+            vim.keymap.del('n', 'gO')
+            vim.keymap.del('i', '<C-s>')
+
             -- Keymaps for lsp servers
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -123,7 +131,23 @@ return {
                         virtual_lines = false,
                     }
 
-                    -- Help
+                    -- LSP actions
+                    vim.keymap.set('n', "<leader>gd", vim.lsp.buf.definition,
+                        { buffer = ev.buf, desc = "Go to definition [nvim-lspconfig]" })
+                    vim.keymap.set('n', "<leader>gD", vim.lsp.buf.declaration,
+                        { buffer = ev.buf, desc = "Go to declaration [nvim-lspconfig]" })
+                    vim.keymap.set('n', "<leader>gt", vim.lsp.buf.type_definition,
+                        { buffer = ev.buf, desc = "Go to type definition [nvim-lspconfig]" })
+                    vim.keymap.set('n', "<leader>ga", vim.lsp.buf.code_action,
+                        { buffer = ev.buf, desc = "Show code action [nvim-lspconfig]" })
+                    vim.keymap.set('n', "<leader>gn", vim.lsp.buf.rename,
+                        { buffer = ev.buf, desc = "Rename [nvim-lspconfig]" })
+                    vim.keymap.set('n', "<leader>gr", vim.lsp.buf.references,
+                        { buffer = ev.buf, desc = "Go to references [nvim-lspconfig]" })
+                    vim.keymap.set('n', "<leader>gi", vim.lsp.buf.implementation,
+                        { buffer = ev.buf, desc = "Go to implementation [nvim-lspconfig]" })
+                    vim.keymap.set('n', "<leader>gs", vim.lsp.buf.document_symbol,
+                        { buffer = ev.buf, desc = "Open document symbols in loclist [nvim-lspconfig]" })
                     vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help,
                         { buffer = ev.buf, desc = "Signature help [nvim-lspconfig]" })
 
