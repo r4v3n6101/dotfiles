@@ -115,7 +115,7 @@ return {
             vim.keymap.del('n', 'gO')
             vim.keymap.del('i', '<C-s>')
 
-            -- Keymaps for lsp servers
+            -- Configuration for buffers when LSP attached to them
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = function(ev)
@@ -123,13 +123,6 @@ return {
 
                     -- Enable auto-completion
                     -- vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-
-                    -- Virtual text (inlay hints & diagnostics)
-                    vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
-                    vim.diagnostic.config {
-                        virtual_text = true,
-                        virtual_lines = false,
-                    }
 
                     -- LSP actions
                     vim.keymap.set('n', "<leader>gd", vim.lsp.buf.definition,
@@ -161,30 +154,71 @@ return {
                 end
             })
 
-            -- Disable inlay hints in insert mode
+            -- Virtual text (diagnostics, inlay hints, etc.)
+            SHOW_VIRTUAL_TEXT = true
+            DIAGNOSTICS_VIRTUAL_TEXT = true
+            vim.lsp.inlay_hint.enable(SHOW_VIRTUAL_TEXT)
+            vim.diagnostic.config {
+                virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+            }
+
+            -- Show/hide virtual text
+            vim.keymap.set('n', '<leader>t', function()
+                SHOW_VIRTUAL_TEXT = not SHOW_VIRTUAL_TEXT
+                vim.lsp.inlay_hint.enable(SHOW_VIRTUAL_TEXT)
+                vim.diagnostic.config {
+                    virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                    virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                }
+                vim.cmd [[ normal "hl" ]]
+            end, { desc = "Show/hide diagnostics and inlay hints [nvim-lspconfig]" })
+
+            -- Change type of diagnostics (virtual lines or text)
+            vim.keymap.set('n', '<leader>l', function()
+                DIAGNOSTICS_VIRTUAL_TEXT = not DIAGNOSTICS_VIRTUAL_TEXT
+                vim.diagnostic.config {
+                    virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                    virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                }
+                vim.cmd [[ normal "hl" ]]
+            end, { desc = "Toggle virtual text/lines for diagnostics [nvim-lspconfig]" })
+
+            -- Sort diagnostics by severity
+            vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+                vim.lsp.diagnostic.on_publish_diagnostics, {
+                    underline = true,
+                    signs = true,
+                    severity_sort = true,
+                }
+            )
+
+            -- Disable virtual text/lines in insert mode
             local lsp_lines_helper = vim.api.nvim_create_augroup('LspLinesHelper', {})
             vim.api.nvim_create_autocmd('InsertEnter', {
                 group = lsp_lines_helper,
                 pattern = "*",
                 callback = function()
-                    vim.lsp.inlay_hint.enable(false, { bufnr = 0 })
+                    vim.lsp.inlay_hint.enable(false)
                     vim.diagnostic.config {
                         virtual_text = false,
                         virtual_lines = false,
                     }
-                    -- To update cursor position
                     vim.cmd [[ normal "hl" ]]
                 end
             })
+
+            -- Leaving insert mode will restore the state before entering insert mode
             vim.api.nvim_create_autocmd('InsertLeave', {
                 group = lsp_lines_helper,
                 pattern = "*",
                 callback = function()
-                    vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
+                    vim.lsp.inlay_hint.enable(SHOW_VIRTUAL_TEXT)
                     vim.diagnostic.config {
-                        virtual_text = true,
-                        virtual_lines = false,
+                        virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                        virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
                     }
+                    vim.cmd [[ normal "hl" ]]
                 end
             })
         end
