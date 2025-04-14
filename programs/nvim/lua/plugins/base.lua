@@ -29,6 +29,10 @@ return {
         event = "FileType qf",
         config = function()
             require("quicker").setup({
+                highlight = {
+                    lsp = false,
+                    load_buffers = true,
+                },
                 keys = {
                     {
                         ">",
