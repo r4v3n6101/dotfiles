@@ -47,9 +47,6 @@ return {
                                     enable = true,
                                 },
                             },
-                            checkOnSave = {
-                                command = "clippy",
-                            },
                             inlayHints = {
                                 bindingModeHints = {
                                     enable = true,
