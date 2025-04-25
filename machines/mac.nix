@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   system.stateVersion = 6;
 
   nix = {
@@ -6,6 +6,9 @@
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
+      substituters = lib.mkForce [
+        "https://nixos-cache-proxy.cofob.dev"
+      ];
       trusted-users = [ "root" "@admin" ];
     };
     extraOptions = ''
