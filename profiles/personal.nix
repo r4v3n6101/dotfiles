@@ -60,7 +60,7 @@
     enable = true;
     enableSshSupport = true;
     enableScDaemon = true;
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentry.package = pkgs.pinentry-tty;
     sshKeys = [
       "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
     ];
