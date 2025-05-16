@@ -72,6 +72,9 @@
           "/System/Applications/Mail.app"
           "/System/Applications/System Settings.app"
         ];
+        persistent-others = [
+          "/Users/r4v3n6101/Downloads/"
+        ];
         show-recents = true;
         showhidden = true;
       };
@@ -80,13 +83,29 @@
         Show24Hour = false;
         ShowAMPM = true;
         ShowSeconds = true;
+        ShowDate = 0;
+        ShowDayOfMonth = true;
+        ShowDayOfWeek = true;
       };
       finder = {
+        FXDefaultSearchScope = "SCcf";
         FXRemoveOldTrashItems = true;
         FXPreferredViewStyle = "icnv";
         NewWindowTarget = "Home";
         ShowPathbar = true;
         _FXSortFoldersFirst = true;
+        _FXSortFoldersFirstOnDesktop = true;
+        ShowExternalHardDrivesOnDesktop = true;
+        ShowMountedServersOnDesktop = true;
+        ShowRemovableMediaOnDesktop = true;
+      };
+      loginwindow = {
+        DisableConsoleAccess = true;
+        RestartDisabled = true;
+        ShutDownDisabled = true;
+        PowerOffDisabledWhileLoggedIn = true;
+        ShutDownDisabledWhileLoggedIn = true;
+        RestartDisabledWhileLoggedIn = true;
       };
     };
   };
