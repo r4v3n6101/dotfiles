@@ -17,6 +17,9 @@
     '';
   };
 
+  # Will be removed in the future when all of attributes go away from system-wide config
+  system.primaryUser = "r4v3n6101";
+
   users.users.r4v3n6101 = {
     home = "/Users/r4v3n6101";
     shell = pkgs.fish;
