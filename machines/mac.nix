@@ -35,11 +35,6 @@
 
   programs = {
     fish.enable = true;
-    # TODO : HM won't run it for some reason, so run system wide
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
   };
 
   security.pam.services.sudo_local.touchIdAuth = true;
