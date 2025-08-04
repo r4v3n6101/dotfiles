@@ -70,6 +70,7 @@
         remember_window_size = true;
         remember_window_position = false;
         macos_option_as_alt = true;
+        toggle_macos_secure_keyboard_entry = false;
       };
     };
   };
