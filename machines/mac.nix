@@ -28,9 +28,9 @@
     wakeOnLan.enable = true;
   };
 
-  environment = {
-    shells = [ pkgs.fish ];
-    systemPackages = [ pkgs.iina ];
+  environment = with pkgs; {
+    shells = [ fish ];
+    systemPackages = [ iina utm google-chrome ];
   };
 
   programs = {
