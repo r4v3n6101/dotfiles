@@ -1,6 +1,5 @@
 -- LSP enabling
-vim.lsp.enable('lua_ls')
-vim.lsp.enable('nixd')
+vim.lsp.enable({ 'lua_ls', 'nixd' })
 
 -- Remove default bindings
 vim.keymap.del('n', 'grn')
@@ -18,7 +17,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         -- Enable auto-completion
         if client:supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+            vim.lsp.completion.enable(true, client.id, ev.buf, {
+                autotrigger = true,
+                -- FIXME: https://github.com/neovim/neovim/issues/29225
+                convert = function(item)
+                    local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or ""
+                    return {
+                        menu = "",
+                        kind_hlgroup = "CmpItemKind" .. kind,
+                    }
+                end,
+            })
         end
 
         -- LSP actions
@@ -47,6 +56,43 @@ vim.api.nvim_create_autocmd('LspAttach', {
             callback = function()
                 vim.lsp.buf.format({ bufnr = ev.buf, id = client.id })
             end,
+        })
+
+        -- Hightlight for documentation in completion menu
+        -- FIXME: https://github.com/neovim/neovim/pull/32820
+        vim.api.nvim_create_autocmd('CompleteChanged', {
+            buffer = ev.buf,
+            callback = function()
+                local info = vim.fn.complete_info({ 'selected' })
+                local completionItem = vim.tbl_get(vim.v.completed_item, 'user_data', 'nvim', 'lsp', 'completion_item')
+                if nil == completionItem then
+                    return
+                end
+
+                local resolvedItem = vim.lsp.buf_request_sync(
+                    ev.buf,
+                    vim.lsp.protocol.Methods.completionItem_resolve,
+                    completionItem,
+                    500
+                )
+                if nil == resolvedItem then
+                    return
+                end
+
+                local docs = vim.tbl_get(resolvedItem[ev.data.client_id], 'result', 'documentation', 'value')
+                if nil == docs then
+                    return
+                end
+
+                local winData = vim.api.nvim__complete_set(info['selected'], { info = docs })
+                if not winData.winid or not vim.api.nvim_win_is_valid(winData.winid) then
+                    return
+                end
+
+                vim.api.nvim_win_set_config(winData.winid, { border = 'rounded' })
+                vim.treesitter.start(winData.bufnr, 'markdown')
+                vim.wo[winData.winid].conceallevel = 3
+            end
         })
     end
 })
