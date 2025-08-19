@@ -1,5 +1,16 @@
-require('settings')
+require('opts')
+require('lsp')
+require('rustaceanvim')
 
+-- Highlight after yank
+vim.api.nvim_exec2([[
+augroup YankHighlight
+autocmd!
+autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+augroup end
+]], { output = false })
+
+-- Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({

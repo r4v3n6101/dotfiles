@@ -1,4 +1,3 @@
--- Vim options
 vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -10,6 +9,7 @@ vim.opt.termguicolors = true
 vim.opt.updatetime = 300
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
 vim.opt.switchbuf:append { 'usetab', 'newtab' }
+vim.opt.completeopt:append { 'fuzzy', 'menuone', 'noinsert', 'popup' }
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
@@ -18,11 +18,3 @@ vim.opt.winborder = "rounded"
 vim.g.mapleader = " "
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-
--- Highlight after yank
-vim.api.nvim_exec([[
-augroup YankHighlight
-autocmd!
-autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
-augroup end
-]], false)
