@@ -12,18 +12,22 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, nix-darwin, home-manager }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, nix-darwin, home-manager, mac-app-util }:
     let
       specialArgs = { inherit inputs; };
 
       hmConfiguration = {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = specialArgs;
-        home-manager.backupFileExtension = "build";
-        home-manager.users.r4v3n6101 = import ./profiles/personal.nix;
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = specialArgs;
+          backupFileExtension = "build";
+          sharedModules = [ mac-app-util.homeManagerModules.default ];
+          users.r4v3n6101 = import ./profiles/personal.nix;
+        };
       };
 
       generic = flake-utils.lib.eachDefaultSystem (system:
@@ -66,6 +70,8 @@
 
             home-manager.darwinModules.home-manager
             hmConfiguration
+
+            mac-app-util.darwinModules.default
           ];
         };
       };
