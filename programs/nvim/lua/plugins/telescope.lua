@@ -5,7 +5,7 @@ return {
         'nvim-telescope/telescope.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' },
         keys = {
-            { "<leader>fc", "<cmd>Telescope resume<cr>",                          desc = "Continue last Telescope search [telescope.nvim]" },
+            { "<leader>fc", "<cmd>Telescope resume initial_mode=normal<cr>",      desc = "Continue last Telescope search [telescope.nvim]" },
             { "<leader>ff", "<cmd>Telescope find_files<cr>",                      desc = "Find files [telescope.nvim]" },
             { "<leader>fg", "<cmd>Telescope live_grep<cr>",                       desc = "Find by grep [telescope.nvim]" },
             { "<leader>fb", "<cmd>Telescope buffers initial_mode=normal<cr>",     desc = "Find in opened buffers [telescope.nvim]" },
