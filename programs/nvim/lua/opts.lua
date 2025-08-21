@@ -9,7 +9,7 @@ vim.opt.termguicolors = true
 vim.opt.updatetime = 300
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
 vim.opt.switchbuf:append { 'usetab', 'newtab' }
-vim.opt.completeopt:append { 'fuzzy', 'menu', 'menuone', 'noselect', 'popup' }
+vim.opt.completeopt:append { 'fuzzy', 'menuone', 'noinsert', 'popup' }
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
