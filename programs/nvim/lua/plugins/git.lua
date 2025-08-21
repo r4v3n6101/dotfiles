@@ -58,5 +58,7 @@ return {
             vim.keymap.set('n', '<leader>hq', function() gs.setqflist('all') end,
                 { desc = "Open qfix (hunks for git directory) [gitsigns.nvim]" })
         end
-    }
+    },
+
+    { 'akinsho/git-conflict.nvim', version = "*", config = true }
 }

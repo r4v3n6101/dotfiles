@@ -31,8 +31,13 @@ return {
             require("quicker").setup({
                 highlight = {
                     lsp = false,
+                    treesitter = true,
                     load_buffers = true,
                 },
+                edit = {
+                    enabled = false,
+                },
+                constrain_cursor = true,
                 keys = {
                     {
                         ">",
