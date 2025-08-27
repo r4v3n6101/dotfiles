@@ -2,7 +2,6 @@
   home = {
     stateVersion = "23.11";
     packages = with pkgs; [
-      neofetch
       # Man pages
       man-pages
       man-pages-posix

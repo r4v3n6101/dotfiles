@@ -12,6 +12,15 @@
       extra-platforms = aarch64-darwin x86_64-darwin
       experimental-features = nix-command flakes
     '';
+    linux-builder = {
+      enable = true;
+      ephemeral = true;
+      systems = [
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      maxJobs = 8;
+    };
   };
 
   # Will be removed in the future when all of attributes go away from system-wide config
