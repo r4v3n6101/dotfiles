@@ -15,11 +15,11 @@
     linux-builder = {
       enable = true;
       ephemeral = true;
+      maxJobs = 8;
       systems = [
         "aarch64-linux"
         "x86_64-linux"
       ];
-      maxJobs = 8;
     };
   };
 
@@ -39,7 +39,7 @@
 
   environment = with pkgs; {
     shells = [ fish ];
-    systemPackages = [ iina utm google-chrome nixos-shell ];
+    systemPackages = [ iina google-chrome nixos-shell socket_vmnet ];
   };
 
   programs = {
@@ -50,17 +50,27 @@
     openssh.enable = true;
   };
 
-  # Till the QEMU user won't be fixed
-  homebrew = {
-    enable = true;
-    global = {
-      brewfile = true;
-    };
-    brews = [ "socket_vmnet" ];
-    masApps = { };
-  };
-
   security.pam.services.sudo_local.touchIdAuth = true;
+
+  launchd.daemons = with pkgs; lib.mkMerge [
+    {
+      "io.github.lima-vm.socket_vmnet" = {
+        script = ''
+          mkdir -p /var/run/
+          mkdir -p /var/log/
+          exec ${socket_vmnet}/bin/socket_vmnet --vmnet-gateway=192.168.105.1 /var/run/socket_vmnet
+        '';
+        serviceConfig = {
+          KeepAlive = true;
+          RunAtLoad = true;
+          UserName = "root";
+          ProcessType = "Interactive";
+          StandardOutPath = "/var/log/socket_vmnet/stdout.log";
+          StandardErrorPath = "/var/log/socket_vmnet/stderr.log";
+        };
+      };
+    }
+  ];
 
   system = {
     defaults = {

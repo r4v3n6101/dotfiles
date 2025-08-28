@@ -50,16 +50,19 @@
           modules = [
             {
               nixpkgs = {
-                overlays = [ ];
+                overlays = [
+                  (final: prev: {
+                    socket_vmnet = prev.callPackage ./packages/socket_vmnet.nix { };
+                  })
+                ];
                 config.allowUnfree = true;
               };
             }
             ./machines/mac.nix
+            mac-app-util.darwinModules.default
 
             home-manager.darwinModules.home-manager
             hmConfiguration
-
-            mac-app-util.darwinModules.default
           ];
         };
       };
