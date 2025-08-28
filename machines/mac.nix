@@ -39,18 +39,28 @@
 
   environment = with pkgs; {
     shells = [ fish ];
-    systemPackages = [ iina utm google-chrome ];
+    systemPackages = [ iina utm google-chrome nixos-shell ];
   };
 
   programs = {
     fish.enable = true;
   };
 
-  security.pam.services.sudo_local.touchIdAuth = true;
-
   services = {
     openssh.enable = true;
   };
+
+  # Till the QEMU user won't be fixed
+  homebrew = {
+    enable = true;
+    global = {
+      brewfile = true;
+    };
+    brews = [ "socket_vmnet" ];
+    masApps = { };
+  };
+
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   system = {
     defaults = {

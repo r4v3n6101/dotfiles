@@ -42,18 +42,6 @@
           };
         });
 
-      linuxVm = flake-utils.lib.eachSystemPassThrough (with flake-utils.lib.system; [ x86_64-linux aarch64-linux ]) (system: {
-        nixosConfigurations."${system}_vm" = nixpkgs.lib.nixosSystem {
-          inherit system specialArgs;
-          modules = [
-            {
-              nixpkgs.config.allowUnfree = true;
-            }
-            ./machines/vm.nix
-          ];
-        };
-      });
-
       darwinSystem = {
         darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
           inherit specialArgs;
@@ -77,5 +65,5 @@
       };
 
     in
-    generic // linuxVm // darwinSystem;
+    generic // darwinSystem;
 }
