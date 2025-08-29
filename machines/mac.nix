@@ -1,5 +1,4 @@
 { pkgs, ... }: {
-  system.stateVersion = 6;
 
   nix = {
     enable = true;
@@ -23,9 +22,6 @@
     };
   };
 
-  # Will be removed in the future when all of attributes go away from system-wide config
-  system.primaryUser = "r4v3n6101";
-
   users.users.r4v3n6101 = {
     home = "/Users/r4v3n6101";
     shell = pkgs.fish;
@@ -42,13 +38,7 @@
     systemPackages = [ iina google-chrome nixos-shell socket_vmnet ];
   };
 
-  programs = {
-    fish.enable = true;
-  };
-
-  services = {
-    openssh.enable = true;
-  };
+  programs.fish.enable = true;
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
@@ -73,6 +63,9 @@
   ];
 
   system = {
+    stateVersion = 6;
+    # Will be removed in the future when all of attributes go away from system-wide config
+    primaryUser = "r4v3n6101";
     defaults = {
       NSGlobalDomain = {
         AppleInterfaceStyle = "Dark";
