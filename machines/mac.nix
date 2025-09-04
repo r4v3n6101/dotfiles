@@ -82,13 +82,13 @@
           "/System/Applications/Messages.app"
           "/System/Applications/FaceTime.app"
           "/System/Applications/Music.app"
+          "/System/Applications/TV.app"
           "/System/Applications/Podcasts.app"
           "/System/Applications/Photos.app"
           "/System/Applications/Calendar.app"
           "/System/Applications/Reminders.app"
           "/System/Applications/Notes.app"
           "/System/Applications/Mail.app"
-          "/System/Applications/System Settings.app"
         ];
         persistent-others = [
           "/Users/r4v3n6101/Downloads/"

@@ -27,6 +27,7 @@
     fish.enable = true;
     gpg.enable = true;
     ripgrep.enable = true;
+    nh.enable = true;
     man = {
       enable = true;
       generateCaches = false;
