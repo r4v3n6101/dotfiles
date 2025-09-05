@@ -35,32 +35,12 @@
 
   environment = with pkgs; {
     shells = [ fish ];
-    systemPackages = [ iina google-chrome nixos-shell socket_vmnet ];
+    systemPackages = [ iina google-chrome ];
   };
 
   programs.fish.enable = true;
 
   security.pam.services.sudo_local.touchIdAuth = true;
-
-  launchd.daemons = with pkgs; lib.mkMerge [
-    {
-      "io.github.lima-vm.socket_vmnet" = {
-        script = ''
-          mkdir -p /var/run/
-          mkdir -p /var/log/
-          exec ${socket_vmnet}/bin/socket_vmnet --vmnet-gateway=192.168.105.1 /var/run/socket_vmnet
-        '';
-        serviceConfig = {
-          KeepAlive = true;
-          RunAtLoad = true;
-          UserName = "root";
-          ProcessType = "Interactive";
-          StandardOutPath = "/var/log/socket_vmnet/stdout.log";
-          StandardErrorPath = "/var/log/socket_vmnet/stderr.log";
-        };
-      };
-    }
-  ];
 
   system = {
     stateVersion = 6;

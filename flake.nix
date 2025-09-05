@@ -67,11 +67,7 @@
             lixModule
             {
               nixpkgs = {
-                overlays = [
-                  (final: prev: {
-                    socket_vmnet = prev.callPackage ./packages/socket_vmnet.nix { };
-                  })
-                ];
+                overlays = [ ];
                 config.allowUnfree = true;
               };
             }
