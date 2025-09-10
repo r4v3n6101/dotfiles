@@ -13,7 +13,7 @@ return {
             { "<leader>fj", "<cmd>Telescope jumplist initial_mode=normal<cr>",    desc = "Find in jumplist [telescope.nvim]" },
             { "<leader>fr", "<cmd>Telescope registers initial_mode=normal<cr>",   desc = "Find in registers [telescope.nvim]" },
             { "<leader>fm", "<cmd>Telescope marks initial_mode=normal<cr>",       desc = "Find in marks [telescope.nvim]" },
-            { "<leader>fd", "<cmd>Telescope diagnostics initial_mode=normal<cr>", desc = "Find in diagnostics [telescope.nvim]" },
+            { "<leader>fd", "<cmd>Telescope diagnostics sort_by=severity initial_mode=normal<cr>", desc = "Find in diagnostics [telescope.nvim]" },
             { "<leader>fu", "<cmd>Telescope undo initial_mode=normal<cr>",        desc = "Find in undo tree [telescope.nvim]" },
             { "<leader>df", "<cmd>Telescope dap frames initial_mode=normal<cr>",  desc = "Find in debug frames [telescope-dap.nvim]" },
         },
