@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   home = {
     stateVersion = "23.11";
     packages = with pkgs; [
@@ -12,6 +12,7 @@
       tmux
       tree
       tokei
+      git-crypt
       # Neovim
       nixd
     ];
@@ -24,6 +25,14 @@
   };
 
   programs = {
+    # Mail, calendars, contacts
+    mbsync.enable = true;
+    msmtp.enable = true;
+    neomutt = {
+      enable = true;
+      vimKeys = true;
+    };
+
     fish.enable = true;
     gpg.enable = true;
     ripgrep.enable = true;
@@ -75,13 +84,32 @@
     };
   };
 
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    enableScDaemon = true;
-    pinentry.package = pkgs.pinentry-tty;
-    sshKeys = [
-      "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
-    ];
+  services = {
+    gpg-agent = {
+      enable = true;
+      enableSshSupport = true;
+      enableScDaemon = true;
+      pinentry.package = pkgs.pinentry-tty;
+      sshKeys = [
+        "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
+      ];
+    };
+  } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+    mbsync.enable = true;
   };
+
+  accounts =
+    let
+      defaults = import ./accounts/defaults.nix;
+      junky = import ./accounts/junky.nix;
+    in
+    {
+      calendar.accounts = { };
+      email = {
+        maildirBasePath = ".maildir";
+        accounts = {
+          junky = defaults.email // junky.email;
+        };
+      };
+    };
 }
