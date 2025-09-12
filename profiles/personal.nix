@@ -26,6 +26,7 @@
 
   programs = {
     # Mail, calendars, contacts
+    khard.enable = true;
     khal.enable = true;
     vdirsyncer.enable = true;
     mbsync.enable = true;
@@ -107,6 +108,13 @@
       junky = import ./accounts/junky.nix;
     in
     {
+      contact = {
+        basePath = ".contactdir";
+        accounts = {
+          primary = lib.recursiveUpdate defaults.contact primary.contact;
+        };
+      };
+
       calendar = {
         basePath = ".caldir";
         accounts = {
