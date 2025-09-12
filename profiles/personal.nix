@@ -26,6 +26,8 @@
 
   programs = {
     # Mail, calendars, contacts
+    khal.enable = true;
+    vdirsyncer.enable = true;
     mbsync.enable = true;
     msmtp.enable = true;
     neomutt = {
@@ -101,14 +103,21 @@
   accounts =
     let
       defaults = import ./accounts/defaults.nix;
+      primary = import ./accounts/primary.nix;
       junky = import ./accounts/junky.nix;
     in
     {
-      calendar.accounts = { };
+      calendar = {
+        basePath = ".caldir";
+        accounts = {
+          primary = lib.recursiveUpdate defaults.calendar primary.calendar;
+        };
+      };
+
       email = {
         maildirBasePath = ".maildir";
         accounts = {
-          junky = defaults.email // junky.email;
+          junky = lib.recursiveUpdate defaults.email junky.email;
         };
       };
     };
