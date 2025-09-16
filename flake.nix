@@ -2,14 +2,14 @@
   description = "My NixOS/nix-darwin configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util.url = "github:hraban/mac-app-util";
@@ -23,7 +23,7 @@
         nixpkgs.overlays = [
           (final: prev: {
             final = {
-              inherit (final.lixPackageSets.stable)
+              inherit (final.lixPackageSets.git)
                 nixpkgs-review
                 nix-eval-jobs
                 nix-fast-build
@@ -32,7 +32,7 @@
           })
         ];
 
-        nix.package = pkgs.lixPackageSets.stable.lix;
+        nix.package = pkgs.lixPackageSets.git.lix;
       };
 
       hmConfiguration = {

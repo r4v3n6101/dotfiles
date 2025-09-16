@@ -6,17 +6,14 @@
     gc.automatic = true;
     settings = {
       trusted-users = [ "root" "@admin" ];
-      substituters = pkgs.lib.mkForce [
-        "https://nixos-cache-proxy.cofob.dev"
-      ];
-
     };
     extraOptions = ''
       extra-platforms = aarch64-darwin x86_64-darwin
       experimental-features = nix-command flakes
     '';
     linux-builder = {
-      enable = true;
+      # Not needed rn
+      enable = false;
       ephemeral = true;
       maxJobs = 8;
       systems = [
@@ -63,8 +60,9 @@
         persistent-apps = [
           "/System/Cryptexes/App/System/Applications/Safari.app"
           "/Applications/Telegram.app"
-          "/System/Applications/Messages.app"
+          "/System/Applications/Phone.app"
           "/System/Applications/FaceTime.app"
+          "/System/Applications/Messages.app"
           "/System/Applications/Music.app"
           "/System/Applications/TV.app"
           "/System/Applications/Podcasts.app"
