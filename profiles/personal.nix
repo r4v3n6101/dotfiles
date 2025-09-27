@@ -56,7 +56,7 @@
       extraConfig = { init.defaultBranch = "master"; };
       signing = {
         signByDefault = true;
-        key = "4C51A28DF1BBAECC";
+        key = "05D2BE42F3ECD7CC";
       };
     };
     neovim = {
@@ -101,32 +101,5 @@
     mbsync.enable = true;
   };
 
-  accounts =
-    let
-      defaults = import ./accounts/defaults.nix;
-      primary = import ./accounts/primary.nix;
-      junky = import ./accounts/junky.nix;
-    in
-    {
-      contact = {
-        basePath = ".contactdir";
-        accounts = {
-          primary = lib.recursiveUpdate defaults.contact primary.contact;
-        };
-      };
-
-      calendar = {
-        basePath = ".caldir";
-        accounts = {
-          primary = lib.recursiveUpdate defaults.calendar primary.calendar;
-        };
-      };
-
-      email = {
-        maildirBasePath = ".maildir";
-        accounts = {
-          junky = lib.recursiveUpdate defaults.email junky.email;
-        };
-      };
-    };
+  accounts = import ./accounts { inherit lib; };
 }
