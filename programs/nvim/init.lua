@@ -1,6 +1,3 @@
-require('lsp')
-require('rustaceanvim')
-
 vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -10,6 +7,7 @@ vim.opt.smartcase = true
 vim.opt.list = false
 vim.opt.termguicolors = true
 vim.opt.updatetime = 300
+vim.opt.undofile = true
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus' }
 vim.opt.completeopt:append { 'fuzzy', 'menuone', 'noinsert', 'popup' }
 vim.opt.expandtab = true
@@ -28,6 +26,9 @@ autocmd!
 autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup end
 ]], { output = false })
+
+require('lsp')
+require('rustaceanvim')
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
