@@ -3,6 +3,11 @@ return {
 
     {
         "stevearc/oil.nvim",
+        keys = {
+            {
+                "<leader>n", function() require "oil".toggle_float() end, desc = "Open oil float view [oil.nvim]",
+            }
+        },
         opts = {
             delete_to_trash = true,
         },
