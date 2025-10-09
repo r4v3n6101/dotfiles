@@ -12,7 +12,6 @@
       tmux
       tree
       tokei
-      git-crypt
       # Neovim
       nixd
     ];
@@ -25,17 +24,6 @@
   };
 
   programs = {
-    # Mail, calendars, contacts
-    khard.enable = true;
-    khal.enable = true;
-    vdirsyncer.enable = true;
-    mbsync.enable = true;
-    msmtp.enable = true;
-    neomutt = {
-      enable = true;
-      vimKeys = true;
-    };
-
     fish.enable = true;
     gpg.enable = true;
     ripgrep.enable = true;
@@ -56,7 +44,7 @@
       extraConfig = { init.defaultBranch = "master"; };
       signing = {
         signByDefault = true;
-        key = "05D2BE42F3ECD7CC";
+        key = "A8F93CE2157199C8";
       };
     };
     neovim = {
@@ -97,9 +85,5 @@
         "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
       ];
     };
-  } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
-    mbsync.enable = true;
   };
-
-  accounts = import ./accounts { inherit lib; };
 }

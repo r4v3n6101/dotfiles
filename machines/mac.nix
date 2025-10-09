@@ -59,7 +59,7 @@
         minimize-to-application = true;
         persistent-apps = [
           "/System/Cryptexes/App/System/Applications/Safari.app"
-          "/Applications/Telegram.app"
+          "${pkgs.telegram-desktop}/Applications/Telegram.app"
           "/System/Applications/Phone.app"
           "/System/Applications/FaceTime.app"
           "/System/Applications/Messages.app"
