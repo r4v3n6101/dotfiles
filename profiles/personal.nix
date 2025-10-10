@@ -5,6 +5,7 @@
       # Man pages
       man-pages
       man-pages-posix
+
       # Main utils I use
       htop
       nmap
@@ -12,8 +13,9 @@
       tmux
       tree
       tokei
+
       # Neovim
-      nixd
+      nil
     ];
   };
 

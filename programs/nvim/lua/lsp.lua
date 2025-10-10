@@ -1,5 +1,5 @@
 -- LSP enabling
-vim.lsp.enable({ 'lua_ls', 'nixd' })
+vim.lsp.enable({ 'lua_ls', 'nil' })
 
 -- Remove default bindings
 vim.keymap.del('n', 'grn')
