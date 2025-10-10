@@ -36,7 +36,11 @@
 
   environment = with pkgs; {
     shells = [ fish ];
-    systemPackages = [ iina google-chrome ];
+    systemPackages = [
+      (lib.hiPrio pkgs.uutils-coreutils-noprefix)
+      iina
+      google-chrome
+    ];
   };
 
   programs.fish.enable = true;
@@ -45,8 +49,10 @@
 
   system = {
     stateVersion = 6;
+
     # Will be removed in the future when all of attributes go away from system-wide config
     primaryUser = "r4v3n6101";
+
     defaults = {
       NSGlobalDomain = {
         AppleInterfaceStyle = "Dark";
