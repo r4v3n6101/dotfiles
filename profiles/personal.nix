@@ -1,4 +1,5 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   home = {
     stateVersion = "23.11";
     packages = with pkgs; [
@@ -43,7 +44,9 @@
       enable = true;
       userName = "r4v3n6101";
       userEmail = "raven6107@gmail.com";
-      extraConfig = { init.defaultBranch = "master"; };
+      extraConfig = {
+        init.defaultBranch = "master";
+      };
       signing = {
         signByDefault = true;
         key = "A8F93CE2157199C8";
@@ -82,7 +85,7 @@
       enable = true;
       enableSshSupport = true;
       enableScDaemon = true;
-      pinentry.package = pkgs.pinentry-tty;
+      pinentry.package = if (pkgs.stdenv.isDarwin) then pkgs.pinentry_mac else pkgs.pinentry-tty;
       sshKeys = [
         "B31A6DC9FACA32FBBF211AC441F830B2E9C0BD43"
       ];
