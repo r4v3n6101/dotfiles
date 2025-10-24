@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-tg.url = "github:nixos/nixpkgs/1a84f25919bcfa38926999f04fd774054c24fcbc";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -15,25 +16,37 @@
     mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, nix-darwin, home-manager, mac-app-util }:
+  outputs =
+    inputs@{ self
+    , nixpkgs
+    , nixpkgs-tg
+    , flake-utils
+    , nix-darwin
+    , home-manager
+    , mac-app-util
+    ,
+    }:
     let
       specialArgs = { inherit inputs; };
 
-      lixModule = { pkgs, ... }: {
-        nixpkgs.overlays = [
-          (final: prev: {
-            final = {
-              inherit (final.lixPackageSets.git)
-                nixpkgs-review
-                nix-eval-jobs
-                nix-fast-build
-                colmena;
-            };
-          })
-        ];
+      lixModule =
+        { pkgs, ... }:
+        {
+          nixpkgs.overlays = [
+            (final: prev: {
+              final = {
+                inherit (final.lixPackageSets.git)
+                  nixpkgs-review
+                  nix-eval-jobs
+                  nix-fast-build
+                  colmena
+                  ;
+              };
+            })
+          ];
 
-        nix.package = pkgs.lixPackageSets.git.lix;
-      };
+          nix.package = pkgs.lixPackageSets.git.lix;
+        };
 
       hmConfiguration = {
         home-manager = {
@@ -46,20 +59,24 @@
         };
       };
 
-      generic = flake-utils.lib.eachDefaultSystem (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
+      generic = flake-utils.lib.eachDefaultSystem (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
 
-        in {
+        in
+        {
           formatter = pkgs.nixpkgs-fmt;
           devShells.default = pkgs.mkShell {
             buildInputs = [
               pkgs.lua-language-server
             ];
           };
-        });
+        }
+      );
 
       darwinSystem = {
-        darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
+        darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
           inherit specialArgs;
 
           system = "aarch64-darwin";
@@ -67,7 +84,11 @@
             lixModule
             {
               nixpkgs = {
-                overlays = [ ];
+                overlays = [
+                  (final: prev: {
+                    telegram-desktop = nixpkgs-tg.legacyPackages.${system}.telegram-desktop;
+                  })
+                ];
                 config.allowUnfree = true;
               };
             }
