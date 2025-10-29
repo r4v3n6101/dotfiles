@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-tg.url = "github:nixos/nixpkgs/1a84f25919bcfa38926999f04fd774054c24fcbc";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -19,7 +18,6 @@
   outputs =
     inputs@{ self
     , nixpkgs
-    , nixpkgs-tg
     , flake-utils
     , nix-darwin
     , home-manager
@@ -62,7 +60,7 @@
       generic = flake-utils.lib.eachDefaultSystem (
         system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs { inherit system; };
 
         in
         {
@@ -76,7 +74,7 @@
       );
 
       darwinSystem = {
-        darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
+        darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
           inherit specialArgs;
 
           system = "aarch64-darwin";
@@ -84,11 +82,7 @@
             lixModule
             {
               nixpkgs = {
-                overlays = [
-                  (final: prev: {
-                    telegram-desktop = nixpkgs-tg.legacyPackages.${system}.telegram-desktop;
-                  })
-                ];
+                overlays = [ ];
                 config.allowUnfree = true;
               };
             }
