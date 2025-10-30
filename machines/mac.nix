@@ -1,11 +1,15 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   nix = {
     enable = true;
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
-      trusted-users = [ "root" "@admin" ];
+      trusted-users = [
+        "root"
+        "@admin"
+      ];
     };
     extraOptions = ''
       extra-platforms = aarch64-darwin x86_64-darwin
@@ -65,7 +69,7 @@
         minimize-to-application = true;
         persistent-apps = [
           "/System/Cryptexes/App/System/Applications/Safari.app"
-          "${pkgs.telegram-desktop}/Applications/Telegram.app"
+          "${pkgs.ayugram-desktop}/Applications/AyuGram.app"
           "/System/Applications/Phone.app"
           "/System/Applications/FaceTime.app"
           "/System/Applications/Messages.app"
