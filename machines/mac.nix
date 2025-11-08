@@ -1,29 +1,52 @@
 { pkgs, ... }:
 {
-
   nix = {
     enable = true;
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
+      sandbox = true;
+      extra-platforms = [
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       trusted-users = [
-        "root"
         "@admin"
+        "@wheel"
       ];
     };
-    extraOptions = ''
-      extra-platforms = aarch64-darwin x86_64-darwin
-      experimental-features = nix-command flakes
-    '';
-    linux-builder = {
-      # Not needed rn
+
+    # For bootstrapping
+    # linux-builder = {
+    #   enable = true;
+    #   package = pkgs.linux-builder-stable-release;
+    # };
+  };
+
+  nix-rosetta-builder = {
+    enable = true;
+    onDemand = true;
+    cores = 8;
+    memory = "8GiB";
+    diskSize = "50GiB";
+    onDemandLingerMinutes = 10;
+  };
+
+  services = {
+    virby = {
       enable = false;
-      ephemeral = true;
-      maxJobs = 8;
-      systems = [
-        "aarch64-linux"
-        "x86_64-linux"
-      ];
+      rosetta = true;
+      cores = 8;
+      memory = "8GiB";
+      diskSize = "50GiB";
+      onDemand = {
+        enable = true;
+        ttl = 10;
+      };
     };
   };
 
