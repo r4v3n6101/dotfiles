@@ -31,16 +31,16 @@
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      nixpkgs-for-linux-builder,
-      flake-utils,
-      home-manager,
-      nix-darwin,
-      mac-app-util,
-      nix-rosetta-builder,
-      virby,
+    inputs@{ self
+    , nixpkgs
+    , nixpkgs-for-linux-builder
+    , flake-utils
+    , home-manager
+    , nix-darwin
+    , mac-app-util
+    , nix-rosetta-builder
+    , virby
+    ,
     }:
     let
       specialArgs = { inherit inputs; };

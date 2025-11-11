@@ -21,10 +21,10 @@
     };
 
     # For bootstrapping
-    # linux-builder = {
-    #   enable = true;
-    #   package = pkgs.linux-builder-stable-release;
-    # };
+    linux-builder = {
+      enable = false;
+      package = pkgs.linux-builder-stable-release;
+    };
   };
 
   nix-rosetta-builder = {
@@ -36,6 +36,7 @@
     onDemandLingerMinutes = 10;
   };
 
+  # TODO : not working
   services = {
     virby = {
       enable = false;
