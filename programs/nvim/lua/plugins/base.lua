@@ -3,14 +3,14 @@ return {
 
     {
         "stevearc/oil.nvim",
-        keys = {
-            {
-                "<leader>n", function() require "oil".toggle_float() end, desc = "Open oil float view [oil.nvim]",
-            }
-        },
-        opts = {
-            delete_to_trash = true,
-        },
+        config = function()
+            require 'oil'.setup({
+                delete_to_trash = true,
+                default_file_explorer = true,
+            })
+
+            vim.keymap.set('n', '<leader>n', require 'oil'.toggle_float, { desc = "Open oil float view [oil.nvim]", })
+        end
     },
 
     {
@@ -47,14 +47,14 @@ return {
                     {
                         ">",
                         function()
-                            require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+                            require 'quicker'.expand({ before = 2, after = 2, add_to_existing = true })
                         end,
                         desc = "Expand quickfix context [quicker.nvim]",
                     },
                     {
                         "<",
                         function()
-                            require("quicker").collapse()
+                            require 'quicker'.collapse()
                         end,
                         desc = "Collapse quickfix context [quicker.nvim]",
                     },
