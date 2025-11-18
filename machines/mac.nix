@@ -1,11 +1,15 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
+  imports = [
+    inputs.mac-app-util.darwinModules.default
+    inputs.nix-rosetta-builder.darwinModules.default
+  ];
+
   nix = {
     enable = true;
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
-      sandbox = true;
       extra-platforms = [
         "aarch64-darwin"
         "x86_64-darwin"
@@ -21,10 +25,7 @@
     };
 
     # For bootstrapping
-    linux-builder = {
-      enable = false;
-      package = pkgs.linux-builder-stable-release;
-    };
+    linux-builder.enable = false;
   };
 
   nix-rosetta-builder = {
@@ -36,24 +37,14 @@
     onDemandLingerMinutes = 10;
   };
 
-  # TODO : not working
   services = {
-    virby = {
-      enable = false;
-      rosetta = true;
-      cores = 8;
-      memory = "8GiB";
-      diskSize = "50GiB";
-      onDemand = {
-        enable = true;
-        ttl = 10;
-      };
-    };
+    openssh.enable = true;
   };
 
   users.users.r4v3n6101 = {
     home = "/Users/r4v3n6101";
     shell = pkgs.fish;
+    openssh.authorizedKeys.keyFiles = [ ../keys/id_termius.pub ];
   };
 
   networking = {

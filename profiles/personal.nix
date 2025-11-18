@@ -1,5 +1,14 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+{
+  imports = [
+    inputs.mac-app-util.homeManagerModules.default
+  ];
+
   home = {
     stateVersion = "23.11";
     packages = with pkgs; [
