@@ -1,6 +1,16 @@
 return {
-    { "lambdalisue/suda.vim", },
-
+    {
+        "lambdalisue/suda.vim"
+    },
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+        end,
+        opts = {},
+    },
     {
         "stevearc/oil.nvim",
         config = function()
@@ -12,13 +22,11 @@ return {
             vim.keymap.set('n', '<leader>n', require 'oil'.toggle_float, { desc = "Open oil float view [oil.nvim]", })
         end
     },
-
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         opts = {}
     },
-
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
@@ -28,7 +36,6 @@ return {
         end,
         opts = {},
     },
-
     {
         'stevearc/quicker.nvim',
         event = "FileType qf",
@@ -62,14 +69,16 @@ return {
             })
         end
     },
-
+    {
+        'kevinhwang91/nvim-bqf',
+        event = "FileType qf",
+    },
     {
         'nvim-treesitter/nvim-treesitter',
         config = function()
             require 'nvim-treesitter.configs'.setup {
                 sync_install = false,
                 auto_install = true,
-                ignore_install = { "javascript" },
                 highlight = {
                     enable = true,
                     disable = { "rust" },
@@ -83,7 +92,6 @@ return {
             vim.wo.foldlevel = 99
         end
     },
-
     {
         'nvim-treesitter/nvim-treesitter-context',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
@@ -95,7 +103,6 @@ return {
                 { silent = true, desc = "Go to context (upwards) [nvim-treesitter-context]" })
         end
     },
-
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -129,7 +136,6 @@ return {
             vim.cmd([[colorscheme catppuccin]])
         end
     },
-
     {
         "nvim-tree/nvim-web-devicons",
         opts = {}
