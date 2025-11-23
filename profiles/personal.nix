@@ -26,6 +26,10 @@
 
       # Neovim
       nil
+
+      # Just software
+      qbittorrent-enhanced
+      google-chrome
     ];
   };
 
