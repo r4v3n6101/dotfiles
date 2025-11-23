@@ -116,6 +116,7 @@
             inherit specialArgs system;
             modules = [
               ./machines/pvxsrv.nix
+              ./machines/virt.nix
             ];
           };
         };
