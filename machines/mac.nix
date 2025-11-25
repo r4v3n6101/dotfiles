@@ -9,6 +9,7 @@
     enable = true;
     optimise.automatic = true;
     gc.automatic = true;
+    channel.enable = false;
     settings = {
       extra-platforms = [
         "aarch64-darwin"
@@ -34,7 +35,7 @@
     cores = 8;
     memory = "8GiB";
     diskSize = "50GiB";
-    onDemandLingerMinutes = 10;
+    onDemandLingerMinutes = 30;
   };
 
   services = {
@@ -58,6 +59,7 @@
     systemPackages = [
       (lib.hiPrio pkgs.uutils-coreutils-noprefix)
       iina
+      google-chrome
     ];
   };
 

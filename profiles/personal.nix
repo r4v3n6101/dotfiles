@@ -10,7 +10,7 @@
   ];
 
   home = {
-    stateVersion = "23.11";
+    stateVersion = "25.05";
     packages = with pkgs; [
       # Man pages
       man-pages
@@ -29,7 +29,6 @@
 
       # Just software
       qbittorrent-enhanced
-      google-chrome
     ];
   };
 

@@ -60,38 +60,69 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         -- Hightlight for documentation in completion menu
         -- FIXME: https://github.com/neovim/neovim/pull/32820
-        vim.api.nvim_create_autocmd('CompleteChanged', {
-            buffer = ev.buf,
+        vim.api.nvim_create_autocmd("CompleteChanged", {
             callback = function()
-                local info = vim.fn.complete_info({ 'selected' })
-                local completionItem = vim.tbl_get(vim.v.completed_item, 'user_data', 'nvim', 'lsp', 'completion_item')
-                if nil == completionItem then
-                    return
-                end
+                local event = vim.v.event
+                if not event or not event.completed_item then return end
 
-                local resolvedItem = vim.lsp.buf_request_sync(
-                    ev.buf,
-                    vim.lsp.protocol.Methods.completionItem_resolve,
-                    completionItem,
-                    500
-                )
-                if nil == resolvedItem then
-                    return
-                end
+                local cy = event.row
+                local cx = event.col
+                local cw = event.width
+                local ch = event.height
 
-                local docs = vim.tbl_get(resolvedItem[ev.data.client_id], 'result', 'documentation', 'value')
-                if nil == docs then
-                    return
-                end
+                local item = event.completed_item
+                local lsp_item = item.user_data and item.user_data.nvim and item.user_data.nvim.lsp.completion_item
+                local client = vim.lsp.get_clients({ bufnr = 0 })[1]
 
-                local winData = vim.api.nvim__complete_set(info['selected'], { info = docs })
-                if not winData.winid or not vim.api.nvim_win_is_valid(winData.winid) then
-                    return
-                end
+                if not client or not lsp_item then return end
 
-                vim.api.nvim_win_set_config(winData.winid, { border = 'rounded' })
-                vim.treesitter.start(winData.bufnr, 'markdown')
-                vim.wo[winData.winid].conceallevel = 3
+                client:request('completionItem/resolve', lsp_item, function(_, result)
+                    vim.cmd("pclose")
+
+                    if result and result.documentation then
+                        local docs = result.documentation.value or result.documentation
+                        if type(docs) == "table" then docs = table.concat(docs, "\n") end
+                        if not docs or docs == "" then return end
+
+                        local buf = vim.api.nvim_create_buf(false, true)
+                        vim.bo[buf].bufhidden = 'wipe'
+
+                        local contents = vim.lsp.util.convert_input_to_markdown_lines(docs)
+                        vim.api.nvim_buf_set_lines(buf, 0, -1, false, contents)
+                        vim.treesitter.start(buf, "markdown")
+
+                        local dx = cx + cw + 1
+                        local dw = 60
+                        local anchor = "NW"
+
+                        if dx + dw > vim.o.columns then
+                            dw = vim.o.columns - dx
+                            anchor = "NE"
+                        end
+
+                        local win = vim.api.nvim_open_win(buf, false, {
+                            relative = "editor",
+                            row = cy,
+                            col = dx,
+                            width = dw,
+                            height = ch,
+                            anchor = anchor,
+                            border = "rounded",
+                            style = "minimal",
+                            zindex = 60,
+                        })
+
+                        vim.wo[win].conceallevel = 2
+                        vim.wo[win].wrap = true
+                        vim.wo[win].previewwindow = true
+                    end
+                end)
+            end,
+        })
+
+        vim.api.nvim_create_autocmd("CompleteDone", {
+            callback = function()
+                vim.cmd("pclose")
             end
         })
     end

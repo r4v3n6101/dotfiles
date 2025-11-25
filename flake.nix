@@ -65,7 +65,6 @@
         system:
         let
           pkgs = import nixpkgs { inherit system; };
-
         in
         {
           formatter = pkgs.nixfmt-tree;
@@ -74,53 +73,65 @@
           };
         }
       );
-
-      darwinSystem =
-        let
-          system = "aarch64-darwin";
-          pkgs-unstable = import nixpkgs-unstable { inherit system; };
-        in
-        {
-          darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
-            inherit specialArgs system;
-            modules = [
-              {
-                nixpkgs = {
-                  config.allowUnfree = true;
-                  overlays = [
-                    (final: prev: {
-                      darwin = prev.darwin.overrideScope (
-                        final: prev: {
-                          linux-builder = pkgs-unstable.darwin.linux-builder;
-                        }
-                      );
-                    })
-                  ];
-                };
-              }
-
-              ./machines/mac.nix
-
-              home-manager.darwinModules.home-manager
-              hmConfiguration
-            ];
-          };
-        };
-
-      pvxsrv =
-        let
-          system = "x86_64-linux";
-        in
-        {
-          nixosConfigurations.pvxsrv = nixpkgs.lib.nixosSystem {
-            inherit specialArgs system;
-            modules = [
-              ./machines/pvxsrv.nix
-              ./machines/virt.nix
-            ];
-          };
-        };
-
     in
-    generic // darwinSystem // pvxsrv;
+    generic
+    // {
+      darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
+        inherit specialArgs;
+
+        system = "aarch64-darwin";
+        modules = [
+          {
+            nixpkgs = {
+              config.allowUnfree = true;
+              overlays = [
+                (final: prev: {
+                  darwin = prev.darwin.overrideScope (
+                    final: prev: {
+                      linux-builder = (import nixpkgs-unstable { inherit system; }).darwin.linux-builder;
+                    }
+                  );
+                })
+              ];
+            };
+          }
+
+          ./machines/mac.nix
+
+          home-manager.darwinModules.home-manager
+          hmConfiguration
+        ];
+      };
+
+      nixosConfigurations = {
+        pvxsrv = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+
+          system = "x86_64-linux";
+          modules = [
+            ./machines/pvxsrv.nix
+            ./machines/virt.nix
+          ];
+        };
+
+        linux-vm = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+
+          system = "aarch64-linux";
+          modules = [
+            {
+              nixpkgs = {
+                config.allowUnfree = true;
+                overlays = [ ];
+              };
+            }
+            ./machines/linux-vm.nix
+            ./machines/virt.nix
+
+            home-manager.nixosModules.home-manager
+            hmConfiguration
+          ];
+        };
+      };
+    };
 }
