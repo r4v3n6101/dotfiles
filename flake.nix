@@ -20,10 +20,6 @@
         cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
       };
     };
-    nix-rosetta-builder = {
-      url = "github:cpick/nix-rosetta-builder";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -114,7 +110,7 @@
           ];
         };
 
-        linux-vm = nixpkgs.lib.nixosSystem {
+        linux = nixpkgs.lib.nixosSystem {
           inherit specialArgs;
 
           system = "aarch64-linux";
@@ -125,7 +121,7 @@
                 overlays = [ ];
               };
             }
-            ./machines/linux-vm.nix
+            ./machines/linux.nix
             ./machines/virt.nix
 
             home-manager.nixosModules.home-manager

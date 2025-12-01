@@ -1,8 +1,12 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   imports = [
     inputs.mac-app-util.darwinModules.default
-    inputs.nix-rosetta-builder.darwinModules.default
   ];
 
   nix = {
@@ -25,17 +29,23 @@
       ];
     };
 
-    # For bootstrapping
-    linux-builder.enable = false;
-  };
-
-  nix-rosetta-builder = {
-    enable = true;
-    onDemand = true;
-    cores = 8;
-    memory = "8GiB";
-    diskSize = "50GiB";
-    onDemandLingerMinutes = 30;
+    linux-builder = {
+      enable = true;
+      ephemeral = true;
+      systems = [
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      config =
+        { ... }:
+        {
+          virtualisation = {
+            cores = 10;
+            memorySize = lib.mkForce (12 * 1024);
+            diskSize = lib.mkForce (50 * 1024);
+          };
+        };
+    };
   };
 
   services = {
@@ -59,7 +69,6 @@
     systemPackages = [
       (lib.hiPrio pkgs.uutils-coreutils-noprefix)
       iina
-      google-chrome
     ];
   };
 

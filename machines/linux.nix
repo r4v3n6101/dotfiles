@@ -56,18 +56,32 @@
 
   users.users.r4v3n6101 = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+    ];
     hashedPassword = "$y$j9T$IEi9t/TtMnNXJNRGVHrBl.$CEln6XVeo9Bgl5FcguJi5UZm0V.w7HcTjf37QfAlxFB";
   };
 
   networking = {
-    hostName = "vm";
+    hostName = "linux";
   };
 
+  security.rtkit.enable = true;
+
   services = {
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
+
+  virtualisation.docker.enable = true;
 
   environment.systemPackages = with pkgs; [ ];
 
