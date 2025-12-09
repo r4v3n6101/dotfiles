@@ -17,16 +17,30 @@
       generateKey = true;
     };
     secrets = {
-      amneziawg_pk = {
-        key = "private_key";
-        format = "yaml";
-        sopsFile = "${inputs.secrets}/secrets/amneziawg.yaml";
-      };
       "yggdrasil.json" = {
         key = "";
         format = "json";
         sopsFile = "${inputs.secrets}/secrets/yggdrasil.json";
       };
+
+      "awg_srv.conf" = {
+        format = "binary";
+        sopsFile = "${inputs.secrets}/secrets/awg_srv.conf";
+      };
+      "awg_peers.conf" = {
+        format = "binary";
+        sopsFile = "${inputs.secrets}/secrets/awg_peers.conf";
+      };
+    };
+    templates = {
+      "awg.conf".content = ''
+        ${config.sops.placeholder."awg_srv.conf"}
+
+        PostUp = ${pkgs.iptables}/bin/iptables -A INPUT -p udp --dport 5496 -m conntrack --ctstate NEW -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -A FORWARD -i eth0 -o awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -A FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -A FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50
+        PostDown = ${pkgs.iptables}/bin/iptables -D INPUT -p udp --dport 5496 -m conntrack --ctstate NEW -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -D FORWARD -i eth0 -o awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -D FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -D FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50
+
+        ${config.sops.placeholder."awg_peers.conf"}
+      '';
     };
   };
 
@@ -126,38 +140,7 @@
     wg-quick.interfaces.wg0 = {
       autostart = true;
       type = "amneziawg";
-
-      postUp = "${pkgs.iptables}/bin/iptables -A INPUT -p udp --dport 5496 -m conntrack --ctstate NEW -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -A FORWARD -i eth0 -o awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -A FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -A FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50";
-      postDown = "${pkgs.iptables}/bin/iptables -D INPUT -p udp --dport 5496 -m conntrack --ctstate NEW -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -D FORWARD -i eth0 -o awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -D FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -D FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50";
-
-      address = [ "10.0.0.1/16" ];
-      listenPort = 5496;
-      privateKeyFile = config.sops.secrets.amneziawg_pk.path;
-      peers = [
-        {
-          allowedIPs = [ "10.0.10.1/24" ];
-          publicKey = "VE56ikgJDSEgyWql6vt/AX0LZ/TdTuZVHXMzYo56z0E=";
-        }
-        {
-          allowedIPs = [ "10.0.20.1/24" ];
-          publicKey = "LYMeDAGQd+Mpwav3db8dQMov3yzV+Qe2J9VHtsn97GQ=";
-        }
-        {
-          allowedIPs = [ "10.0.30.1/24" ];
-          publicKey = "AVLsKVp9KufYEYTcroAYzcWtzTEaBCVU1PPMRoYAogQ=";
-        }
-      ];
-      extraOptions = {
-        Jc = 57;
-        Jmin = 302;
-        Jmax = 1001;
-        S1 = 34;
-        S2 = 89;
-        H1 = 594713031;
-        H2 = 1868774696;
-        H3 = 1475907813;
-        H4 = 537583515;
-      };
+      configFile = config.sops.templates."awg.conf".path;
     };
   };
 
