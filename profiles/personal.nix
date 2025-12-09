@@ -29,6 +29,7 @@
 
       # Just software
       qbittorrent-enhanced
+      firefox
     ];
   };
 

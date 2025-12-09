@@ -70,6 +70,9 @@
   security.rtkit.enable = true;
 
   services = {
+    openssh.enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -77,8 +80,6 @@
       pulse.enable = true;
       jack.enable = true;
     };
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
   };
 
   virtualisation.docker.enable = true;

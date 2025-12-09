@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -11,6 +10,10 @@
     };
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-rosetta-builder = {
+      url = "github:cpick/nix-rosetta-builder";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util = {
@@ -38,7 +41,6 @@
     inputs@{
       self,
       nixpkgs,
-      nixpkgs-unstable,
       flake-utils,
       home-manager,
       nix-darwin,
@@ -72,7 +74,7 @@
     in
     generic
     // {
-      darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem rec {
+      darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
         inherit specialArgs;
 
         system = "aarch64-darwin";
@@ -80,15 +82,7 @@
           {
             nixpkgs = {
               config.allowUnfree = true;
-              overlays = [
-                (final: prev: {
-                  darwin = prev.darwin.overrideScope (
-                    final: prev: {
-                      linux-builder = (import nixpkgs-unstable { inherit system; }).darwin.linux-builder;
-                    }
-                  );
-                })
-              ];
+              overlays = [ ];
             };
           }
 

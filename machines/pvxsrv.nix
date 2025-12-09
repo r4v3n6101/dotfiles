@@ -16,8 +16,17 @@
       keyFile = "/var/lib/sops-nix/key.txt";
       generateKey = true;
     };
-    secrets.private_key = {
-      sopsFile = "${inputs.secrets}/secrets/amneziawg.yaml";
+    secrets = {
+      amneziawg_pk = {
+        key = "private_key";
+        format = "yaml";
+        sopsFile = "${inputs.secrets}/secrets/amneziawg.yaml";
+      };
+      "yggdrasil.json" = {
+        key = "";
+        format = "json";
+        sopsFile = "${inputs.secrets}/secrets/yggdrasil.json";
+      };
     };
   };
 
@@ -123,15 +132,15 @@
 
       address = [ "10.0.0.1/16" ];
       listenPort = 5496;
-      privateKeyFile = config.sops.secrets.private_key.path;
+      privateKeyFile = config.sops.secrets.amneziawg_pk.path;
       peers = [
         {
           allowedIPs = [ "10.0.10.1/24" ];
-          publicKey = "aGh3+HryK0fVP4WArTh29gkZyle0PGwEee6sI4n3F3U=";
+          publicKey = "VE56ikgJDSEgyWql6vt/AX0LZ/TdTuZVHXMzYo56z0E=";
         }
         {
           allowedIPs = [ "10.0.20.1/24" ];
-          publicKey = "/CZKP4MXtaQdfamSmPRoCgIRdgJhuod3pXNkzzeBtm0=";
+          publicKey = "LYMeDAGQd+Mpwav3db8dQMov3yzV+Qe2J9VHtsn97GQ=";
         }
         {
           allowedIPs = [ "10.0.30.1/24" ];
@@ -171,6 +180,12 @@
         PermitRootLogin = "prohibit-password";
         PasswordAuthentication = false;
       };
+    };
+    yggdrasil = {
+      enable = true;
+      group = "wheel";
+      openMulticastPort = false;
+      configFile = config.sops.secrets."yggdrasil.json".path;
     };
   };
 

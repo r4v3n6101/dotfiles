@@ -7,12 +7,11 @@
 {
   imports = [
     inputs.mac-app-util.darwinModules.default
+    inputs.nix-rosetta-builder.darwinModules.default
   ];
 
   nix = {
     enable = true;
-    optimise.automatic = true;
-    gc.automatic = true;
     channel.enable = false;
     settings = {
       extra-platforms = [
@@ -28,24 +27,15 @@
         "@wheel"
       ];
     };
+  };
 
-    linux-builder = {
-      enable = true;
-      ephemeral = true;
-      systems = [
-        "aarch64-linux"
-        "x86_64-linux"
-      ];
-      config =
-        { ... }:
-        {
-          virtualisation = {
-            cores = 10;
-            memorySize = lib.mkForce (12 * 1024);
-            diskSize = lib.mkForce (50 * 1024);
-          };
-        };
-    };
+  nix-rosetta-builder = {
+    enable = true;
+    onDemand = true;
+    cores = 10;
+    memory = "12GiB";
+    diskSize = "50GiB";
+    onDemandLingerMinutes = 30;
   };
 
   services = {
