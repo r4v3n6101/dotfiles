@@ -98,11 +98,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1765980955,
-        "narHash": "sha256-rB45jv4uwC90vM9UZ70plfvY/2Kdygs+zlQ07dGQFk4=",
+        "lastModified": 1766272291,
+        "narHash": "sha256-nyFTKwXIOrHHVW3HbsqnITcadrbWPQ/n1Yu5GMZZ+NA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "89c9508bbe9b40d36b3dc206c2483ef176f15173",
+        "rev": "4dc3c91c50d676180cc5e45b8bff0b3ced052ced",
         "type": "github"
       },
       "original": {
@@ -216,6 +216,22 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1764440730,
+        "narHash": "sha256-ZlJTNLUKQRANlLDomuRWLBCH5792x+6XUJ4YdFRjtO4=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "9154f4569b6cdfd3c595851a6ba51bfaa472d9f3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1754340878,
@@ -234,11 +250,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1766164147,
-        "narHash": "sha256-2Rxo0zST4eZeI0jrEDOfheunu4F8y9c4v2Pl1E2m4os=",
+        "lastModified": 1766274929,
+        "narHash": "sha256-ax5hCj2yM2E/AxQ0hderoC5P0awOjl4COM1081qINWM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e5e89bdf723867244454e03e0fff52d151226bb1",
+        "rev": "2fa5eae119ef4411a784c3575eb709aaf9f78be8",
         "type": "github"
       },
       "original": {
@@ -256,6 +272,7 @@
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
         "nix-rosetta-builder": "nix-rosetta-builder",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "secrets": "secrets",
         "sops-nix": "sops-nix"
@@ -264,11 +281,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1765264190,
-        "narHash": "sha256-A+dk2HyA5EyhOM8EQ0R90TCcDxBzsDlguyF3HTO0T4M=",
+        "lastModified": 1766277680,
+        "narHash": "sha256-Wym+NJhT0O1udxzVFFwDu3E6rwNKZbCalGhHywfZSkc=",
         "ref": "refs/heads/master",
-        "rev": "6791b7b398260849b16bdaba80d7001de567d5fd",
-        "revCount": 3,
+        "rev": "fcc6316cfb3b9ab2e8784ee2048fd5f5aad734c9",
+        "revCount": 5,
         "type": "git",
         "url": "ssh://git@github.com/r4v3n6101/secrets.git"
       },

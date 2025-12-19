@@ -100,8 +100,6 @@
           "/System/Applications/Calendar.app"
           "/System/Applications/Reminders.app"
           "/System/Applications/Notes.app"
-          "/Applications/Numbers.app"
-          "/Applications/Pages.app"
           "/System/Applications/iPhone Mirroring.app"
           "/System/Applications/Mail.app"
         ];

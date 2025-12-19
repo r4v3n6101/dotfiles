@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
     flake-utils.url = "github:numtide/flake-utils";
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +25,7 @@
         cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
       };
     };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,21 +61,21 @@
           users.r4v3n6101 = import ./profiles/personal.nix;
         };
       };
-
-      generic = flake-utils.lib.eachDefaultSystem (
-        system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          formatter = pkgs.nixfmt-tree;
-          devShells.default = pkgs.mkShell {
-            buildInputs = [ pkgs.lua-language-server ];
-          };
-        }
-      );
     in
-    generic
+
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        formatter = pkgs.nixfmt-tree;
+        devShells.default = pkgs.mkShell {
+          buildInputs = [ pkgs.lua-language-server ];
+        };
+      }
+    )
+
     // {
       darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
         inherit specialArgs;
@@ -103,23 +106,12 @@
             ./machines/virt.nix
           ];
         };
-
-        linux = nixpkgs.lib.nixosSystem {
+        rpi4 = nixpkgs.lib.nixosSystem {
           inherit specialArgs;
 
           system = "aarch64-linux";
           modules = [
-            {
-              nixpkgs = {
-                config.allowUnfree = true;
-                overlays = [ ];
-              };
-            }
-            ./machines/linux.nix
-            ./machines/virt.nix
-
-            home-manager.nixosModules.home-manager
-            hmConfiguration
+            ./machines/rpi4.nix
           ];
         };
       };

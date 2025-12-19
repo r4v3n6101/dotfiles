@@ -20,16 +20,16 @@
       "yggdrasil.json" = {
         key = "";
         format = "json";
-        sopsFile = "${inputs.secrets}/secrets/yggdrasil.json";
+        sopsFile = "${inputs.secrets}/pvxsrv/yggdrasil.json";
       };
 
       "awg_srv.conf" = {
         format = "binary";
-        sopsFile = "${inputs.secrets}/secrets/awg_srv.conf";
+        sopsFile = "${inputs.secrets}/pvxsrv/awg_srv.conf";
       };
       "awg_peers.conf" = {
         format = "binary";
-        sopsFile = "${inputs.secrets}/secrets/awg_peers.conf";
+        sopsFile = "${inputs.secrets}/pvxsrv/awg_peers.conf";
       };
     };
     templates = {
@@ -45,6 +45,7 @@
   };
 
   nix = {
+    channel.enable = false;
     optimise.automatic = true;
     gc.automatic = true;
     settings = {
