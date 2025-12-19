@@ -79,6 +79,10 @@
         "com.apple.sound.beep.feedback" = 1;
       };
       dock = {
+        autohide = true;
+        autohide-delay = 0.0;
+        autohide-time-modifier = 1.0;
+        largesize = 105;
         magnification = true;
         mineffect = "genie";
         minimize-to-application = true;
@@ -88,6 +92,7 @@
           "/System/Applications/Phone.app"
           "/System/Applications/FaceTime.app"
           "/System/Applications/Messages.app"
+          "/System/Applications/Books.app"
           "/System/Applications/Music.app"
           "/System/Applications/TV.app"
           "/System/Applications/Podcasts.app"
@@ -95,6 +100,9 @@
           "/System/Applications/Calendar.app"
           "/System/Applications/Reminders.app"
           "/System/Applications/Notes.app"
+          "/Applications/Numbers.app"
+          "/Applications/Pages.app"
+          "/System/Applications/iPhone Mirroring.app"
           "/System/Applications/Mail.app"
         ];
         persistent-others = [
