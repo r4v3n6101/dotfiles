@@ -44,6 +44,8 @@
     };
   };
 
+  documentation.enable = false;
+
   nix = {
     channel.enable = false;
     optimise.automatic = true;

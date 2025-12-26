@@ -21,8 +21,15 @@
         format = "binary";
         sopsFile = "${inputs.secrets}/rpi4/wireless.conf";
       };
+      "yggdrasil.json" = {
+        key = "";
+        format = "json";
+        sopsFile = "${inputs.secrets}/rpi4/yggdrasil.json";
+      };
     };
   };
+
+  documentation.enable = false;
 
   nix = {
     channel.enable = false;
@@ -46,12 +53,18 @@
   };
 
   boot = {
-    initrd.allowMissingModules = true;
+    initrd.availableKernelModules = [
+      "xhci_hcd"
+      "scsi_mod"
+      "sd_mod"
+      "usb_storage"
+      "uas"
+    ];
     extraModulePackages = [ config.boot.kernelPackages.rtw88 ];
-    loader = {
-      grub.enable = false;
-      generic-extlinux-compatible.enable = true;
-    };
+  };
+
+  hardware.raspberry-pi."4".gpio = {
+    enable = true;
   };
 
   security.sudo = {
@@ -61,7 +74,10 @@
 
   users.users.admin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "gpio"
+    ];
     hashedPassword = "!";
     openssh.authorizedKeys.keyFiles = [
       ../keys/id_r4mac.pub
@@ -94,9 +110,20 @@
         PasswordAuthentication = false;
       };
     };
+    yggdrasil = {
+      enable = true;
+      group = "wheel";
+      openMulticastPort = true;
+      configFile = config.sops.secrets."yggdrasil.json".path;
+    };
   };
 
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [
+    libraspberrypi
+    raspberrypi-eeprom
+    usbutils
+    libgpiod
+  ];
 
   time.timeZone = "Europe/Moscow";
   i18n.defaultLocale = "en_US.UTF-8";
