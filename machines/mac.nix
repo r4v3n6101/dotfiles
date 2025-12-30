@@ -27,6 +27,10 @@
         "@wheel"
       ];
     };
+    linux-builder = {
+      enable = true;
+      ephemeral = true;
+    };
   };
 
   nix-rosetta-builder = {

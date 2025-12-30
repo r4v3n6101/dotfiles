@@ -17,8 +17,6 @@ return {
                 checkThirdParty = false,
                 library = {
                     vim.env.VIMRUNTIME,
-                    -- vim.api.nvim_get_runtime_file('', true),
-                    -- '${3rd}/busted/library'
                 },
             },
         },

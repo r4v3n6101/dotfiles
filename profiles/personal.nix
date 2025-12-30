@@ -40,6 +40,7 @@
   };
 
   programs = {
+    bash.enable = true;
     fish.enable = true;
     gpg.enable = true;
     ripgrep.enable = true;

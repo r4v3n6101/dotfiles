@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
-    nixpkgs-torrserver.url = "github:r4v3n6101/nixpkgs/torrserver";
     flake-utils.url = "github:numtide/flake-utils";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -15,24 +14,21 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-rosetta-builder = {
-      url = "github:cpick/nix-rosetta-builder";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     mac-app-util = {
       url = "github:hraban/mac-app-util";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-rosetta-builder = {
+      url = "github:cpick/nix-rosetta-builder";
+      inputs.nixpkgs.url = "github:nixos/nixpkgs/c0b0e0fddf73fd517c3471e546c0df87a42d53f4";
     };
 
     disko = {
-      url = "github:nix-community/disko";
+      url = "github:nix-community/disko/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
-      url = "github:Mic92/sops-nix";
+      url = "github:Mic92/sops-nix/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
@@ -45,7 +41,6 @@
     inputs@{
       self,
       nixpkgs,
-      nixpkgs-torrserver,
       flake-utils,
       home-manager,
       nix-darwin,
@@ -108,20 +103,11 @@
             ./machines/virt.nix
           ];
         };
-        rpi4 = nixpkgs.lib.nixosSystem rec {
+        rpi4 = nixpkgs.lib.nixosSystem {
           inherit specialArgs;
 
           system = "aarch64-linux";
           modules = [
-            {
-              nixpkgs = {
-                overlays = [
-                  (final: prev: {
-                    torrserver = nixpkgs-torrserver.legacyPackages.${system}.torrserver;
-                  })
-                ];
-              };
-            }
             ./machines/rpi4.nix
           ];
         };
