@@ -7,7 +7,7 @@
 {
   imports = [
     inputs.mac-app-util.darwinModules.default
-    inputs.nix-rosetta-builder.darwinModules.default
+    inputs.virby.darwinModules.default
   ];
 
   nix = {
@@ -27,23 +27,29 @@
         "@wheel"
       ];
     };
+
     linux-builder = {
       enable = true;
       ephemeral = true;
+      speedFactor = 1;
     };
-  };
-
-  nix-rosetta-builder = {
-    enable = true;
-    onDemand = true;
-    cores = 10;
-    memory = "12GiB";
-    diskSize = "50GiB";
-    onDemandLingerMinutes = 30;
   };
 
   services = {
     openssh.enable = true;
+    virby = {
+      enable = true;
+      debug = true;
+      rosetta = true;
+      speedFactor = 2;
+      cores = 10;
+      memory = 8192;
+      diskSize = "50GiB";
+      onDemand = {
+        enable = true;
+        ttl = 180;
+      };
+    };
   };
 
   users.users.r4v3n6101 = {
