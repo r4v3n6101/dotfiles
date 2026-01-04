@@ -21,10 +21,9 @@
         format = "binary";
         sopsFile = "${inputs.secrets}/rpi4/wireless.conf";
       };
-      "yggdrasil.json" = {
-        key = "";
-        format = "json";
-        sopsFile = "${inputs.secrets}/rpi4/yggdrasil.json";
+      "yggdrasil.key" = {
+        format = "binary";
+        sopsFile = "${inputs.secrets}/rpi4/yggdrasil.key";
       };
     };
   };
@@ -114,7 +113,13 @@
       enable = true;
       group = "wheel";
       openMulticastPort = true;
-      configFile = config.sops.secrets."yggdrasil.json".path;
+      settings = {
+        PrivateKeyPath = config.sops.secrets."yggdrasil.key".path;
+        Peers = [
+          "tcp://ip4.01.msk.ru.dioni.su:9002"
+          "tcp://yggdrasil.1337.moe:7676"
+        ];
+      };
     };
   };
 

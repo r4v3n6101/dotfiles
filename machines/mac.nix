@@ -28,12 +28,6 @@
         "@wheel"
       ];
     };
-
-    linux-builder = {
-      enable = true;
-      ephemeral = true;
-      speedFactor = 1;
-    };
   };
 
   services = {
@@ -46,7 +40,6 @@
       enable = true;
       debug = true;
       rosetta = true;
-      speedFactor = 2;
       cores = 10;
       memory = 8192;
       diskSize = "50GiB";

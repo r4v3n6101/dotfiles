@@ -9,9 +9,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    virby.url = "github:quinneden/virby-nix-darwin";
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    virby = {
+      url = "github:quinneden/virby-nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util = {

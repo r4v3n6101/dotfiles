@@ -17,10 +17,9 @@
       generateKey = true;
     };
     secrets = {
-      "yggdrasil.json" = {
-        key = "";
-        format = "json";
-        sopsFile = "${inputs.secrets}/pvxsrv/yggdrasil.json";
+      "yggdrasil.key" = {
+        format = "binary";
+        sopsFile = "${inputs.secrets}/pvxsrv/yggdrasil.key";
       };
 
       "awg_srv.conf" = {
@@ -171,7 +170,13 @@
       enable = true;
       group = "wheel";
       openMulticastPort = false;
-      configFile = config.sops.secrets."yggdrasil.json".path;
+      settings = {
+        PrivateKeyPath = config.sops.secrets."yggdrasil.key".path;
+        Peers = [
+          "quic://[2a12:5940:b1a0::2]:65535"
+          "tls://n.ygg.yt:443"
+        ];
+      };
     };
   };
 
