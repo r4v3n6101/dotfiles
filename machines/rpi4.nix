@@ -19,6 +19,7 @@
     secrets = {
       "wireless.conf" = {
         format = "binary";
+        owner = "wpa_supplicant";
         sopsFile = "${inputs.secrets}/rpi4/wireless.conf";
       };
       "yggdrasil.key" = {
@@ -52,13 +53,16 @@
   };
 
   boot = {
-    initrd.availableKernelModules = [
-      "xhci_hcd"
-      "scsi_mod"
-      "sd_mod"
-      "usb_storage"
-      "uas"
-    ];
+    initrd = {
+      allowMissingModules = true;
+      availableKernelModules = [
+        "xhci_hcd"
+        "scsi_mod"
+        "sd_mod"
+        "usb_storage"
+      ];
+    };
+    blacklistedKernelModules = [ "uas" ];
     extraModulePackages = [ config.boot.kernelPackages.rtw88 ];
   };
 

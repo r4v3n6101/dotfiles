@@ -13,7 +13,7 @@ return {
                         else
                             gs.nav_hunk('next')
                         end
-                    end, { buffer = bufnr, desc = "Next hunk [gitsigns.nvim]", expr = true })
+                    end, { buffer = bufnr, desc = "Next hunk [gitsigns.nvim]" })
 
                     vim.keymap.set('n', '[h', function()
                         if vim.wo.diff then
@@ -21,7 +21,7 @@ return {
                         else
                             gs.nav_hunk('prev')
                         end
-                    end, { buffer = bufnr, desc = "Previous hunk [gitsigns.nvim]", expr = true })
+                    end, { buffer = bufnr, desc = "Previous hunk [gitsigns.nvim]" })
 
                     vim.keymap.set('n', '<leader>hs', gs.stage_hunk,
                         { buffer = bufnr, desc = "Stage hunk [gitsigns.nvim]" })

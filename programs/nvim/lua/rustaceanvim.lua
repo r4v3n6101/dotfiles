@@ -31,16 +31,6 @@ vim.g.rustaceanvim = function()
             adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
         },
         server = {
-            handlers = {
-                ["experimental/serverStatus"] = function(_, result, ctx, _)
-                    if result.quiescent then
-                        for _, bufnr in ipairs(vim.lsp.get_buffers_by_client_id(ctx.client_id)) do
-                            vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-                            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                        end
-                    end
-                end,
-            },
             default_settings = {
                 ["rust-analyzer"] = {
                     files = {
