@@ -17,11 +17,6 @@
       generateKey = true;
     };
     secrets = {
-      "wireless.conf" = {
-        format = "binary";
-        owner = "wpa_supplicant";
-        sopsFile = "${inputs.secrets}/rpi4/wireless.conf";
-      };
       "yggdrasil.key" = {
         format = "binary";
         sopsFile = "${inputs.secrets}/rpi4/yggdrasil.key";
@@ -59,15 +54,18 @@
         "xhci_hcd"
         "scsi_mod"
         "sd_mod"
+        "uas"
         "usb_storage"
       ];
     };
-    blacklistedKernelModules = [ "uas" ];
-    extraModulePackages = [ config.boot.kernelPackages.rtw88 ];
+    kernelParams = [ "usb-storage.quirks=7825:a2a4:u" ];
   };
 
-  hardware.raspberry-pi."4".gpio = {
-    enable = true;
+  hardware = {
+    enableRedistributableFirmware = true;
+    raspberry-pi."4".gpio = {
+      enable = true;
+    };
   };
 
   security.sudo = {
@@ -94,13 +92,6 @@
     wireless = {
       enable = true;
       allowAuxiliaryImperativeNetworks = true;
-      secretsFile = config.sops.secrets."wireless.conf".path;
-      networks = {
-        home = {
-          ssid = "🤓";
-          pskRaw = "ext:psk_home";
-        };
-      };
     };
   };
 

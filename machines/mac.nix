@@ -8,7 +8,6 @@
   imports = [
     inputs.mac-app-util.darwinModules.default
     inputs.virby.darwinModules.default
-    inputs.nix-torrserver.darwinModules.default
   ];
 
   nix = {
@@ -32,10 +31,6 @@
 
   services = {
     openssh.enable = true;
-    torrserver = {
-      enable = true;
-      port = 5555;
-    };
     virby = {
       enable = true;
       debug = true;

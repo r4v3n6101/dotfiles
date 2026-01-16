@@ -17,7 +17,7 @@
       man-pages-posix
 
       # Main utils I use
-      htop
+      btop
       nmap
       iperf
       tmux
@@ -29,7 +29,6 @@
 
       # Just software
       qbittorrent-enhanced
-      firefox
     ];
   };
 
