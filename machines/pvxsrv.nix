@@ -30,6 +30,11 @@
         format = "binary";
         sopsFile = "${inputs.secrets}/pvxsrv/awg_peers.conf";
       };
+
+      "mtproto.env" = {
+        format = "dotenv";
+        sopsFile = "${inputs.secrets}/pvxsrv/mtproto.env";
+      };
     };
     templates = {
       "awg.conf".content = ''
@@ -134,11 +139,13 @@
     hostName = "pvxsrv";
     firewall = {
       allowedTCPPorts = [
-        20000
+        443
         5496
+        20000
       ];
       allowedUDPPorts = [ 5496 ];
     };
+
     wg-quick.interfaces.wg0 = {
       autostart = true;
       type = "amneziawg";
@@ -178,6 +185,18 @@
         ];
       };
     };
+  };
+
+  virtualisation.oci-containers.containers.mtproto-proxy = {
+    image = "telegrammessenger/proxy:latest";
+    autoStart = true;
+    ports = [ "443:443" ];
+    environmentFiles = [
+      config.sops.secrets."mtproto.env".path
+    ];
+    volumes = [
+      "mtproto-proxy-data:/data"
+    ];
   };
 
   time.timeZone = "Europe/Stockholm";

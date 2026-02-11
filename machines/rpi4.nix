@@ -63,8 +63,11 @@
 
   hardware = {
     enableRedistributableFirmware = true;
-    raspberry-pi."4".gpio = {
-      enable = true;
+    raspberry-pi."4" = {
+      fkms-3d.enable = true;
+      gpio = {
+        enable = true;
+      };
     };
   };
 
@@ -89,10 +92,6 @@
   networking = {
     hostName = "rpi4";
     useDHCP = true;
-    wireless = {
-      enable = true;
-      allowAuxiliaryImperativeNetworks = true;
-    };
   };
 
   services = {
