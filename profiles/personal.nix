@@ -13,14 +13,13 @@
     stateVersion = "25.05";
     packages = with pkgs; [
       # Man pages
+      tldr
       man-pages
       man-pages-posix
 
-      # Main utils I use
-      btop
+      # Main utils
       nmap
       iperf
-      tmux
       tree
       tokei
 
@@ -41,18 +40,34 @@
   programs = {
     bash.enable = true;
     fish.enable = true;
+    tmux.enable = true;
     gpg.enable = true;
-    ripgrep.enable = true;
     nh.enable = true;
+    bat.enable = true;
+    btop.enable = true;
+    fd.enable = true;
+    ripgrep.enable = true;
 
     man = {
       enable = true;
       generateCaches = false;
     };
 
+    television = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+    };
+
+    nix-search-tv = {
+      enable = true;
+      enableTelevisionIntegration = true;
+    };
+
     direnv = {
       enable = true;
       enableBashIntegration = true;
+      enableFishIntegration = true;
       nix-direnv.enable = true;
     };
 
