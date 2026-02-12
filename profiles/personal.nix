@@ -21,14 +21,11 @@
       xdg-utils
       nmap
       iperf
-      tree
+      broot
       tokei
 
       # Neovim
       nil
-
-      # Just software
-      qbittorrent-enhanced
     ];
   };
 
@@ -48,6 +45,7 @@
     btop.enable = true;
     fd.enable = true;
     ripgrep.enable = true;
+    rtorrent.enable = true;
 
     man = {
       enable = true;
