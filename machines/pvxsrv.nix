@@ -127,13 +127,22 @@
 
   users.users.admin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+    ];
     hashedPassword = "!";
     openssh.authorizedKeys.keyFiles = [
       ../keys/id_r4mac.pub
       ../keys/id_termius.pub
     ];
   };
+
+  environment.systemPackages = with pkgs; [
+    amneziawg-tools
+    neovim
+    kitty
+  ];
 
   networking = {
     hostName = "pvxsrv";
@@ -152,12 +161,6 @@
       configFile = config.sops.templates."awg.conf".path;
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    amneziawg-tools
-    neovim
-    kitty
-  ];
 
   services = {
     cloud-init = {
@@ -187,16 +190,25 @@
     };
   };
 
-  virtualisation.oci-containers.containers.mtproto-proxy = {
-    image = "telegrammessenger/proxy:latest";
-    autoStart = true;
-    ports = [ "443:443" ];
-    environmentFiles = [
-      config.sops.secrets."mtproto.env".path
-    ];
-    volumes = [
-      "mtproto-proxy-data:/data"
-    ];
+  virtualisation = {
+    docker = {
+      enable = true;
+    };
+
+    oci-containers = {
+      backend = "docker";
+      containers.mtproto-proxy = {
+        image = "telegrammessenger/proxy:latest";
+        autoStart = true;
+        ports = [ "[::]:443:443" ];
+        environmentFiles = [
+          config.sops.secrets."mtproto.env".path
+        ];
+        volumes = [
+          "mtproto-proxy-data:/data"
+        ];
+      };
+    };
   };
 
   time.timeZone = "Europe/Stockholm";
