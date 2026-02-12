@@ -83,10 +83,7 @@
 
   users.users.admin = {
     isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "gpio"
-    ];
+    extraGroups = [ "wheel" ];
     hashedPassword = "!";
     openssh.authorizedKeys.keyFiles = [
       ../keys/id_r4mac.pub
@@ -105,8 +102,10 @@
   networking = {
     hostName = "rpi4";
     useDHCP = true;
-    firewall.allowedTCPPorts = [ 3456 ];
-    firewall.allowedUDPPorts = [ 5496 ];
+    firewall.allowedTCPPorts = [
+      3456
+      5000
+    ];
   };
 
   services = {
@@ -131,16 +130,14 @@
         ];
       };
     };
-    yggdrasil-jumper = {
-      enable = true;
-    };
+    yggdrasil-jumper.enable = true;
   };
 
   systemd.services.forward-traffic = {
     description = "Forward traffic to the final node";
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStart = "${lib.getExe pkgs.gost} $ROUTE1";
+      ExecStart = "${lib.getExe pkgs.gost} $ROUTE1 $ROUTE2";
       EnvironmentFile = config.sops.secrets."gost.env".path;
       Restart = "always";
       RestartSec = 5;

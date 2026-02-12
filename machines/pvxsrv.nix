@@ -35,6 +35,12 @@
         format = "dotenv";
         sopsFile = "${inputs.secrets}/pvxsrv/mtproto.env";
       };
+
+      "xray.json" = {
+        key = "";
+        format = "json";
+        sopsFile = "${inputs.secrets}/pvxsrv/xray.json";
+      };
     };
     templates = {
       "awg.conf".content = ''
@@ -117,6 +123,8 @@
     kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
     };
   };
 
@@ -147,7 +155,10 @@
   networking = {
     hostName = "pvxsrv";
     firewall = {
-      allowedTCPPorts = [ 3456 ];
+      allowedTCPPorts = [
+        3456
+        5000
+      ];
       allowedUDPPorts = [ 5496 ];
     };
 
@@ -173,6 +184,7 @@
         PasswordAuthentication = false;
       };
     };
+
     yggdrasil = {
       enable = true;
       group = "wheel";
@@ -186,6 +198,11 @@
       };
     };
     yggdrasil-jumper.enable = true;
+
+    xray = {
+      enable = true;
+      settingsFile = config.sops.secrets."xray.json".path;
+    };
   };
 
   virtualisation = {
