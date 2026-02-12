@@ -147,11 +147,7 @@
   networking = {
     hostName = "pvxsrv";
     firewall = {
-      allowedTCPPorts = [
-        443
-        5496
-        20000
-      ];
+      allowedTCPPorts = [ 3456 ];
       allowedUDPPorts = [ 5496 ];
     };
 
@@ -170,6 +166,7 @@
     };
     openssh = {
       enable = true;
+      openFirewall = true;
       ports = [ 20000 ];
       settings = {
         PermitRootLogin = "prohibit-password";
@@ -188,19 +185,21 @@
         ];
       };
     };
+    yggdrasil-jumper.enable = true;
   };
 
   virtualisation = {
-    docker = {
-      enable = true;
-    };
+    docker.enable = true;
 
     oci-containers = {
       backend = "docker";
       containers.mtproto-proxy = {
         image = "telegrammessenger/proxy:latest";
         autoStart = true;
-        ports = [ "[::]:443:443" ];
+        ports = [
+          "[::]:3456:443"
+          "0.0.0.0:3456:443"
+        ];
         environmentFiles = [
           config.sops.secrets."mtproto.env".path
         ];
