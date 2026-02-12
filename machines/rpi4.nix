@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
@@ -20,6 +21,10 @@
       "yggdrasil.key" = {
         format = "binary";
         sopsFile = "${inputs.secrets}/rpi4/yggdrasil.key";
+      };
+      "gost.env" = {
+        format = "dotenv";
+        sopsFile = "${inputs.secrets}/rpi4/gost.env";
       };
     };
   };
@@ -89,14 +94,25 @@
     ];
   };
 
+  environment.systemPackages = with pkgs; [
+    neovim
+    libraspberrypi
+    raspberrypi-eeprom
+    usbutils
+    libgpiod
+  ];
+
   networking = {
     hostName = "rpi4";
     useDHCP = true;
+    firewall.allowedTCPPorts = [ 3456 ];
+    firewall.allowedUDPPorts = [ 5496 ];
   };
 
   services = {
     openssh = {
       enable = true;
+      openFirewall = true;
       ports = [ 20202 ];
       settings = {
         PermitRootLogin = "prohibit-password";
@@ -115,14 +131,21 @@
         ];
       };
     };
+    yggdrasil-jumper = {
+      enable = true;
+    };
   };
 
-  environment.systemPackages = with pkgs; [
-    libraspberrypi
-    raspberrypi-eeprom
-    usbutils
-    libgpiod
-  ];
+  systemd.services.forward-traffic = {
+    description = "Forward traffic to the final node";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${lib.getExe pkgs.gost} $ROUTE1";
+      EnvironmentFile = config.sops.secrets."gost.env".path;
+      Restart = "always";
+      RestartSec = 5;
+    };
+  };
 
   time.timeZone = "Europe/Moscow";
   i18n.defaultLocale = "en_US.UTF-8";
