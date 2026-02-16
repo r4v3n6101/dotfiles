@@ -8,10 +8,24 @@
 {
   imports = [
     inputs.mac-app-util.homeManagerModules.default
+    inputs.sops-nix.homeManagerModules.sops
   ];
+
+  sops = {
+    gnupg.home = config.programs.gpg.homedir;
+    secrets = {
+      "context7.key" = {
+        format = "binary";
+        sopsFile = "${inputs.secrets}/home-manager/context7.key";
+      };
+    };
+  };
 
   home = {
     stateVersion = "25.05";
+    sessionVariables = {
+      CONTEXT7_API_KEY = "$(cat ${config.sops.secrets."context7.key".path})";
+    };
     packages = with pkgs; [
       # Man pages
       man-pages
@@ -192,6 +206,23 @@
         macos_option_as_alt = true;
         toggle_macos_secure_keyboard_entry = false;
         macos_quit_when_last_window_closed = true;
+      };
+    };
+
+    codex = {
+      enable = true;
+      enableMcpIntegration = true;
+    };
+
+    mcp = {
+      enable = true;
+      servers = {
+        context7 = {
+          url = "https://mcp.context7.com/mcp";
+          headers = {
+            CONTEXT7_API_KEY = "{env:CONTEXT7_API_KEY}";
+          };
+        };
       };
     };
   };
