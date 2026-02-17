@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    inputs.mac-app-util.homeManagerModules.default
+    inputs.nix-index-database.homeModules.default
     inputs.sops-nix.homeManagerModules.sops
   ];
 
@@ -50,6 +50,7 @@
   };
 
   programs = {
+    nix-index-database.comma.enable = true;
     bash.enable = true;
     fish.enable = true;
     tmux.enable = true;
