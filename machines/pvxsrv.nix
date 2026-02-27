@@ -149,7 +149,6 @@
   environment.systemPackages = with pkgs; [
     amneziawg-tools
     neovim
-    kitty
   ];
 
   networking = {

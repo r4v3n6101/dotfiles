@@ -92,7 +92,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    neovim
     libraspberrypi
     raspberrypi-eeprom
     usbutils
