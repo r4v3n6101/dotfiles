@@ -22,44 +22,28 @@
         sopsFile = "${inputs.secrets}/pvxsrv/yggdrasil.key";
       };
 
-      "awg_srv.conf" = {
-        format = "binary";
-        sopsFile = "${inputs.secrets}/pvxsrv/awg_srv.conf";
-      };
-      "awg_peers.conf" = {
-        format = "binary";
-        sopsFile = "${inputs.secrets}/pvxsrv/awg_peers.conf";
-      };
-
       "mtproto.env" = {
         format = "dotenv";
         sopsFile = "${inputs.secrets}/pvxsrv/mtproto.env";
       };
 
-      "xray.json" = {
+      "sing-box.json" = {
         key = "";
         format = "json";
-        sopsFile = "${inputs.secrets}/pvxsrv/xray.json";
+        sopsFile = "${inputs.secrets}/pvxsrv/sing-box.json";
       };
-    };
-    templates = {
-      "awg.conf".content = ''
-        ${config.sops.placeholder."awg_srv.conf"}
-
-        PostUp = ${pkgs.iptables}/bin/iptables -A INPUT -p udp --dport 5496 -m conntrack --ctstate NEW -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -A FORWARD -i eth0 -o awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -A FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -A FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50
-        PostDown = ${pkgs.iptables}/bin/iptables -D INPUT -p udp --dport 5496 -m conntrack --ctstate NEW -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -D FORWARD -i eth0 -o awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -D FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -D FORWARD -i awg0 -j ACCEPT --wait 10 --wait-interval 50; ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE --wait 10 --wait-interval 50
-
-        ${config.sops.placeholder."awg_peers.conf"}
-      '';
     };
   };
 
   documentation.enable = false;
-
   nix = {
     channel.enable = false;
     optimise.automatic = true;
-    gc.automatic = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
     settings = {
       trusted-users = [
         "@wheel"
@@ -119,7 +103,6 @@
       ];
     };
     kernelParams = [ "console=ttyS0" ];
-    kernelModules = [ "amneziawg" ];
     kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;
@@ -146,25 +129,15 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    amneziawg-tools
-    neovim
-  ];
+  environment.systemPackages = [ ];
 
   networking = {
     hostName = "pvxsrv";
     firewall = {
       allowedTCPPorts = [
-        3456
-        5000
+        443
+        8000
       ];
-      allowedUDPPorts = [ 5496 ];
-    };
-
-    wg-quick.interfaces.wg0 = {
-      autostart = true;
-      type = "amneziawg";
-      configFile = config.sops.templates."awg.conf".path;
     };
   };
 
@@ -198,9 +171,12 @@
     };
     yggdrasil-jumper.enable = true;
 
-    xray = {
+    sing-box = {
       enable = true;
-      settingsFile = config.sops.secrets."xray.json".path;
+      settings = {
+        _secret = config.sops.secrets."sing-box.json".path;
+        quote = false;
+      };
     };
   };
 
@@ -213,8 +189,8 @@
         image = "telegrammessenger/proxy:latest";
         autoStart = true;
         ports = [
-          "[::]:3456:443"
-          "0.0.0.0:3456:443"
+          "[::]:8000:443"
+          "0.0.0.0:8000:443"
         ];
         environmentFiles = [
           config.sops.secrets."mtproto.env".path
