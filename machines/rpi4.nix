@@ -30,11 +30,14 @@
   };
 
   documentation.enable = false;
-
   nix = {
     channel.enable = false;
     optimise.automatic = true;
-    gc.automatic = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
     settings = {
       trusted-users = [ "@wheel" ];
       experimental-features = [
@@ -64,16 +67,17 @@
       ];
     };
     kernelParams = [ "usb-storage.quirks=7825:a2a4:u" ];
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
+    };
   };
 
   hardware = {
     enableRedistributableFirmware = true;
-    raspberry-pi."4" = {
-      fkms-3d.enable = true;
-      gpio = {
-        enable = true;
-      };
-    };
+    raspberry-pi."4".fkms-3d.enable = true;
   };
 
   security.sudo = {
@@ -92,18 +96,16 @@
   };
 
   environment.systemPackages = with pkgs; [
-    libraspberrypi
     raspberrypi-eeprom
     usbutils
-    libgpiod
   ];
 
   networking = {
     hostName = "rpi4";
     useDHCP = true;
     firewall.allowedTCPPorts = [
-      3456
-      5000
+      443
+      8000
     ];
   };
 
