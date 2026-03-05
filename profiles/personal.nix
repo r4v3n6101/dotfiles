@@ -42,7 +42,16 @@ in
 
       # Some utils
       xdg-utils
-      comma
+      (comma.overrideAttrs (prev: {
+        patches = [ ./tv_inline.patch ];
+        postPatch = ''
+          substituteInPlace ./src/main.rs \
+            --replace-fail '"nix-locate"' '"${lib.getExe' nix-index-unwrapped "nix-locate"}"' \
+            --replace-fail '"nix"' '"${lib.getExe nix}"' \
+            --replace-fail '"nix-env"' '"${lib.getExe' nix "nix-env"}"' \
+            --replace-fail '"fzy"' '"${lib.getExe config.programs.television.package}"'
+        '';
+      }))
 
       # Neovim
       nil
