@@ -5,9 +5,16 @@
   inputs,
   ...
 }:
+let
+  buildNixIndexDb = pkgs.stdenv.mkDerivation {
+    name = "nix-index-db";
+    dontUnpack = true;
+    nativeBuildInputs = [ pkgs.nix-index ];
+    buildPhase = "nix-index -d $out -f ${pkgs.path}";
+  };
+in
 {
   imports = [
-    inputs.nix-index-database.homeModules.default
     inputs.sops-nix.homeManagerModules.sops
     inputs.mac-app-util.homeManagerModules.default
   ];
@@ -26,6 +33,7 @@
     stateVersion = "25.05";
     sessionVariables = {
       CONTEXT7_API_KEY = "$(cat ${config.sops.secrets."context7.key".path})";
+      NIX_INDEX_DATABASE = "${buildNixIndexDb}/";
     };
     packages = with pkgs; [
       # Man pages
@@ -34,6 +42,7 @@
 
       # Some utils
       xdg-utils
+      comma
 
       # Neovim
       nil
@@ -47,7 +56,6 @@
   };
 
   programs = {
-    nix-index-database.comma.enable = true;
     bash.enable = true;
     fish.enable = true;
     tmux.enable = true;
@@ -58,95 +66,10 @@
     fd.enable = true;
     ripgrep.enable = true;
 
-    man = {
-      enable = true;
-      generateCaches = true;
-    };
-
-    tealdeer = {
-      enable = true;
-      enableAutoUpdates = true;
-    };
-
-    television = {
+    nix-index = {
       enable = true;
       enableBashIntegration = true;
       enableFishIntegration = true;
-      settings.shell_integration.channel_triggers = {
-        tldr = [ "tldr" ];
-        git-branch = [
-          "git checkout"
-        ];
-        git-diff = [
-          "git add"
-          "git restore"
-        ];
-        git-log = [
-          "git log"
-          "git show"
-        ];
-        nixpkgs = [
-          "nix shell"
-          "nix run"
-          "nix develop"
-          "nix profile add"
-        ];
-      };
-      channels = {
-        man-pages = {
-          metadata = {
-            name = "man-pages";
-            description = "Browse and preview system manual pages";
-            requirements = [
-              "apropos"
-              "man"
-            ];
-          };
-          source.command = "apropos .";
-          preview = {
-            command = "man '{0}'";
-            env = {
-              "MANWIDTH" = "80";
-            };
-          };
-          keybindings.enter = "actions:open";
-          actions.open = {
-            description = "Open the selected man page in the system pager";
-            command = "man '{0}'";
-            mode = "execute";
-          };
-        };
-        nixpkgs = {
-          metadata = {
-            name = "nixpkgs";
-            description = "Search nixpkgs";
-            requirements = [
-              "sed"
-              "nix-search-tv"
-              "xdg-open"
-            ];
-          };
-          # Retain only packages, not options
-          source.command = [
-            "nix-search-tv print | grep -E '^nixpkgs' | sed 's|/ |#|'"
-            "nix-search-tv print | grep -E '^nur' | sed 's|/ |#|'"
-          ];
-          preview.command = "nix-search-tv preview --indexes {split:#:0} '{split:#:1}'";
-          actions.homepage = {
-            description = "Open homepage";
-            command = "nix-search-tv homepage --indexes {split:#:0} '{split:#:1}' | xargs xdg-open";
-          };
-          actions.source = {
-            description = "Open source";
-            command = "nix-search-tv source --indexes {split:#:0} '{split:#:1}' | xargs xdg-open";
-          };
-        };
-      };
-    };
-
-    nix-search-tv = {
-      enable = true;
-      enableTelevisionIntegration = true;
     };
 
     direnv = {
@@ -183,6 +106,75 @@
       vimAlias = true;
       vimdiffAlias = true;
       defaultEditor = true;
+    };
+
+    man = {
+      enable = true;
+      generateCaches = true;
+    };
+
+    tealdeer = {
+      enable = true;
+      enableAutoUpdates = true;
+    };
+
+    nix-search-tv = {
+      enable = true;
+      enableTelevisionIntegration = true;
+    };
+
+    television = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      settings.shell_integration.channel_triggers = {
+        tldr = [ "tldr" ];
+        git-branch = [
+          "git checkout"
+        ];
+        git-diff = [
+          "git add"
+          "git restore"
+        ];
+        git-log = [
+          "git log"
+          "git show"
+        ];
+        nixpkgs = [
+          "nix shell"
+          "nix run"
+          "nix develop"
+          "nix profile add"
+        ];
+      };
+      channels = {
+        nixpkgs = {
+          metadata = {
+            name = "nixpkgs";
+            description = "Search nixpkgs";
+            requirements = [
+              "sed"
+              "nix-search-tv"
+              "xdg-open"
+            ];
+          };
+
+          # Retain only packages, not options
+          source.command = [
+            "nix-search-tv print | grep -E '^nixpkgs' | sed 's|/ |#|'"
+            "nix-search-tv print | grep -E '^nur' | sed 's|/ |#|'"
+          ];
+          preview.command = "nix-search-tv preview --indexes {split:#:0} '{split:#:1}'";
+          actions.homepage = {
+            description = "Open homepage";
+            command = "nix-search-tv homepage --indexes {split:#:0} '{split:#:1}' | xargs xdg-open";
+          };
+          actions.source = {
+            description = "Open source";
+            command = "nix-search-tv source --indexes {split:#:0} '{split:#:1}' | xargs xdg-open";
+          };
+        };
+      };
     };
 
     kitty = {

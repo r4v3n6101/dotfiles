@@ -2,11 +2,13 @@ return {
     {
         'nvim-mini/mini.extra',
         version = '*',
+        lazy = false,
         opts = {}
     },
     {
         'nvim-mini/mini.pick',
         version = '*',
+        lazy = false,
         opts = {},
         keys = {
             { "<leader>fc", "<cmd>Pick resume<cr>",     desc = "Continue last search [mini.pick]" },
