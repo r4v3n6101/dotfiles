@@ -32,8 +32,14 @@ in
   home = {
     stateVersion = "25.05";
     sessionVariables = {
-      CONTEXT7_API_KEY = "$(cat ${config.sops.secrets."context7.key".path})";
+      MANPAGER = "vim +Man!";
+
+      # For comma (aka ,)
       NIX_INDEX_DATABASE = "${buildNixIndexDb}/";
+      COMMA_PICKER = "${lib.getExe config.programs.television.package}";
+
+      # Slop
+      CONTEXT7_API_KEY = "$(cat ${config.sops.secrets."context7.key".path})";
     };
     packages = with pkgs; [
       # Man pages
@@ -42,16 +48,9 @@ in
 
       # Some utils
       xdg-utils
-      (comma.overrideAttrs (prev: {
+      (comma.overrideAttrs {
         patches = [ ./tv_inline.patch ];
-        postPatch = ''
-          substituteInPlace ./src/main.rs \
-            --replace-fail '"nix-locate"' '"${lib.getExe' nix-index-unwrapped "nix-locate"}"' \
-            --replace-fail '"nix"' '"${lib.getExe nix}"' \
-            --replace-fail '"nix-env"' '"${lib.getExe' nix "nix-env"}"' \
-            --replace-fail '"fzy"' '"${lib.getExe config.programs.television.package}"'
-        '';
-      }))
+      })
 
       # Neovim
       nil
