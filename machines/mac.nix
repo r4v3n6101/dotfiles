@@ -13,6 +13,8 @@
   nix = {
     enable = true;
     channel.enable = false;
+    optimise.automatic = true;
+    gc.automatic = true;
     settings = {
       extra-platforms = [
         "aarch64-darwin"
