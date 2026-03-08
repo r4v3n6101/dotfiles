@@ -8,6 +8,10 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -45,16 +49,6 @@
     }:
     let
       specialArgs = { inherit inputs; };
-
-      hmConfiguration = {
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          extraSpecialArgs = specialArgs;
-          backupFileExtension = "build";
-          users.r4v3n6101 = import ./profiles/personal.nix;
-        };
-      };
     in
 
     flake-utils.lib.eachDefaultSystem (
@@ -64,9 +58,6 @@
       in
       {
         formatter = pkgs.nixfmt-tree;
-        devShells.default = pkgs.mkShell {
-          buildInputs = [ pkgs.lua-language-server ];
-        };
       }
     )
 
@@ -76,17 +67,21 @@
 
         system = "aarch64-darwin";
         modules = [
+          ./machines/mac.nix
+          home-manager.darwinModules.home-manager
           {
             nixpkgs = {
               config.allowUnfree = true;
               overlays = [ ];
             };
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = specialArgs;
+              backupFileExtension = "build";
+              users.r4v3n6101 = import ./profiles/personal.nix;
+            };
           }
-
-          ./machines/mac.nix
-
-          home-manager.darwinModules.home-manager
-          hmConfiguration
         ];
       };
 
@@ -97,7 +92,6 @@
           system = "x86_64-linux";
           modules = [
             ./machines/pvxsrv.nix
-            ./machines/virt.nix
           ];
         };
         rpi4 = nixpkgs.lib.nixosSystem {
