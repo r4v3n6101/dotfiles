@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   inputs,
   ...
@@ -21,10 +20,6 @@
       "yggdrasil.key" = {
         format = "binary";
         sopsFile = "${inputs.secrets}/rpi4/yggdrasil.key";
-      };
-      "gost.env" = {
-        format = "dotenv";
-        sopsFile = "${inputs.secrets}/rpi4/gost.env";
       };
     };
   };
@@ -103,10 +98,6 @@
   networking = {
     hostName = "rpi4";
     useDHCP = true;
-    firewall.allowedTCPPorts = [
-      443
-      8000
-    ];
   };
 
   services = {
@@ -132,17 +123,6 @@
       };
     };
     yggdrasil-jumper.enable = true;
-  };
-
-  systemd.services.forward-traffic = {
-    description = "Forward traffic to the final node";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${lib.getExe pkgs.gost} $ROUTE1 $ROUTE2";
-      EnvironmentFile = config.sops.secrets."gost.env".path;
-      Restart = "always";
-      RestartSec = 5;
-    };
   };
 
   time.timeZone = "Europe/Moscow";

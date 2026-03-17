@@ -22,15 +22,15 @@
         sopsFile = "${inputs.secrets}/pvxsrv/yggdrasil.key";
       };
 
-      "mtproto.env" = {
-        format = "dotenv";
-        sopsFile = "${inputs.secrets}/pvxsrv/mtproto.env";
-      };
-
       "sing-box.json" = {
         key = "";
         format = "json";
         sopsFile = "${inputs.secrets}/pvxsrv/sing-box.json";
+      };
+
+      "telemt.conf" = {
+        format = "binary";
+        sopsFile = "${inputs.secrets}/pvxsrv/telemt.conf";
       };
     };
   };
@@ -118,10 +118,7 @@
 
   users.users.admin = {
     isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "docker"
-    ];
+    extraGroups = [ "wheel" ];
     hashedPassword = "!";
     openssh.authorizedKeys.keyFiles = [
       ../keys/id_r4mac.pub
@@ -129,15 +126,12 @@
     ];
   };
 
-  environment.systemPackages = [ ];
-
   networking = {
     hostName = "pvxsrv";
     firewall = {
       allowedTCPPorts = [
         80
         443
-        8000
       ];
       allowedUDPPorts = [
         443
@@ -184,26 +178,49 @@
     };
   };
 
-  virtualisation = {
-    docker.enable = true;
+  systemd.services.telemt =
+    let
+      telemt-pkg = pkgs.rustPlatform.buildRustPackage rec {
+        pname = "telemt";
+        version = "3.3.15";
 
-    oci-containers = {
-      backend = "docker";
-      containers.mtproto-proxy = {
-        image = "telegrammessenger/proxy:latest";
-        autoStart = true;
-        ports = [
-          "[::]:8000:443"
-          "0.0.0.0:8000:443"
-        ];
-        environmentFiles = [
-          config.sops.secrets."mtproto.env".path
-        ];
-        volumes = [
-          "mtproto-proxy-data:/data"
-        ];
+        src = pkgs.fetchFromGitHub {
+          owner = "telemt";
+          repo = "telemt";
+          rev = version;
+          hash = "sha256-pydVq+6ggg11UOJaHu1/YSsTkPwfm0DkD5y7VCmC0E8=";
+        };
+
+        cargoHash = "sha256-JfG4lFeQDekw0taNQknEQyw5sMyNZrtcL2qvz5K9u20=";
+      };
+    in
+    {
+      description = "Telemt MTProto Proxy";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+
+      serviceConfig = {
+        ExecStart = "${telemt-pkg}/bin/telemt /etc/telemt.toml";
+        Restart = "on-failure";
+
+        DynamicUser = true;
+        StateDirectory = "telemt";
+        WorkingDirectory = "/var/lib/telemt";
+
+        CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
+        AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+
+        NoNewPrivileges = true;
+        ProtectSystem = "strict";
+        ProtectHome = true;
+        PrivateTmp = true;
+        LimitNOFILE = 65536;
       };
     };
+
+  environment.etc."telemt.toml" = {
+    source = config.sops.secrets."telemt.conf".path;
+    mode = "0666";
   };
 
   time.timeZone = "Europe/Stockholm";
