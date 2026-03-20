@@ -572,6 +572,17 @@ in
         };
       };
 
+      extraFiles = {
+        "after/ftplugin/nix.lua".text = ''
+          vim.opt_local.tabstop = 2
+          vim.opt_local.shiftwidth = 2
+          vim.opt_local.expandtab = true
+        '';
+        "after/ftplugin/json.lua".text = ''
+          vim.bo.formatprg = "jq"
+        '';
+      };
+
       extraConfigLua = ''
         -- Remove default bindings
         vim.keymap.del('n', 'grn')
@@ -589,17 +600,7 @@ in
 
                 -- Enable auto-completion
                 if client:supports_method('textDocument/completion') then
-                    vim.lsp.completion.enable(true, client.id, ev.buf, {
-                        autotrigger = true,
-                        -- FIXME: https://github.com/neovim/neovim/issues/29225
-                        convert = function(item)
-                            local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or ""
-                            return {
-                                menu = "",
-                                kind_hlgroup = "CmpItemKind" .. kind,
-                            }
-                        end,
-                    })
+                    vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
                 end
 
                 -- LSP actions
