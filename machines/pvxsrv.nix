@@ -178,45 +178,29 @@
     };
   };
 
-  systemd.services.telemt =
-    let
-      telemt-pkg = pkgs.rustPlatform.buildRustPackage rec {
-        pname = "telemt";
-        version = "3.3.15";
+  systemd.services.telemt = {
+    description = "Telemt MTProto Proxy";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
 
-        src = pkgs.fetchFromGitHub {
-          owner = "telemt";
-          repo = "telemt";
-          rev = version;
-          hash = "sha256-pydVq+6ggg11UOJaHu1/YSsTkPwfm0DkD5y7VCmC0E8=";
-        };
+    serviceConfig = {
+      ExecStart = "${pkgs.telemt}/bin/telemt /etc/telemt.toml";
+      Restart = "on-failure";
 
-        cargoHash = "sha256-JfG4lFeQDekw0taNQknEQyw5sMyNZrtcL2qvz5K9u20=";
-      };
-    in
-    {
-      description = "Telemt MTProto Proxy";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
+      DynamicUser = true;
+      StateDirectory = "telemt";
+      WorkingDirectory = "/var/lib/telemt";
 
-      serviceConfig = {
-        ExecStart = "${telemt-pkg}/bin/telemt /etc/telemt.toml";
-        Restart = "on-failure";
+      CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
+      AmbientCapabilities = "CAP_NET_BIND_SERVICE";
 
-        DynamicUser = true;
-        StateDirectory = "telemt";
-        WorkingDirectory = "/var/lib/telemt";
-
-        CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
-        AmbientCapabilities = "CAP_NET_BIND_SERVICE";
-
-        NoNewPrivileges = true;
-        ProtectSystem = "strict";
-        ProtectHome = true;
-        PrivateTmp = true;
-        LimitNOFILE = 65536;
-      };
+      NoNewPrivileges = true;
+      ProtectSystem = "strict";
+      ProtectHome = true;
+      PrivateTmp = true;
+      LimitNOFILE = 65536;
     };
+  };
 
   environment.etc."telemt.toml" = {
     source = config.sops.secrets."telemt.conf".path;

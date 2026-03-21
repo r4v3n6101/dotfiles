@@ -80,6 +80,7 @@ in
       nix-direnv.enable = true;
     };
 
+    radicle.enable = true;
     git = {
       enable = true;
       signing = {
