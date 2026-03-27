@@ -6,8 +6,10 @@
 }:
 {
   imports = [
-    inputs.mac-app-util.darwinModules.default
     inputs.virby.darwinModules.default
+    inputs.nix-apple-container.darwinModules.default
+    inputs.mac-app-util.darwinModules.default
+    ./modules/yggdrasil.nix
   ];
 
   nix = {
@@ -33,6 +35,15 @@
 
   services = {
     openssh.enable = true;
+    yggdrasil = {
+      enable = true;
+      settings = {
+        Peers = [
+          "tcp://ip4.01.msk.ru.dioni.su:9002"
+          "tcp://yggdrasil.1337.moe:7676"
+        ];
+      };
+    };
     virby = {
       enable = true;
       debug = true;
@@ -45,6 +56,22 @@
         ttl = 180;
       };
     };
+    # containerization = {
+    #   enable = true;
+    #   teardown.removeImages = true;
+    #   gc = {
+    #     automatic = true;
+    #     pruneImages = true;
+    #   };
+    #   containers.web = {
+    #     image = "nginx:alpine";
+    #     autoStart = true;
+    #     extraArgs = [
+    #       "--publish"
+    #       "8080:80"
+    #     ];
+    #   };
+    # };
   };
 
   users.users.r4v3n6101 = {

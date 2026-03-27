@@ -143,11 +143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774007980,
-        "narHash": "sha256-FOnZjElEI8pqqCvB6K/1JRHTE8o4rer8driivTpq2uo=",
+        "lastModified": 1774561634,
+        "narHash": "sha256-3q1xsREjqdVIIwQQDZQ9y0YdBzP8gAxdwKoKnZSzJtU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "9670de2921812bc4e0452f6e3efd8c859696c183",
+        "rev": "7c046c63ac3b467c1d589b99d531da5b6520825a",
         "type": "github"
       },
       "original": {
@@ -180,6 +180,26 @@
         "type": "github"
       }
     },
+    "nix-apple-container": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774536400,
+        "narHash": "sha256-T7Q5qR7wduTrkpUSgSBolDltr3x1UgdlJRxWNZi0/64=",
+        "owner": "halfwhey",
+        "repo": "nix-apple-container",
+        "rev": "43dd0933fcadfec9b96c16670721ab4959bf908a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "halfwhey",
+        "repo": "nix-apple-container",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -203,11 +223,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1774018263,
-        "narHash": "sha256-HHYEwK1A22aSaxv2ibhMMkKvrDGKGlA/qObG4smrSqc=",
+        "lastModified": 1774567711,
+        "narHash": "sha256-uVlOHBvt6Vc/iYNJXLPa4c3cLXwMllOCVfAaLAcphIo=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "2d4b4717b2534fad5c715968c1cece04a172b365",
+        "rev": "3f6f874dfc34d386d10e434c48ad966c4832243e",
         "type": "github"
       },
       "original": {
@@ -298,11 +318,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1774122333,
-        "narHash": "sha256-ywQUWKNCCXMP4kBexQ/uwuvdSnj0cWLj7QECBOzVUPw=",
+        "lastModified": 1774579600,
+        "narHash": "sha256-hrhlXqvr7NMX4Z1sPCICANXtQHijFGHFNcDlZn4AszY=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "6cdd97a159da9bacd6d8fd9f71e2bcfa35e57ea4",
+        "rev": "96b35ef7a3cb2b14d7cffc39acb986a66bce3d9e",
         "type": "github"
       },
       "original": {
@@ -321,11 +341,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1772402258,
-        "narHash": "sha256-3DmCFOdmbkFML1/G9gj8Wb+rCCZFPOQtNoMCpqOF8SA=",
+        "lastModified": 1774309640,
+        "narHash": "sha256-8oWL7YLwElBY9ebYri1LlSlhf/gd1Qoqj0nbBwG2yso=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "21ae25e13b01d3b4cdc750b5f9e7bad68b150c10",
+        "rev": "28c58bf023bf537354f78d6e496a349d7a0ed554",
         "type": "github"
       },
       "original": {
@@ -340,6 +360,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "mac-app-util": "mac-app-util",
+        "nix-apple-container": "nix-apple-container",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
@@ -372,11 +393,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773889674,
-        "narHash": "sha256-+ycaiVAk3MEshJTg35cBTUa0MizGiS+bgpYw/f8ohkg=",
+        "lastModified": 1774303811,
+        "narHash": "sha256-fhG4JAcLgjKwt+XHbjs8brpWnyKUfU4LikLm3s0Q/ic=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "29b6519f3e0780452bca0ac0be4584f04ac16cc5",
+        "rev": "614e256310e0a4f8a9ccae3fa80c11844fba7042",
         "type": "github"
       },
       "original": {
@@ -489,17 +510,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1764921432,
-        "narHash": "sha256-kDxQICYUaN/zv5p5ELjjdp+ZdOJvIG0xnQMv22KUJJk=",
+        "lastModified": 1774499868,
+        "narHash": "sha256-WyVSszhfDAb0erT5yQKhEZefuOA2n0j2pn2assc+GeE=",
         "owner": "quinneden",
         "repo": "virby-nix-darwin",
-        "rev": "be170bd7ef21ce9773e7daa646d43f5405a1bdb2",
+        "rev": "7628dd04c700bf035b54fe7d99e8ced18f097ec6",
         "type": "github"
       },
       "original": {
         "owner": "quinneden",
         "repo": "virby-nix-darwin",
-        "rev": "be170bd7ef21ce9773e7daa646d43f5405a1bdb2",
         "type": "github"
       }
     }
