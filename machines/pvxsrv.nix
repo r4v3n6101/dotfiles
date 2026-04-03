@@ -8,6 +8,7 @@
   imports = [
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
+    ./modules/telemt.nix
   ];
 
   sops = {
@@ -176,35 +177,11 @@
         quote = false;
       };
     };
-  };
 
-  systemd.services.telemt = {
-    description = "Telemt MTProto Proxy";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-
-    serviceConfig = {
-      ExecStart = "${pkgs.telemt}/bin/telemt /etc/telemt.toml";
-      Restart = "on-failure";
-
-      DynamicUser = true;
-      StateDirectory = "telemt";
-      WorkingDirectory = "/var/lib/telemt";
-
-      CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
-      AmbientCapabilities = "CAP_NET_BIND_SERVICE";
-
-      NoNewPrivileges = true;
-      ProtectSystem = "strict";
-      ProtectHome = true;
-      PrivateTmp = true;
-      LimitNOFILE = 65536;
+    telemt = {
+      enable = true;
+      configFile = config.sops.secrets."telemt.conf".path;
     };
-  };
-
-  environment.etc."telemt.toml" = {
-    source = config.sops.secrets."telemt.conf".path;
-    mode = "0666";
   };
 
   time.timeZone = "Europe/Stockholm";
