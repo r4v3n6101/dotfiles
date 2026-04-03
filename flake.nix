@@ -76,7 +76,28 @@
           {
             nixpkgs = {
               config.allowUnfree = true;
-              overlays = [ ];
+              overlays = [
+                (final: prev: {
+                  nix-index = prev.nix-index.override {
+                    nix-index-unwrapped = prev.nix-index-unwrapped.overrideAttrs (oldAttrs: rec {
+                      src = prev.fetchFromGitHub {
+                        owner = "nix-community";
+                        repo = "nix-index";
+                        rev = "6e6ec6ffd9c318f5bce0f891eeaab0e89d1f12eb";
+                        hash = "sha256-Z5IWhtoaU9gNsE8IWO9lWg2O9mjSgMCF3LpPR/YAwGI=";
+                      };
+                      patches = [
+                        ./packages/patches/rust-tls-non-native.patch
+                      ];
+                      cargoDeps = prev.rustPlatform.fetchCargoVendor {
+                        inherit src patches;
+
+                        hash = "sha256-irSlOSfSF0B7h95AsHk/EMPjgrFJCFD3RytC7FwoQlA=";
+                      };
+                    });
+                  };
+                })
+              ];
             };
             home-manager = {
               useGlobalPkgs = true;
