@@ -91,6 +91,7 @@
     systemPackages = [
       (lib.hiPrio pkgs.uutils-coreutils-noprefix)
       iina
+      chatgpt
     ];
   };
 

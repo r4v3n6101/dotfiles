@@ -18,20 +18,9 @@ let
 in
 {
   imports = [
-    inputs.sops-nix.homeManagerModules.sops
     inputs.mac-app-util.homeManagerModules.default
     inputs.nixvim.homeModules.default
   ];
-
-  sops = {
-    gnupg.home = config.programs.gpg.homedir;
-    secrets = {
-      "context7.key" = {
-        format = "binary";
-        sopsFile = "${inputs.secrets}/home-manager/context7.key";
-      };
-    };
-  };
 
   home = {
     stateVersion = "25.05";
@@ -39,8 +28,6 @@ in
       # For comma (aka ,)
       NIX_INDEX_DATABASE = "${buildNixIndexDb}/";
       COMMA_PICKER = "${lib.getExe tv-inline}";
-      # Slop
-      CONTEXT7_API_KEY = "$(cat ${config.sops.secrets."context7.key".path})";
     };
     packages = with pkgs; [
       # Man pages
@@ -694,19 +681,6 @@ in
 
     codex = {
       enable = true;
-      enableMcpIntegration = true;
-    };
-
-    mcp = {
-      enable = true;
-      servers = {
-        context7 = {
-          url = "https://mcp.context7.com/mcp";
-          headers = {
-            CONTEXT7_API_KEY = "{env:CONTEXT7_API_KEY}";
-          };
-        };
-      };
     };
   };
 }

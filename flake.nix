@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
-    flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,7 +45,6 @@
     inputs@{
       self,
       nixpkgs,
-      flake-utils,
       home-manager,
       nix-darwin,
       ...
@@ -54,18 +52,7 @@
     let
       specialArgs = { inherit inputs; };
     in
-
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-      in
-      {
-        formatter = pkgs.nixfmt-tree;
-      }
-    )
-
-    // {
+    {
       darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
         inherit specialArgs;
 
