@@ -3,6 +3,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    import-tree = {
+      url = "github:vic/import-tree";
+    };
+
+    # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,6 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Darwin
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,11 +36,13 @@
     };
     mac-app-util.url = "github:hraban/mac-app-util";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # NixOS
     disko = {
       url = "github:nix-community/disko/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # sops
     sops-nix = {
       url = "github:Mic92/sops-nix/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,78 +54,18 @@
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      home-manager,
-      nix-darwin,
-      ...
-    }:
-    let
-      specialArgs = { inherit inputs; };
-    in
-    {
-      darwinConfigurations."r4mac" = nix-darwin.lib.darwinSystem {
-        inherit specialArgs;
-
-        system = "aarch64-darwin";
-        modules = [
-          ./machines/mac.nix
-          home-manager.darwinModules.home-manager
-          {
-            nixpkgs = {
-              config.allowUnfree = true;
-              overlays = [
-                (final: prev: {
-                  nix-index = prev.nix-index.override {
-                    nix-index-unwrapped = prev.nix-index-unwrapped.overrideAttrs (oldAttrs: rec {
-                      src = prev.fetchFromGitHub {
-                        owner = "nix-community";
-                        repo = "nix-index";
-                        rev = "6e6ec6ffd9c318f5bce0f891eeaab0e89d1f12eb";
-                        hash = "sha256-Z5IWhtoaU9gNsE8IWO9lWg2O9mjSgMCF3LpPR/YAwGI=";
-                      };
-                      patches = [
-                        ./packages/patches/rust-tls-non-native.patch
-                      ];
-                      cargoDeps = prev.rustPlatform.fetchCargoVendor {
-                        inherit src patches;
-
-                        hash = "sha256-irSlOSfSF0B7h95AsHk/EMPjgrFJCFD3RytC7FwoQlA=";
-                      };
-                    });
-                  };
-                })
-              ];
-            };
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = specialArgs;
-              backupFileExtension = "build";
-              users.r4v3n6101 = import ./profiles/personal.nix;
-            };
-          }
-        ];
-      };
-
-      nixosConfigurations = {
-        pvxsrv = nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-
-          system = "x86_64-linux";
-          modules = [
-            ./machines/pvxsrv.nix
-          ];
-        };
-        rpi4 = nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-
-          system = "aarch64-linux";
-          modules = [
-            ./machines/rpi4.nix
-          ];
-        };
-      };
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+      imports = [
+        (inputs.import-tree [
+          ./packages
+          ./overlays
+          ./modules
+        ])
+      ];
     };
 }
