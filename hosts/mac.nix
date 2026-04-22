@@ -14,7 +14,7 @@ in
         self.darwinModules.nix
         self.darwinModules.r4mac
         self.darwinModules.customization
-        self.darwinModules.virby
+        self.darwinModules.microvm-builder
       ];
     };
 
@@ -24,7 +24,6 @@ in
         imports = [
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
-          inputs.nix-apple-container.darwinModules.default
           ../yank/yggdrasil.nix
         ];
 
@@ -73,25 +72,6 @@ in
               ];
             };
           };
-
-          containerization = {
-            enable = false;
-
-            linux-builder = {
-              aarch64 = {
-                enable = true;
-                cores = 8;
-                memory = "8G";
-                kernel = self.packages."aarch64-darwin".kernel-with-kvm;
-              };
-              x86_64 = {
-                enable = true;
-                cores = 8;
-                memory = "8G";
-                kernel = self.packages."aarch64-darwin".kernel-with-kvm;
-              };
-            };
-          };
         };
 
         home-manager = {
@@ -106,7 +86,6 @@ in
             { home.stateVersion = "25.11"; }
 
             self.homeModules.tools
-            self.homeModules.television
             self.homeModules.kitty
             self.homeModules.nixvim
           ];
