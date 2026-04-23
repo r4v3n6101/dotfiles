@@ -58,8 +58,8 @@
         "aarch64-darwin"
       ];
       imports = [
+        ./flake-parts.nix
         (inputs.import-tree [
-          ./packages
           ./overlays
           ./modules
           ./hosts

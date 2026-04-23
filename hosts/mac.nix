@@ -27,6 +27,11 @@ in
           ../yank/yggdrasil.nix
         ];
 
+        nixpkgs.overlays = [
+          self.overlays.direnv-disable-tests
+          self.overlays.nix-index-master
+        ];
+
         system = {
           stateVersion = 6;
           primaryUser = user;
