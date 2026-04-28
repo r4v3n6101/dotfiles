@@ -122,9 +122,36 @@
           };
         };
 
-        security.sudo = {
-          enable = true;
-          wheelNeedsPassword = false;
+        networking = {
+          hostName = "pvxsrv";
+          domain = "pivozavr.store";
+          firewall = {
+            allowedTCPPorts = [
+              80
+              443
+            ];
+            allowedUDPPorts = [
+              443
+            ];
+          };
+        };
+
+        security = {
+          sudo = {
+            enable = true;
+            wheelNeedsPassword = false;
+          };
+          acme = {
+            acceptTerms = true;
+            defaults.email = "admin@pivozavr.store";
+
+            certs."pivozavr.store" = {
+              group = "sing-box";
+              listenHTTP = ":80";
+
+              postRun = "sudo systemctl restart sing-box";
+            };
+          };
         };
 
         users.users.admin = {
@@ -135,19 +162,6 @@
             ../keys/id_r4mac.pub
             ../keys/id_termius.pub
           ];
-        };
-
-        networking = {
-          hostName = "pvxsrv";
-          firewall = {
-            allowedTCPPorts = [
-              80
-              443
-            ];
-            allowedUDPPorts = [
-              443
-            ];
-          };
         };
 
         services = {
@@ -195,7 +209,6 @@
         };
 
         time.timeZone = "Europe/Stockholm";
-        i18n.defaultLocale = "en_US.UTF-8";
 
         system.stateVersion = "25.05";
       };

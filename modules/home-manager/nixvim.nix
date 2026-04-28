@@ -276,12 +276,10 @@
           };
           treesitter = {
             enable = true;
-            settings = {
-              highlight = {
-                enable = true;
-                disable = [ "rust" ];
-              };
-              indent.enable = true;
+            indent.enable = true;
+            highlight = {
+              enable = true;
+              disable = [ "rust" ];
             };
           };
           treesitter-context = {

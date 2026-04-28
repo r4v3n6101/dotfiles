@@ -29,7 +29,6 @@ in
 
         nixpkgs.overlays = [
           self.overlays.direnv-disable-tests
-          self.overlays.nix-index-master
         ];
 
         system = {

@@ -45,7 +45,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "git+ssh://git@github.com/r4v3n6101/secrets.git";
+      url = "path:../secrets/";
       flake = false;
     };
   };
