@@ -45,7 +45,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "path:../secrets/";
+      url = "path:///Users/r4v3n6101/secrets/";
       flake = false;
     };
   };

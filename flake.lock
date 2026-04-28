@@ -374,14 +374,15 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "path": "../secrets/",
+        "lastModified": 1777472215,
+        "narHash": "sha256-GBcQHDPkH57j/3KrHxeULCWFYiyAsGUtYe1w7cOMafg=",
+        "path": "/Users/r4v3n6101/secrets/",
         "type": "path"
       },
       "original": {
-        "path": "../secrets/",
+        "path": "/Users/r4v3n6101/secrets/",
         "type": "path"
-      },
-      "parent": []
+      }
     },
     "sops-nix": {
       "inputs": {
