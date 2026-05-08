@@ -189,8 +189,8 @@
               settings = {
                 PrivateKeyPath = config.sops.secrets."yggdrasil.key".path;
                 Peers = [
-                  "quic://[2a12:5940:b1a0::2]:65535"
-                  "tls://n.ygg.yt:443"
+                  "tcp://vpn.itrus.su:7991"
+                  "tls://cirno.nadeko.net:44442"
                 ];
               };
             };

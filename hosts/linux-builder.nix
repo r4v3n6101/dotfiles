@@ -43,8 +43,6 @@
           };
         };
 
-        virtualisation.rosetta.enable = true;
-
         system.stateVersion = "25.11";
       };
   };

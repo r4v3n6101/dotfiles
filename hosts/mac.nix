@@ -27,9 +27,7 @@ in
           ../yank/yggdrasil.nix
         ];
 
-        nixpkgs.overlays = [
-          self.overlays.direnv-disable-tests
-        ];
+        nixpkgs.overlays = [ ];
 
         system = {
           stateVersion = 6;

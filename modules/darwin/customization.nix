@@ -23,6 +23,7 @@
             "/System/Applications/Messages.app"
             "/System/Applications/Music.app"
             "/System/Applications/Calendar.app"
+            "/System/Applications/Photos.app"
             "/System/Applications/Reminders.app"
             "/System/Applications/Notes.app"
             "/System/Applications/Mail.app"

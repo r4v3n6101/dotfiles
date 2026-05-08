@@ -60,7 +60,6 @@
       imports = [
         ./flake-parts.nix
         (inputs.import-tree [
-          ./overlays
           ./modules
           ./hosts
         ])
