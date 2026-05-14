@@ -9,6 +9,7 @@
       system = "x86_64-linux";
       modules = [
         self.nixosModules.radicle-seed-node
+        self.nixosModules.radicle-pinned-repos
         self.nixosModules.pvxsrv
       ];
     };

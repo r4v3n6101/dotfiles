@@ -52,6 +52,14 @@
             "unnamed"
             "unnamedplus"
           ];
+          complete = [
+            "o"
+            "."
+            "w"
+            "b"
+            "u"
+            "f"
+          ];
           completeopt = [
             "fuzzy"
             "menuone"
