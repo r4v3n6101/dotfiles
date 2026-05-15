@@ -37,12 +37,7 @@
       programs = {
         bash.enable = true;
         fish.enable = true;
-        tmux.enable = true;
         gpg.enable = true;
-        bat.enable = true;
-        btop.enable = true;
-        fd.enable = true;
-        ripgrep.enable = true;
         nh.enable = true;
         radicle.enable = true;
         codex.enable = true;
