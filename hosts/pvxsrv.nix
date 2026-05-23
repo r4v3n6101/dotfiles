@@ -227,9 +227,30 @@
             };
           };
 
+          systemd = {
+            paths.restart-sing-box-on-caddy-cert-change = {
+              wantedBy = [ "multi-user.target" ];
+              pathConfig = {
+                PathChanged = [
+                  "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${config.networking.domain}/${config.networking.domain}.crt"
+                  "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${config.networking.domain}/${config.networking.domain}.key"
+                ];
+                Unit = "restart-sing-box-on-caddy-cert-change.service";
+              };
+            };
+
+            services.restart-sing-box-on-caddy-cert-change = {
+              serviceConfig = {
+                Type = "oneshot";
+                ExecStart = "${pkgs.systemd}/bin/systemctl restart sing-box.service";
+              };
+            };
+          };
+
           time.timeZone = "Europe/Stockholm";
 
           system.stateVersion = "25.05";
+
         };
     };
   };

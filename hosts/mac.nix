@@ -24,7 +24,7 @@ in
         imports = [
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
-          ../yank/yggdrasil.nix
+          "${inputs.nix-darwin-yggdrasil}/modules/services/yggdrasil.nix"
         ];
 
         nixpkgs.overlays = [ ];
