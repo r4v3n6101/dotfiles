@@ -10,12 +10,13 @@
       modules = [
         self.nixosModules.radicle-seed-node
         self.nixosModules.radicle-pinned-repos
+        self.nixosModules.privex-hardware
         self.nixosModules.pvxsrv
       ];
     };
 
     nixosModules = {
-      pvxsrv =
+      privex-hardware =
         {
           config,
           pkgs,
@@ -25,6 +26,85 @@
         {
           imports = [
             inputs.disko.nixosModules.disko
+          ];
+
+          boot = {
+            loader.grub = {
+              enable = true;
+              efiSupport = false;
+            };
+            initrd = {
+              verbose = true;
+              availableKernelModules = [
+                "virtio"
+                "virtio_pci"
+                "virtio_blk"
+                "virtio_scsi"
+              ];
+            };
+            kernelParams = [ "console=ttyS0" ];
+            kernel.sysctl = {
+              "net.ipv4.ip_forward" = 1;
+              "net.ipv6.conf.all.forwarding" = 1;
+              "net.core.default_qdisc" = "fq";
+              "net.ipv4.tcp_congestion_control" = "bbr";
+            };
+          };
+
+          disko.devices.disk.main = {
+            type = "disk";
+            device = "/dev/sda";
+
+            content = {
+              type = "gpt";
+
+              partitions = {
+                bios = {
+                  size = "1M";
+                  type = "EF02";
+                };
+
+                boot = {
+                  size = "1G";
+
+                  content = {
+                    type = "filesystem";
+                    format = "ext4";
+                    mountpoint = "/boot";
+                  };
+                };
+
+                swap = {
+                  size = "2G";
+
+                  content = {
+                    type = "swap";
+                  };
+                };
+
+                root = {
+                  size = "100%";
+
+                  content = {
+                    type = "filesystem";
+                    format = "ext4";
+                    mountpoint = "/";
+                  };
+                };
+              };
+            };
+          };
+        };
+
+      pvxsrv =
+        {
+          config,
+          pkgs,
+          lib,
+          ...
+        }:
+        {
+          imports = [
             inputs.sops-nix.nixosModules.sops
             ../yank/telemt.nix
           ];
@@ -77,61 +157,6 @@
                 "nix-command"
                 "flakes"
               ];
-            };
-          };
-
-          disko.devices.disk.main = {
-            type = "disk";
-            device = "/dev/sda";
-            content = {
-              type = "gpt";
-              partitions = {
-                bios = {
-                  type = "EF02";
-                  size = "1M";
-                  priority = 1;
-                };
-                boot = {
-                  label = "BOOT";
-                  size = "1G";
-                  content = {
-                    type = "filesystem";
-                    format = "vfat";
-                    mountpoint = "/boot";
-                  };
-                };
-                root = {
-                  size = "100%";
-                  content = {
-                    type = "filesystem";
-                    format = "ext4";
-                    mountpoint = "/";
-                  };
-                };
-              };
-            };
-          };
-
-          boot = {
-            loader.grub = {
-              enable = true;
-              efiSupport = false;
-            };
-            initrd = {
-              verbose = true;
-              availableKernelModules = [
-                "virtio"
-                "virtio_pci"
-                "virtio_blk"
-                "virtio_scsi"
-              ];
-            };
-            kernelParams = [ "console=ttyS0" ];
-            kernel.sysctl = {
-              "net.ipv4.ip_forward" = 1;
-              "net.ipv6.conf.all.forwarding" = 1;
-              "net.core.default_qdisc" = "fq";
-              "net.ipv4.tcp_congestion_control" = "bbr";
             };
           };
 
