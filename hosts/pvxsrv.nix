@@ -242,8 +242,8 @@
 
             caddy = {
               enable = true;
-              openFirewall = lib.mkForce false;
-              httpsPort = lib.mkForce 4432;
+              openFirewall = false;
+              httpsPort = 4432;
               virtualHosts."${config.networking.domain}".extraConfig = ''
                 reverse_proxy https://itunes.apple.com {
                   header_up Host {upstream_hostport}
@@ -275,7 +275,6 @@
           time.timeZone = "Europe/Stockholm";
 
           system.stateVersion = "25.05";
-
         };
     };
   };

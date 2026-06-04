@@ -37,6 +37,9 @@
       programs = {
         bash.enable = true;
         fish.enable = true;
+        fd.enable = true;
+        bat.enable = true;
+        ripgrep.enable = true;
         gpg.enable = true;
         nh.enable = true;
         radicle.enable = true;
