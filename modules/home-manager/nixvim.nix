@@ -12,7 +12,10 @@
       ];
 
       programs.nixvim = {
-        nixpkgs.config.allowUnfree = true;
+        nixpkgs = {
+          source = inputs.nixpkgs;
+          config.allowUnfree = true;
+        };
 
         enable = true;
         enableMan = true;
@@ -244,12 +247,11 @@
           }
         ];
 
-        perfomance.byteCompileLua.enable = true;
         plugins = {
           lualine.enable = true;
           vim-suda.enable = true;
-          nvim-web-devicons.enable = true;
-          indent-blankline-nvim.enable = true;
+          web-devicons.enable = true;
+          indent-blankline.enable = true;
           mini-extra.enable = true;
           mini-pick.enable = true;
           nix-develop.enable = true;

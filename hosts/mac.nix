@@ -27,7 +27,21 @@ in
           "${inputs.nix-darwin-yggdrasil}/modules/services/yggdrasil.nix"
         ];
 
-        nixpkgs.overlays = [ ];
+        nixpkgs.overlays = [
+          (
+            final: prev:
+            let
+              unwrapped = prev.telegram-desktop.unwrapped.overrideAttrs (old: {
+                nativeBuildInputs = old.nativeBuildInputs ++ [ final.kdePackages.qtshadertools ];
+              });
+            in
+            {
+              telegram-desktop = prev.telegram-desktop.override {
+                inherit unwrapped;
+              };
+            }
+          )
+        ];
 
         system = {
           stateVersion = 6;

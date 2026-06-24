@@ -137,7 +137,7 @@
               microvm-bin = pkgs.writeShellScriptBin "microvm-builder-start" ''
                 rm -f ${vfkit-sock}
 
-                ${lib.getExe pkgs.gvproxy} \
+                ${pkgs.gvproxy}/bin/gvproxy \
                   --ssh-port ${toString cfg.sshPort} \
                   --listen-vfkit "unixgram://${vfkit-sock}" &
 
