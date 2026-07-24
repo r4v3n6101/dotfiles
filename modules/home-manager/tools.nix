@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.homeModules.tools =
     {
@@ -8,26 +8,22 @@
       ...
     }:
     {
+      imports = [
+        inputs.nix-index-database.homeModules.default
+      ];
+
       home = {
         sessionVariables =
           let
-            nix-index-db = pkgs.stdenv.mkDerivation {
-              name = "nix-index-db";
-              dontUnpack = true;
-              nativeBuildInputs = [ pkgs.nix-index ];
-              buildPhase = "nix-index -d $out -f ${pkgs.path}";
-            };
             tv-inline = pkgs.writeShellScriptBin "tv-inline" ''
               exec ${lib.getExe config.programs.television.package} --inline "$@"
             '';
           in
           {
-            NIX_INDEX_DATABASE = "${nix-index-db}/";
             COMMA_PICKER = "${lib.getExe tv-inline}";
           };
 
         packages = with pkgs; [
-          comma
           xdg-utils
           man-pages
           man-pages-posix
@@ -45,11 +41,7 @@
         radicle.enable = true;
         codex.enable = true;
 
-        nix-index = {
-          enable = true;
-          enableBashIntegration = true;
-          enableFishIntegration = true;
-        };
+        nix-index-database.comma.enable = true;
 
         direnv = {
           enable = true;
