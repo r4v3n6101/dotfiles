@@ -7,6 +7,9 @@
       lib,
       ...
     }:
+    let
+      isDarwin = pkgs.stdenv.isDarwin;
+    in
     {
       imports = [
         inputs.nix-index-database.homeModules.default
@@ -42,6 +45,119 @@
         codex.enable = true;
 
         nix-index-database.comma.enable = true;
+
+        fastfetch = {
+          enable = true;
+
+          settings = {
+            logo = {
+              source = "${../../assets/spas-nerukotvorny.ansi}";
+              type = "file-raw";
+              padding = {
+                right = 3;
+              };
+            };
+
+            display = {
+              separator = "  ";
+              color = if isDarwin then "green" else "blue";
+              size.binaryPrefix = "iec";
+              key.width = 18;
+            };
+
+            modules = [
+              "title"
+              "separator"
+              {
+                type = "os";
+                key = "󰣇 OS";
+              }
+              {
+                type = "host";
+                key = "󰌢 Host";
+              }
+              {
+                type = "kernel";
+                key = " Kernel";
+              }
+              {
+                type = "uptime";
+                key = "󰅐 Uptime";
+              }
+              {
+                type = "packages";
+                key = "󰏖 Packages";
+              }
+              "break"
+              {
+                type = "cpu";
+                key = "󰍛 CPU";
+                format = "{name:-32} ({cores-physical}C/{cores-logical}T)";
+              }
+              {
+                type = "gpu";
+                key = "󰢮 GPU";
+                format = "{name:-32}";
+              }
+              {
+                type = "memory";
+                key = " Memory";
+              }
+              {
+                type = "disk";
+                key = "󰋊 Disk";
+                folders = "/";
+                format = "{size-used} / {size-total} ({size-percentage})";
+              }
+              {
+                type = "display";
+                key = "󰍹 Display";
+                format = "{width}x{height} @ {refresh-rate} Hz";
+              }
+            ]
+            ++ lib.optionals isDarwin [
+              {
+                type = "battery";
+                key = "󰁹 Battery";
+              }
+              {
+                type = "poweradapter";
+                key = "󰚥 Adapter";
+              }
+            ]
+            ++ lib.optionals (!isDarwin) [
+              {
+                type = "de";
+                key = "󰧨 Desktop";
+              }
+              {
+                type = "wm";
+                key = "󰖲 WM";
+              }
+              {
+                type = "swap";
+                key = "󰓡 Swap";
+              }
+            ]
+            ++ [
+              "break"
+              {
+                type = "shell";
+                key = " Shell";
+              }
+              {
+                type = "terminal";
+                key = " Terminal";
+              }
+              {
+                type = "terminalfont";
+                key = " Font";
+              }
+              "break"
+              "colors"
+            ];
+          };
+        };
 
         direnv = {
           enable = true;
