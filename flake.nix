@@ -35,8 +35,8 @@
       url = "github:Rubikoid/nix-darwin/add/yggdrasil-module";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    microvm = {
-      url = "github:microvm-nix/microvm.nix";
+    microvm-builder = {
+      url = "github:r4v3n6101/microvm-builder";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util.url = "github:hraban/mac-app-util";

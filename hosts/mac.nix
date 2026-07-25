@@ -14,7 +14,6 @@ in
         self.darwinModules.nix
         self.darwinModules.r4mac
         self.darwinModules.customization
-        self.darwinModules.microvm-builder
       ];
     };
 
@@ -22,10 +21,13 @@ in
       { pkgs, ... }:
       {
         imports = [
+          inputs.microvm-builder.modules.darwin.microvm-builder
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
           "${inputs.nix-darwin-yggdrasil}/modules/services/yggdrasil.nix"
         ];
+
+        microvm-builder.enable = true;
 
         nixpkgs.overlays = [ ];
 

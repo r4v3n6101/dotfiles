@@ -21,6 +21,21 @@
         "type": "github"
       }
     },
+    "crane": {
+      "locked": {
+        "lastModified": 1784564969,
+        "narHash": "sha256-TkTWNhJV/8Wk3czlbz4bwHZkFCaCHPsOy+oJe4PUiXg=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "7930f6c291de6f83c257839d434592aa085f290a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -100,6 +115,27 @@
     "flake-parts_3": {
       "inputs": {
         "nixpkgs-lib": [
+          "microvm-builder",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782949081,
+        "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_4": {
+      "inputs": {
+        "nixpkgs-lib": [
           "nixvim",
           "nixpkgs"
         ]
@@ -145,11 +181,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784877405,
-        "narHash": "sha256-W649GocILahx7Vb/JMx834217+OLKBrq014VmC/8+NM=",
+        "lastModified": 1784913159,
+        "narHash": "sha256-JWq0BfjO4ktpH5USfQNQzdvHpIDT8fSKD5K7LvdMRFs=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "32de400b6ac9f43042bca706f4a64f6ad08117e8",
+        "rev": "079a3b5d1aa6a719920a51316253b7d6dd22738d",
         "type": "github"
       },
       "original": {
@@ -160,6 +196,21 @@
       }
     },
     "import-tree": {
+      "locked": {
+        "lastModified": 1784254960,
+        "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
+    "import-tree_2": {
       "locked": {
         "lastModified": 1784254960,
         "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
@@ -200,6 +251,7 @@
     "microvm": {
       "inputs": {
         "nixpkgs": [
+          "microvm-builder",
           "nixpkgs"
         ],
         "spectrum": "spectrum"
@@ -215,6 +267,31 @@
       "original": {
         "owner": "microvm-nix",
         "repo": "microvm.nix",
+        "type": "github"
+      }
+    },
+    "microvm-builder": {
+      "inputs": {
+        "crane": "crane",
+        "flake-parts": "flake-parts_3",
+        "import-tree": "import-tree_2",
+        "microvm": "microvm",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1784916527,
+        "narHash": "sha256-fpmyOXtbcE2cMaIJp86f16vXNOQ9Bu9dXio2UxW6KmQ=",
+        "owner": "r4v3n6101",
+        "repo": "microvm-builder",
+        "rev": "8a0c52eb42cf7ca7b2119ec7501132737dd4428c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "r4v3n6101",
+        "repo": "microvm-builder",
         "type": "github"
       }
     },
@@ -361,11 +438,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1784879847,
-        "narHash": "sha256-o3s/72XMjYOOiZgo2IYVpbZhP+kG/WEqdLzgW0LQHo4=",
+        "lastModified": 1785007823,
+        "narHash": "sha256-fXZpUjXRjw2ewJovJVIT6ZOldDldL7WRUTcHpriWwX8=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "88449c0e01590f36ca8e92c5e768272cda05063a",
+        "rev": "f0fe1ac48cdb95e05169955cd64f43ede20970cb",
         "type": "github"
       },
       "original": {
@@ -377,18 +454,18 @@
     },
     "nixvim": {
       "inputs": {
-        "flake-parts": "flake-parts_3",
+        "flake-parts": "flake-parts_4",
         "nixpkgs": [
           "nixpkgs"
         ],
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1784814601,
-        "narHash": "sha256-T32JXjZ7kIbhBn8/Har171yGg6IBdl97cxAWameqZDE=",
+        "lastModified": 1785001306,
+        "narHash": "sha256-xWqmquUtqKXLeDZ1oQUO+rV4sjA9TShIJhLL8M5Bozo=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "f316e949e0ed9df0e1e0bf645c6dce721d4e230e",
+        "rev": "48409beb41e8e28b64e8160ca82d8a93fb628963",
         "type": "github"
       },
       "original": {
@@ -404,7 +481,7 @@
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "mac-app-util": "mac-app-util",
-        "microvm": "microvm",
+        "microvm-builder": "microvm-builder",
         "nix-darwin": "nix-darwin",
         "nix-darwin-yggdrasil": "nix-darwin-yggdrasil",
         "nix-index-database": "nix-index-database",
@@ -412,6 +489,27 @@
         "nixvim": "nixvim",
         "secrets": "secrets",
         "sops-nix": "sops-nix"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "microvm-builder",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784870759,
+        "narHash": "sha256-ZaS89rj5u6pygXKDRfCzPMGm7isJxLsSeIAR5EaSyu8=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "471286a5fadc690e2408ad854eb32325f5e74da7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "secrets": {
