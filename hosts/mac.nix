@@ -27,7 +27,10 @@ in
           "${inputs.nix-darwin-yggdrasil}/modules/services/yggdrasil.nix"
         ];
 
-        microvm-builder.enable = true;
+        microvm-builder = {
+          enable = true;
+          diskSize = 128 * 1024;
+        };
 
         nixpkgs.overlays = [ ];
 
