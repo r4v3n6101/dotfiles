@@ -117,11 +117,7 @@ in
         environment = {
           systemPackages = with pkgs; [
             git
-            networkmanagerapplet
             usbutils
-          ];
-          gnome.excludePackages = with pkgs; [
-            gnome-tour
           ];
         };
 
@@ -151,12 +147,6 @@ in
           };
         };
 
-        services = {
-          xserver.enable = true;
-          displayManager.gdm.enable = true;
-          desktopManager.gnome.enable = true;
-        };
-
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -168,7 +158,6 @@ in
             { home.stateVersion = "26.11"; }
 
             self.homeModules.tools
-            self.homeModules.kitty
             self.homeModules.nixvim
           ];
         };

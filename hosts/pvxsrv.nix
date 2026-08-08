@@ -94,6 +94,12 @@
               };
             };
           };
+
+          services.cloud-init = {
+            enable = true;
+            network.enable = true;
+            ext4.enable = true;
+          };
         };
 
       pvxsrv =
@@ -193,11 +199,6 @@
           };
 
           services = {
-            cloud-init = {
-              enable = true;
-              network.enable = true;
-              ext4.enable = true;
-            };
             openssh = {
               enable = true;
               openFirewall = true;
