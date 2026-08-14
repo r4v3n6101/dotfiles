@@ -54,15 +54,5 @@
           '';
         };
       };
-
-    radicle-pinned-repos =
-      { ... }:
-      {
-        services.radicle.settings.web.pinned.repositories = [
-          "rad:zrmnLbcmCRiaVbpAG3VRZ3b8Pkwi" # dotfiles
-          "rad:z36T62dkJSM7RCKd3ivFb4MjQwDST" # rairplay
-          "rad:z486CxugaTS67yovoZUdgtvH8stRr" # playastation
-        ];
-      };
   };
 }
