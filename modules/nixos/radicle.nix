@@ -1,5 +1,4 @@
-_:
-{
+_: {
   flake.nixosModules = {
     radicle-seed-node =
       { config, pkgs, ... }:

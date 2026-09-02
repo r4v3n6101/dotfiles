@@ -69,6 +69,7 @@
       imports = [
         ./flake-parts.nix
         (inputs.import-tree [
+          ./packages
           ./modules
           ./hosts
         ])

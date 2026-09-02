@@ -1,5 +1,4 @@
-_:
-{
+_: {
   flake.darwinModules.customization =
     { pkgs, ... }:
     {
