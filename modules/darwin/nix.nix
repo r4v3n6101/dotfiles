@@ -1,7 +1,7 @@
-{ ... }:
+_:
 {
   flake.darwinModules.nix =
-    { ... }:
+    _:
     {
       nix = {
         enable = true;

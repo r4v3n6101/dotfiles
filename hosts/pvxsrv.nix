@@ -16,12 +16,7 @@
 
     nixosModules = {
       privex-hardware =
-        {
-          config,
-          pkgs,
-          lib,
-          ...
-        }:
+        { ... }:
         {
           imports = [
             inputs.disko.nixosModules.disko
@@ -105,7 +100,6 @@
         {
           config,
           pkgs,
-          lib,
           ...
         }:
         {

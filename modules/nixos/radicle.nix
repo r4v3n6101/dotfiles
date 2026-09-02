@@ -1,4 +1,4 @@
-{ ... }:
+_:
 {
   flake.nixosModules = {
     radicle-seed-node =
@@ -23,11 +23,16 @@
             node.openFirewall = true;
             httpd.enable = true;
 
-            settings.node = {
-              alias = config.networking.domain;
-              seedingPolicy = {
-                default = "block";
-                scope = "follow";
+            settings = {
+              node = {
+                alias = config.networking.domain;
+                seedingPolicy = {
+                  default = "block";
+                  scope = "followed";
+                };
+              };
+              web = {
+                avatarUrl = "https://upload.wikimedia.org/wikipedia/commons/7/78/Christos_Acheiropoietos.jpg";
               };
             };
           };

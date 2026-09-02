@@ -46,6 +46,29 @@
 
         nix-index-database.comma.enable = true;
 
+        nix-your-shell = {
+          enable = true;
+          enableFishIntegration = true;
+          nix-output-monitor.enable = true;
+        };
+
+        direnv = {
+          enable = true;
+          enableBashIntegration = true;
+          enableFishIntegration = true;
+          nix-direnv.enable = true;
+        };
+
+        man = {
+          enable = true;
+          generateCaches = true;
+        };
+
+        tealdeer = {
+          enable = true;
+          enableAutoUpdates = true;
+        };
+
         fastfetch = {
           enable = true;
 
@@ -157,23 +180,6 @@
               "colors"
             ];
           };
-        };
-
-        direnv = {
-          enable = true;
-          enableBashIntegration = true;
-          enableFishIntegration = true;
-          nix-direnv.enable = true;
-        };
-
-        man = {
-          enable = true;
-          generateCaches = true;
-        };
-
-        tealdeer = {
-          enable = true;
-          enableAutoUpdates = true;
         };
 
         git = {

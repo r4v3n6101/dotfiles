@@ -21,15 +21,29 @@ in
       { pkgs, ... }:
       {
         imports = [
-          inputs.microvm-builder.modules.darwin.microvm-builder
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
           "${inputs.nix-darwin-yggdrasil}/modules/services/yggdrasil.nix"
         ];
 
-        microvm-builder = {
+        nix.linux-builder = {
           enable = true;
-          diskSize = 128 * 1024;
+          ephemeral = true;
+          maxJobs = 4;
+          systems = [
+            "aarch64-linux"
+            "x86_64-linux"
+          ];
+
+          package = pkgs.darwin.linux-builder-vz;
+          config.virtualisation = {
+            cores = 6;
+
+            darwin-builder = {
+              memorySize = 6 * 1024;
+              diskSize = 100 * 1024;
+            };
+          };
         };
 
         nixpkgs.overlays = [ ];
@@ -74,8 +88,9 @@ in
             enable = true;
             settings = {
               Peers = [
-                "tcp://ip4.01.msk.ru.dioni.su:9002"
-                "tcp://yggdrasil.1337.moe:7676"
+                "tcp://ygg-msk-1.averyan.ru:8363"
+                "tcp://yggno.de:18226"
+                "tcp://box.paulll.cc:13337"
               ];
             };
           };
