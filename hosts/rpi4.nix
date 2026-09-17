@@ -18,7 +18,6 @@ in
     nixosModules.rpi4 =
       {
         lib,
-        pkgs,
         ...
       }:
       {
@@ -27,8 +26,6 @@ in
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
           inputs.home-manager.nixosModules.home-manager
         ];
-
-        nixpkgs.config.allowUnfree = true;
 
         nix.settings = {
           trusted-users = [
@@ -49,48 +46,30 @@ in
           };
         };
 
-        boot = {
-          loader = {
-            grub.enable = false;
-            generic-extlinux-compatible.enable = true;
-          };
-          initrd = {
-            allowMissingModules = true;
-            availableKernelModules = lib.mkForce [
-              "xhci_hcd"
-              "scsi_mod"
-              "sd_mod"
-              "uas"
-              "usb_storage"
-            ];
-          };
-          kernelParams = [ "usb-storage.quirks=7825:a2a4:u" ];
-          kernel.sysctl = {
-            "net.ipv4.ip_forward" = 1;
-            "net.ipv6.conf.all.forwarding" = 1;
-            "net.core.default_qdisc" = "fq";
-            "net.ipv4.tcp_congestion_control" = "bbr";
-          };
-          zfs.forceImportRoot = false;
-        };
+        boot.kernelParams = lib.mkForce [
+          "loglevel=8"
+          "console=ttyAMA0,115200n8"
+          "usb-storage.quirks=7825:a2a4:u"
+        ];
 
         sdImage = {
           compressImage = false;
-          firmwareSize = 512;
         };
 
         hardware = {
-          enableRedistributableFirmware = true;
+          enableAllHardware = lib.mkForce false;
           raspberry-pi = {
-            "4".fkms-3d.enable = true;
-
             firmware.uboot.enable = true;
-            configtxt.settings.all = {
-              enable_uart = 1;
-              uart_2ndstage = 1;
-              boot_delay = 1;
-              hdmi_safe = 1;
-              hdmi_force_hotplug = 1;
+            configtxt = {
+              settings = {
+                all.enable_uart = true;
+                all.core_freq = 250;
+              };
+              deviceTreeOverlays.pi4 = [
+                {
+                  miniuart-bt = { };
+                }
+              ];
             };
           };
         };
@@ -102,22 +81,10 @@ in
 
         users.users.${user} = {
           isNormalUser = true;
-          description = user;
           initialPassword = "toor";
           extraGroups = [
             "networkmanager"
             "wheel"
-          ];
-          openssh.authorizedKeys.keyFiles = [
-            ../keys/id_r4mac.pub
-            ../keys/id_termius.pub
-          ];
-        };
-
-        environment = {
-          systemPackages = with pkgs; [
-            git
-            usbutils
           ];
         };
 
@@ -147,20 +114,22 @@ in
           };
         };
 
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          extraSpecialArgs = {
-            inherit inputs;
-          };
-          backupFileExtension = "build";
-          users.${user}.imports = [
-            { home.stateVersion = "26.11"; }
+        services.openssh.enable = true;
 
-            self.homeModules.tools
-            self.homeModules.nixvim
-          ];
-        };
+        # home-manager = {
+        #   useGlobalPkgs = true;
+        #   useUserPackages = true;
+        #   extraSpecialArgs = {
+        #     inherit inputs;
+        #   };
+        #   backupFileExtension = "build";
+        #   users.${user}.imports = [
+        #     { home.stateVersion = "26.11"; }
+        #
+        #     self.homeModules.tools
+        #     self.homeModules.nixvim
+        #   ];
+        # };
 
         time.timeZone = "Europe/Moscow";
         i18n.defaultLocale = "en_US.UTF-8";

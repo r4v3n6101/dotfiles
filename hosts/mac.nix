@@ -29,24 +29,23 @@ in
         nix.linux-builder = {
           enable = true;
           ephemeral = true;
-          maxJobs = 4;
           systems = [
             "aarch64-linux"
             "x86_64-linux"
           ];
 
           package = pkgs.darwin.linux-builder-vz;
-          config.virtualisation = {
-            cores = 6;
-
-            darwin-builder = {
-              memorySize = 6 * 1024;
-              diskSize = 100 * 1024;
+          config = {
+            nix.settings.build-dir = "/nix/.rw-store/build";
+            virtualisation = {
+              cores = 6;
+              darwin-builder = {
+                memorySize = 8 * 1024;
+                diskSize = 100 * 1024;
+              };
             };
           };
         };
-
-        nixpkgs.overlays = [ ];
 
         system = {
           stateVersion = 6;

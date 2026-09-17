@@ -35,7 +35,10 @@
       url = "github:Rubikoid/nix-darwin/add/yggdrasil-module";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # NixOS
     nixos-hardware = {
@@ -47,9 +50,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # sops
-    sops-nix = {
-      url = "github:Mic92/sops-nix/master";
+    # secrets
+    nix-secrets = {
+      url = "github:unnamed-systems/nix-secrets";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
@@ -69,7 +72,6 @@
       imports = [
         ./flake-parts.nix
         (inputs.import-tree [
-          ./packages
           ./modules
           ./hosts
         ])

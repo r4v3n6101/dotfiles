@@ -104,37 +104,21 @@
         }:
         {
           imports = [
-            inputs.sops-nix.nixosModules.sops
+            inputs.nix-secrets.nixosModules.default
             ../yank/telemt.nix
           ];
 
-          sops = {
-            age = {
-              sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-              keyFile = "/var/lib/sops-nix/key.txt";
-              generateKey = true;
-            };
+          security.nix-secrets = {
+            enable = true;
+            storage = inputs.secrets + /pvxsrv;
+            identityPaths = [
+              "/etc/ssh/ssh_host_ed25519_key"
+            ];
             secrets = {
-              "yggdrasil.key" = {
-                format = "binary";
-                sopsFile = "${inputs.secrets}/pvxsrv/yggdrasil.key";
-              };
-
-              "sing-box.json" = {
-                key = "";
-                format = "json";
-                sopsFile = "${inputs.secrets}/pvxsrv/sing-box.json";
-              };
-
-              "telemt.conf" = {
-                format = "binary";
-                sopsFile = "${inputs.secrets}/pvxsrv/telemt.conf";
-              };
-
-              "radicle.key" = {
-                format = "binary";
-                sopsFile = "${inputs.secrets}/pvxsrv/radicle.key";
-              };
+              "yggdrasil.key" = { };
+              "sing-box.json" = { };
+              "telemt.conf" = { };
+              "radicle.key" = { };
             };
           };
 
@@ -207,7 +191,7 @@
               group = "wheel";
               openMulticastPort = false;
               settings = {
-                PrivateKeyPath = config.sops.secrets."yggdrasil.key".path;
+                PrivateKeyPath = config.security.nix-secrets.secrets."yggdrasil.key".path;
                 Peers = [
                   "tcp://vpn.itrus.su:7991"
                   "tls://cirno.nadeko.net:44442"
@@ -219,18 +203,18 @@
             sing-box = {
               enable = true;
               settings = {
-                _secret = config.sops.secrets."sing-box.json".path;
+                _secret = config.security.nix-secrets.secrets."sing-box.json".path;
                 quote = false;
               };
             };
 
             telemt = {
               enable = true;
-              configFile = config.sops.secrets."telemt.conf".path;
+              configFile = config.security.nix-secrets.secrets."telemt.conf".path;
             };
 
             radicle = {
-              privateKey = config.sops.secrets."radicle.key".path;
+              privateKey = config.security.nix-secrets.secrets."radicle.key".path;
               publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGMI6h1iQfRsUnB9fc2ciY+d0adLer9LRNAsWAkg28lV radicle";
             };
 
