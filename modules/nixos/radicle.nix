@@ -51,6 +51,11 @@ _: {
               reverse_proxy 127.0.0.1:8080
             }
 
+            @git path_regexp git ^/[^/]+\.git(?:/.*)?$
+            handle @git {
+              reverse_proxy 127.0.0.1:8080
+            }
+
             handle {
               try_files {path} {path}/ /index.html
               file_server

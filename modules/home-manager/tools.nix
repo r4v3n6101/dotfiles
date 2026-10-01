@@ -182,6 +182,11 @@
           };
         };
 
+        delta = {
+          enable = true;
+          enableGitIntegration = true;
+        };
+
         git = {
           enable = true;
           signing = {

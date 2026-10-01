@@ -37,6 +37,10 @@ in
           package = pkgs.darwin.linux-builder-vz;
           config = {
             nix.settings.build-dir = "/nix/.rw-store/build";
+            services.logind.settings.Login = {
+              IdleAction = "poweroff";
+              IdleActionSec = "15min";
+            };
             virtualisation = {
               cores = 6;
               darwin-builder = {
@@ -75,6 +79,9 @@ in
           systemPackages = [
             (lib.hiPrio pkgs.uutils-coreutils-noprefix)
             iina
+
+            # Only client
+            openssh
           ];
         };
 
