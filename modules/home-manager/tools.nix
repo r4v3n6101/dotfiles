@@ -35,7 +35,13 @@
 
       programs = {
         bash.enable = true;
-        fish.enable = true;
+        fish = {
+          enable = true;
+          functions.fish_greeting = ''
+            ${pkgs.coreutils}/bin/cat ${../../assets/greeting.txt}
+               printf '\n'
+          '';
+        };
         fd.enable = true;
         bat.enable = true;
         ripgrep.enable = true;
