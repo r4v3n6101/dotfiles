@@ -11,6 +11,10 @@
     import-tree = {
       url = "github:vic/import-tree";
     };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Home manager
     home-manager = {
@@ -70,7 +74,10 @@
         "aarch64-darwin"
       ];
       imports = [
-        ./flake-parts.nix
+        inputs.flake-parts.flakeModules.modules
+        inputs.nix-darwin.flakeModules.default
+        inputs.home-manager.flakeModules.home-manager
+        inputs.treefmt-nix.flakeModule
         (inputs.import-tree [
           ./modules
           ./hosts

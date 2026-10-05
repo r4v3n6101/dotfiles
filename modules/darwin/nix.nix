@@ -1,5 +1,5 @@
 _: {
-  flake.darwinModules.nix = _: {
+  flake.modules.darwin.nix = _: {
     nix = {
       enable = true;
       channel.enable = false;

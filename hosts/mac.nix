@@ -1,9 +1,10 @@
 {
+  config,
   inputs,
-  self,
   ...
 }:
 let
+  inherit (config.flake.modules) darwin homeManager;
   user = "r4v3n6101";
 in
 {
@@ -11,13 +12,13 @@ in
     darwinConfigurations.r4mac = inputs.nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        self.darwinModules.nix
-        self.darwinModules.r4mac
-        self.darwinModules.customization
+        darwin.nix
+        darwin.r4mac
+        darwin.customization
       ];
     };
 
-    darwinModules.r4mac =
+    modules.darwin.r4mac =
       { pkgs, ... }:
       {
         imports = [
@@ -113,9 +114,9 @@ in
             inputs.mac-app-util.homeManagerModules.default
             { home.stateVersion = "25.11"; }
 
-            self.homeModules.tools
-            self.homeModules.kitty
-            self.homeModules.nixvim
+            homeManager.tools
+            homeManager.kitty
+            homeManager.nixvim
           ];
         };
       };

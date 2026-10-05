@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.homeModules.tools =
+  flake.modules.homeManager.tools =
     {
       config,
       pkgs,

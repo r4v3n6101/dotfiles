@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules = {
+  flake.modules.nixos = {
     radicle-seed-node =
       { config, pkgs, ... }:
       let

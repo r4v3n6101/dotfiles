@@ -1,20 +1,23 @@
 {
+  config,
   inputs,
-  self,
   ...
 }:
+let
+  inherit (config.flake.modules) nixos;
+in
 {
   flake = {
     nixosConfigurations.pvxsrv = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        self.nixosModules.radicle-seed-node
-        self.nixosModules.privex-hardware
-        self.nixosModules.pvxsrv
+        nixos.radicle-seed-node
+        nixos.privex-hardware
+        nixos.pvxsrv
       ];
     };
 
-    nixosModules = {
+    modules.nixos = {
       privex-hardware =
         { ... }:
         {

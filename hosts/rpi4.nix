@@ -1,9 +1,10 @@
 {
+  config,
   inputs,
-  self,
   ...
 }:
 let
+  inherit (config.flake.modules) nixos;
   user = "r4v3n6101";
 in
 {
@@ -11,11 +12,11 @@ in
     nixosConfigurations.rpi4 = inputs.nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
       modules = [
-        self.nixosModules.rpi4
+        nixos.rpi4
       ];
     };
 
-    nixosModules.rpi4 =
+    modules.nixos.rpi4 =
       {
         lib,
         ...
@@ -115,21 +116,6 @@ in
         };
 
         services.openssh.enable = true;
-
-        # home-manager = {
-        #   useGlobalPkgs = true;
-        #   useUserPackages = true;
-        #   extraSpecialArgs = {
-        #     inherit inputs;
-        #   };
-        #   backupFileExtension = "build";
-        #   users.${user}.imports = [
-        #     { home.stateVersion = "26.11"; }
-        #
-        #     self.homeModules.tools
-        #     self.homeModules.nixvim
-        #   ];
-        # };
 
         time.timeZone = "Europe/Moscow";
         i18n.defaultLocale = "en_US.UTF-8";
