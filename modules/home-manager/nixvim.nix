@@ -7,10 +7,6 @@
         inputs.nixvim.homeModules.default
       ];
 
-      home.packages = [
-        pkgs.nil
-      ];
-
       programs.nixvim = {
         nixpkgs = {
           source = inputs.nixpkgs;
@@ -88,202 +84,272 @@
             no_italic = true;
             term_colors = true;
             transparent_background = false;
-            color_overrides = {
-              mocha = {
-                base = "#000000";
-                mantle = "#000000";
-                crust = "#000000";
-              };
+            color_overrides.mocha = {
+              base = "#000000";
+              mantle = "#000000";
+              crust = "#000000";
             };
           };
         };
 
         lsp = {
           inlayHints.enable = true;
+          semanticTokens.enable = true;
+          codelens.enable = true;
+          completion = {
+            enable = true;
+            settings.autotrigger = true;
+          };
+          onAttach = ''
+            -- Format on save
+            vim.api.nvim_create_autocmd('BufWritePre', {
+                buffer = bufnr,
+                callback = function()
+                    vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
+                end,
+            })
+          '';
+          keymaps = [
+            {
+              mode = "n";
+              key = "<leader>gd";
+              lspBufAction = "definition";
+              options.desc = "Go to definition";
+            }
+            {
+              mode = "n";
+              key = "<leader>gD";
+              lspBufAction = "declaration";
+              options.desc = "Go to declaration";
+            }
+            {
+              mode = "n";
+              key = "<leader>gt";
+              lspBufAction = "type_definition";
+              options.desc = "Go to type definition";
+            }
+            {
+              mode = "n";
+              key = "<leader>ga";
+              lspBufAction = "code_action";
+              options.desc = "Show code action";
+            }
+            {
+              mode = "n";
+              key = "<leader>gn";
+              lspBufAction = "rename";
+              options.desc = "Rename";
+            }
+            {
+              mode = "n";
+              key = "<leader>gr";
+              lspBufAction = "references";
+              options.desc = "Go to references";
+            }
+            {
+              mode = "n";
+              key = "<leader>gi";
+              lspBufAction = "implementation";
+              options.desc = "Go to implementation";
+            }
+            {
+              mode = "n";
+              key = "<leader>gs";
+              lspBufAction = "document_symbol";
+              options.desc = "Open document symbols in loclist";
+            }
+            {
+              mode = [
+                "n"
+                "i"
+              ];
+              key = "<C-k>";
+              lspBufAction = "signature_help";
+              options.desc = "Signature help";
+            }
+          ];
+
           servers = {
-            nil_ls = {
+            nixd = {
               enable = true;
               config = {
-                cmd = [ "nil" ];
+                cmd = [ "nixd" ];
                 filetypes = [ "nix" ];
                 root_markers = [
                   "flake.nix"
                   ".git"
                 ];
+                settings.nixd = {
+                  nixpkgs.expr = "import ${inputs.nixpkgs} { }";
+                  formatting.command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
+                };
               };
-            };
-            copilot = {
-              enable = true;
             };
           };
         };
-
-        keymaps = [
-          # Basic
-          {
-            mode = "n";
-            key = "<leader>n";
-            action.__raw = ''
-              require"oil".toggle_float
-            '';
-            options.desc = "Toggle Oil window";
-          }
-          {
-            mode = "n";
-            key = "[c";
-            action.__raw = ''
-              function() require"treesitter-context".go_to_context(vim.v.count1) end
-            '';
-            options.desc = "Jump back to treesitter context header";
-          }
-
-          # Slop
-          {
-            mode = "n";
-            key = "<leader>aa";
-            action.__raw = ''
-              function() require"sidekick.cli".toggle() end
-            '';
-            options.desc = "Toggle Sidekick CLI";
-          }
-          {
-            mode = [
-              "n"
-              "x"
-            ];
-            key = "<leader>at";
-            action.__raw = ''
-              function() require"sidekick.cli".send({ msg = "{this}" }) end
-            '';
-            options.desc = "Send @this to Sidekick";
-          }
-          {
-            mode = "n";
-            key = "<leader>af";
-            action.__raw = ''
-              function() require"sidekick.cli".send({ msg = "{file}" }) end
-            '';
-            options.desc = "Send @file to Sidekick";
-          }
-          {
-            mode = "n";
-            key = "<leader>ap";
-            action.__raw = ''
-              function() require"sidekick.cli".prompt() end
-            '';
-            options.desc = "Send @file to Sidekick";
-          }
-
-          # Picker (fuzzy finder)
-          {
-            mode = "n";
-            key = "<leader>fc";
-            action = "<cmd>Pick resume<cr>";
-            options.desc = "Continue last search";
-          }
-          {
-            mode = "n";
-            key = "<leader>ff";
-            action = "<cmd>Pick files<cr>";
-            options.desc = "Find files";
-          }
-          {
-            mode = "n";
-            key = "<leader>fg";
-            action = "<cmd>Pick grep_live<cr>";
-            options.desc = "Find by grep";
-          }
-          {
-            mode = "n";
-            key = "<leader>fb";
-            action = "<cmd>Pick buffers<cr>";
-            options.desc = "Find in opened buffers";
-          }
-          {
-            mode = "n";
-            key = "<leader>fh";
-            action = "<cmd>Pick help<cr>";
-            options.desc = "Find in help tags";
-          }
-          {
-            mode = "n";
-            key = "<leader>fr";
-            action = "<cmd>Pick registers<cr>";
-            options.desc = "Find in registers";
-          }
-          {
-            mode = "n";
-            key = "<leader>fm";
-            action = "<cmd>Pick marks<cr>";
-            options.desc = "Find in marks";
-          }
-          {
-            mode = "n";
-            key = "<leader>fd";
-            action = "<cmd>Pick diagnostic<cr>";
-            options.desc = "Find in diagnostics";
-          }
-          {
-            mode = "n";
-            key = "<leader>fk";
-            action = "<cmd>Pick keymaps<cr>";
-            options.desc = "Find in keymaps";
-          }
-          {
-            mode = "n";
-            key = "<leader>fo";
-            action = "<cmd>Pick options<cr>";
-            options.desc = "Find in options";
-          }
-
-          # Git
-          {
-            mode = "n";
-            key = "<leader>hq";
-            action.__raw = ''
-              function() require"gitsigns".setqflist('all') end
-            '';
-            options.desc = "Open qfix (hunks for git directory)";
-          }
-        ];
 
         plugins = {
           lualine.enable = true;
           vim-suda.enable = true;
           web-devicons.enable = true;
           indent-blankline.enable = true;
-          mini-extra.enable = true;
-          mini-pick.enable = true;
           nix-develop.enable = true;
-          sidekick.enable = true;
+          origami.enable = true;
+          which-key = {
+            enable = true;
+            settings.delay = 300;
+          };
+
+          # mini-s
+          mini-extra.enable = true;
+          mini-trailspace.enable = true;
+          mini-surround.enable = true;
+          mini-notify.enable = true;
+          mini-pick = {
+            enable = true;
+            luaConfig.post = ''
+              vim.keymap.set("n", "<leader>fc", "<cmd>Pick resume<cr>", { desc = "Continue last search" })
+              vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", { desc = "Find files" })
+              vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<cr>", { desc = "Find by grep" })
+              vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>", { desc = "Find in opened buffers" })
+              vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", { desc = "Find in help tags" })
+              vim.keymap.set("n", "<leader>fr", "<cmd>Pick registers<cr>", { desc = "Find in registers" })
+              vim.keymap.set("n", "<leader>fm", "<cmd>Pick marks<cr>", { desc = "Find in marks" })
+              vim.keymap.set("n", "<leader>fd", "<cmd>Pick diagnostic<cr>", { desc = "Find in diagnostics" })
+              vim.keymap.set("n", "<leader>fk", "<cmd>Pick keymaps<cr>", { desc = "Find in keymaps" })
+              vim.keymap.set("n", "<leader>fo", "<cmd>Pick options<cr>", { desc = "Find in options" })
+            '';
+          };
+
           nvim-bqf = {
             enable = true;
+            settings.preview.winblend = 0;
+          };
+          quicker = {
+            enable = true;
             settings = {
-              preview.winblend = 0;
+              highlight = {
+                lsp = false;
+                treesitter = true;
+                load_buffers = true;
+              };
+              edit.enabled = false;
+              constrain_cursor = true;
+              keys = [
+                {
+                  __unkeyed-1 = ">";
+                  __unkeyed-2.__raw = ''
+                    function()
+                      require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+                    end
+                  '';
+                  desc = "Expand quickfix context";
+                }
+                {
+                  __unkeyed-1 = "<";
+                  __unkeyed-2.__raw = "require('quicker').collapse";
+                  desc = "Collapse quickfix context";
+                }
+              ];
             };
           };
+
           oil = {
             enable = true;
             settings = {
               delete_to_trash = true;
               default_file_explorer = true;
-              win_options = {
-                signcolumn = "yes:2";
-              };
+              win_options.signcolumn = "yes:2";
             };
+            luaConfig.post = ''
+              vim.keymap.set("n", "<leader>n", require("oil").toggle_float, { desc = "Toggle Oil window" })
+            '';
           };
-          oil-git-status = {
-            enable = true;
-          };
-          which-key = {
+          oil-git-status.enable = true;
+
+          diffview.enable = true;
+          neogit = {
             enable = true;
             settings = {
-              delay = 300;
+              auto_show_console_on = "error";
+              disable_hint = true;
+              disable_context_highlighting = true;
+              disable_insert_on_commit = true;
+              treesitter_diff_highlight = true;
+
+              diff_viewer = "diffview";
+              integrations = {
+                mini_pick = true;
+                diffview = true;
+              };
+              commit_editor = {
+                spell_check = false;
+                staged_diff_split_kind = "auto";
+              };
             };
+            luaConfig.post = ''
+              vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", { desc = "Show Neogit UI" })
+            '';
           };
-          origami = {
+          gitsigns = {
             enable = true;
+            settings = {
+              numhl = true;
+              signcolumn = false;
+              linehl = false;
+              word_diff = false;
+              current_line_blame = false;
+              attach_to_untracked = true;
+              on_attach = ''
+                function(bufnr)
+                  local gs = require("gitsigns")
+                  vim.keymap.set("n", "]h", function()
+                    if vim.wo.diff then
+                      vim.cmd.normal({ "]c", bang = true })
+                    else
+                      gs.nav_hunk("next")
+                    end
+                  end, { buffer = bufnr, desc = "Next hunk" })
+                  vim.keymap.set("n", "[h", function()
+                    if vim.wo.diff then
+                      vim.cmd.normal({ "[c", bang = true })
+                    else
+                      gs.nav_hunk("prev")
+                    end
+                  end, { buffer = bufnr, desc = "Previous hunk" })
+
+                  vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
+                  vim.keymap.set("n", "<leader>hr", gs.reset_hunk, { buffer = bufnr, desc = "Reset hunk" })
+                  vim.keymap.set("v", "<leader>hs", function()
+                    gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+                  end, { buffer = bufnr, desc = "Stage hunk (visual)" })
+                  vim.keymap.set("v", "<leader>hr", function()
+                    gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+                  end, { buffer = bufnr, desc = "Reset hunk (visual)" })
+
+                  vim.keymap.set("n", "<leader>hS", gs.stage_buffer, { buffer = bufnr, desc = "Stage buffer" })
+                  vim.keymap.set("n", "<leader>hR", gs.reset_buffer, { buffer = bufnr, desc = "Reset buffer" })
+                  vim.keymap.set("n", "<leader>hp", gs.preview_hunk, { buffer = bufnr, desc = "Preview hunk" })
+                  vim.keymap.set("n", "<leader>hb", function()
+                    gs.blame_line({ full = true })
+                  end, { buffer = bufnr, desc = "Blame line" })
+
+                  vim.keymap.set("n", "<leader>hd", gs.diffthis, { buffer = bufnr, desc = "Show diff" })
+                  vim.keymap.set("n", "<leader>hD", function()
+                    gs.diffthis("~")
+                  end, { buffer = bufnr, desc = "Show diff" })
+                  vim.keymap.set("n", "<leader>hl", gs.setloclist, { buffer = bufnr, desc = "Open loclist (hunks for file)" })
+                  vim.keymap.set({ "o", "x" }, "ih", gs.select_hunk, { buffer = bufnr, desc = "Select hunk (text object)" })
+                end
+              '';
+            };
+            luaConfig.post = ''
+              vim.keymap.set("n", "<leader>hq", function()
+                require("gitsigns").setqflist("all")
+              end, { desc = "Open qfix (hunks for git directory)" })
+            '';
           };
+
           treesitter = {
             enable = true;
             indent.enable = true;
@@ -294,134 +360,59 @@
           };
           treesitter-context = {
             enable = true;
-            settings = {
-              max_lines = 3;
-            };
-          };
-          gitsigns = {
-            enable = true;
-            settings = {
-              numhl = true;
-              attach_to_untracked = true;
-              on_attach = ''
-                  function(bufnr)
-                    local gs = require('gitsigns')
-                    vim.keymap.set('n', ']h', function()
-                        if vim.wo.diff then
-                            vim.cmd.normal({ ']h', bang = true })
-                        else
-                            gs.nav_hunk('next')
-                        end
-                    end, { buffer = bufnr, desc = "Next hunk" })
-
-                    vim.keymap.set('n', '[h', function()
-                        if vim.wo.diff then
-                            vim.cmd.normal({ '[h', bang = true })
-                        else
-                            gs.nav_hunk('prev')
-                        end
-                    end, { buffer = bufnr, desc = "Previous hunk" })
-
-                    vim.keymap.set('n', '<leader>hs', gs.stage_hunk,
-                        { buffer = bufnr, desc = "Stage hunk" })
-                    vim.keymap.set('n', '<leader>hr', gs.reset_hunk,
-                        { buffer = bufnr, desc = "Reset hunk" })
-                    vim.keymap.set('v', '<leader>hs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-                        { buffer = bufnr, desc = "Stage hunk (visual)" })
-                    vim.keymap.set('v', '<leader>hr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-                        { buffer = bufnr, desc = "Reset hunk (visual)" })
-
-                    vim.keymap.set('n', '<leader>hS', gs.stage_buffer,
-                        { buffer = bufnr, desc = "Stage buffer" })
-                    vim.keymap.set('n', '<leader>hR', gs.reset_buffer,
-                        { buffer = bufnr, desc = "Reset buffer" })
-
-                    vim.keymap.set('n', '<leader>hp', gs.preview_hunk,
-                        { buffer = bufnr, desc = "Preview hunk" })
-                    vim.keymap.set('n', '<leader>hb', function() gs.blame_line { full = true } end,
-                        { buffer = bufnr, desc = "Blame line" })
-
-                    vim.keymap.set('n', '<leader>hd', gs.diffthis, { buffer = bufnr, desc = "Show diff" })
-                    vim.keymap.set('n', '<leader>hD', function() gs.diffthis('~') end,
-                        { buffer = bufnr, desc = "Show diff" })
-
-                    vim.keymap.set('n', '<leader>hl', gs.setloclist,
-                        { buffer = bufnr, desc = "Open loclist (hunks for file)" })
-
-                    vim.keymap.set({ 'o', 'x' }, 'ih', gs.select_hunk,
-                        { buffer = bufnr, desc = "Select hunk (text object)" })
-                end
-              '';
-            };
-          };
-          fidget = {
-            enable = true;
-            settings = {
-              notification = {
-                window = {
-                  winblend = 0;
-                };
-              };
-            };
+            settings.max_lines = 3;
+            luaConfig.post = ''
+              vim.keymap.set("n", "[c", function()
+                require("treesitter-context").go_to_context(vim.v.count1)
+              end, { desc = "Jump back to treesitter context header" })
+            '';
           };
           rustaceanvim = {
             enable = true;
             settings = {
               server.default_settings.rust-analyzer = {
-                files = {
-                  excludeDirs = [
-                    ".direnv"
-                    ".git"
-                    ".gitlab"
-                  ];
-                };
-                cargo = {
-                  allFeatures = true;
-                };
-                completion = {
-                  autoimport = {
-                    enable = true;
+                lens = {
+                  enable = true;
+                  implementations.enable = true;
+                  references = {
+                    adt.enable = true;
+                    enumVariant.enable = true;
+                    method.enable = true;
+                    trait.enable = true;
                   };
+                  run.enable = false;
+                  debug.enable = false;
+                  updateTest.enable = false;
                 };
+                hover.memoryLayout.niches = true;
+
+                procMacro.enable = true;
+                cargo.allFeatures = true;
+                completion.autoimport.enable = true;
+
+                files.excludeDirs = [
+                  ".direnv"
+                  ".git"
+                  ".gitlab"
+                ];
+
                 inlayHints = {
-                  bindingModeHints = {
-                    enable = true;
-                  };
-                  closureReturnTypeHints = {
-                    enable = "always";
-                  };
-                  discriminantHints = {
-                    enable = "always";
-                  };
+                  bindingModeHints.enable = true;
+                  closureReturnTypeHints.enable = "always";
+                  discriminantHints.enable = "always";
+                  rangeExclusiveHints.enable = true;
                   lifetimeElisionHints = {
                     enable = "skip_trivial";
                     useParameterNames = true;
-                  };
-                  rangeExclusiveHints = {
-                    enable = true;
                   };
                   expressionAdjustmentHints = {
                     enable = "reborrow";
                     mode = "postfix";
                   };
                 };
-                procMacro = {
-                  enable = true;
-                };
               };
             };
           };
-        };
-
-        extraFiles = {
-          "after/ftplugin/nix.lua".text = ''
-            vim.opt_local.tabstop = 2
-            vim.opt_local.shiftwidth = 2
-            vim.opt_local.expandtab = true
-          '';
-          "after/ftplugin/json.lua".text = ''
-            vim.bo.formatprg = "jq"
-          '';
         };
 
         extraConfigLua = ''
@@ -433,78 +424,39 @@
           vim.keymap.del('n', 'gO')
           vim.keymap.del('i', '<C-s>')
 
-          -- Configuration for buffers when LSP attached to them
-          vim.api.nvim_create_autocmd('LspAttach', {
-              group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-              callback = function(ev)
-                  local client = vim.lsp.get_client_by_id(ev.data.client_id)
-
-                  -- Enable auto-completion
-                  if client:supports_method('textDocument/completion') then
-                      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-                  end
-
-                  -- LSP actions
-                  vim.keymap.set('n', "<leader>gd", vim.lsp.buf.definition,
-                      { buffer = ev.buf, desc = "Go to definition" })
-                  vim.keymap.set('n', "<leader>gD", vim.lsp.buf.declaration,
-                      { buffer = ev.buf, desc = "Go to declaration" })
-                  vim.keymap.set('n', "<leader>gt", vim.lsp.buf.type_definition,
-                      { buffer = ev.buf, desc = "Go to type definition" })
-                  vim.keymap.set('n', "<leader>ga", vim.lsp.buf.code_action,
-                      { buffer = ev.buf, desc = "Show code action" })
-                  vim.keymap.set('n', "<leader>gn", vim.lsp.buf.rename,
-                      { buffer = ev.buf, desc = "Rename" })
-                  vim.keymap.set('n', "<leader>gr", vim.lsp.buf.references,
-                      { buffer = ev.buf, desc = "Go to references" })
-                  vim.keymap.set('n', "<leader>gi", vim.lsp.buf.implementation,
-                      { buffer = ev.buf, desc = "Go to implementation" })
-                  vim.keymap.set('n', "<leader>gs", vim.lsp.buf.document_symbol,
-                      { buffer = ev.buf, desc = "Open document symbols in loclist" })
-                  vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help,
-                      { buffer = ev.buf, desc = "Signature help" })
-
-                  -- Format on save
-                  vim.api.nvim_create_autocmd('BufWritePre', {
-                      buffer = ev.buf,
-                      callback = function()
-                          vim.lsp.buf.format({ bufnr = ev.buf, id = client.id })
-                      end,
-                  })
-              end
-          })
-
-          -- Diagnostics and inlay hints
-          SHOW_VIRTUAL_TEXT = false
+          -- Diagnostics, inlay hints and CodeLens
+          VERBOSE_MODE = false
           DIAGNOSTICS_VIRTUAL_TEXT = true
 
-          vim.lsp.inlay_hint.enable(SHOW_VIRTUAL_TEXT)
+          vim.lsp.inlay_hint.enable(VERBOSE_MODE)
+          vim.lsp.codelens.enable(VERBOSE_MODE)
           vim.diagnostic.config {
               underline = true,
               signs = true,
               severity_sort = true,
               update_in_insert = true,
-              virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
-              virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+              virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and VERBOSE_MODE,
+              virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and VERBOSE_MODE,
           }
 
-          -- Show/hide diagnostics and inlay hints
+          -- Show/hide diagnostics, inlay hints and CodeLens
           vim.keymap.set('n', '<leader>t', function()
-              SHOW_VIRTUAL_TEXT = not SHOW_VIRTUAL_TEXT
-              vim.lsp.inlay_hint.enable(SHOW_VIRTUAL_TEXT)
+              VERBOSE_MODE = not VERBOSE_MODE
+              vim.lsp.inlay_hint.enable(VERBOSE_MODE)
+              vim.lsp.codelens.enable(VERBOSE_MODE)
               vim.diagnostic.config {
-                  virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
-                  virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                  virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and VERBOSE_MODE,
+                  virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and VERBOSE_MODE,
               }
               vim.cmd [[ normal "hl" ]]
-          end, { desc = "Show/hide diagnostics and inlay hints" })
+          end, { desc = "Toggle verbose mode (diagnostics, inlay hints, CodeLens)" })
 
           -- Change type of diagnostics (virtual lines or virtual text)
           vim.keymap.set('n', '<leader>l', function()
               DIAGNOSTICS_VIRTUAL_TEXT = not DIAGNOSTICS_VIRTUAL_TEXT
               vim.diagnostic.config {
-                  virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
-                  virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and SHOW_VIRTUAL_TEXT,
+                  virtual_text = DIAGNOSTICS_VIRTUAL_TEXT and VERBOSE_MODE,
+                  virtual_lines = not DIAGNOSTICS_VIRTUAL_TEXT and VERBOSE_MODE,
               }
               vim.cmd [[ normal "hl" ]]
           end, { desc = "Toggle virtual text/lines for diagnostics" })
