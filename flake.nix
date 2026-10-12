@@ -55,14 +55,22 @@
     };
 
     # secrets
-    nix-secrets = {
-      url = "github:unnamed-systems/nix-secrets";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     secrets = {
       url = "path:///Users/r4v3n6101/secrets/";
       flake = false;
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+    age-plugin-gpg.url = "github:CertainLach/age-plugin-gpg";
   };
 
   outputs =

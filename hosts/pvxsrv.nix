@@ -107,21 +107,33 @@ in
         }:
         {
           imports = [
-            inputs.nix-secrets.nixosModules.default
+            inputs.agenix.nixosModules.default
+            inputs.agenix-rekey.nixosModules.default
             ../yank/telemt.nix
           ];
 
-          security.nix-secrets = {
-            enable = true;
-            storage = inputs.secrets + /pvxsrv;
-            identityPaths = [
-              "/etc/ssh/ssh_host_ed25519_key"
-            ];
+          age = {
+            rekey = rec {
+              storageMode = "derivation";
+              agePlugins = [
+                inputs.age-plugin-gpg.packages.aarch64-darwin.default
+                inputs.age-plugin-gpg.packages.aarch64-linux.default
+                inputs.age-plugin-gpg.packages.x86_64-linux.default
+              ];
+
+              masterIdentities = [ ];
+              hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEjxBkmR4HWYXJdvcvd4r+WL+TWttqbLFsmd/BYtImNB";
+              extraEncryptionPubkeys = [
+                "age1gpg129dtszlf0fkewgzxd9d6qe680rvu5ttl9cdads"
+                hostPubkey
+              ];
+            };
+
             secrets = {
-              "yggdrasil.key" = { };
-              "sing-box.json" = { };
-              "telemt.conf" = { };
-              "radicle.key" = { };
+              "yggdrasil.key".file = inputs.secrets + "/pvxsrv/yggdrasil.key.age";
+              "sing-box.json".file = inputs.secrets + "/pvxsrv/sing-box.json.age";
+              "telemt.conf".file = inputs.secrets + "/pvxsrv/telemt.conf.age";
+              "radicle.key".file = inputs.secrets + "/pvxsrv/radicle.key.age";
             };
           };
 
@@ -172,6 +184,7 @@ in
               hashedPassword = "!";
               openssh.authorizedKeys.keyFiles = [
                 ../keys/id_r4mac.pub
+                ../keys/id_rskey.pub
                 ../keys/id_termius.pub
               ];
             };
@@ -194,7 +207,7 @@ in
               group = "wheel";
               openMulticastPort = false;
               settings = {
-                PrivateKeyPath = config.security.nix-secrets.secrets."yggdrasil.key".path;
+                PrivateKeyPath = config.age.secrets."yggdrasil.key".path;
                 Peers = [
                   "tcp://vpn.itrus.su:7991"
                   "tls://cirno.nadeko.net:44442"
@@ -206,18 +219,18 @@ in
             sing-box = {
               enable = true;
               settings = {
-                _secret = config.security.nix-secrets.secrets."sing-box.json".path;
+                _secret = config.age.secrets."sing-box.json".path;
                 quote = false;
               };
             };
 
             telemt = {
               enable = true;
-              configFile = config.security.nix-secrets.secrets."telemt.conf".path;
+              configFile = config.age.secrets."telemt.conf".path;
             };
 
             radicle = {
-              privateKey = config.security.nix-secrets.secrets."radicle.key".path;
+              privateKey = config.age.secrets."radicle.key".path;
               publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGMI6h1iQfRsUnB9fc2ciY+d0adLer9LRNAsWAkg28lV radicle";
             };
 
