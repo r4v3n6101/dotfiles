@@ -8,9 +8,7 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    import-tree = {
-      url = "github:vic/import-tree";
-    };
+    import-tree.url = "github:vic/import-tree";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,10 +51,14 @@
       url = "github:nix-community/disko/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # secrets
     secrets = {
-      url = "path:///Users/r4v3n6101/secrets/";
+      url = "git+ssh://git@github.com/r4v3n6101/secrets.git";
       flake = false;
     };
     agenix = {
@@ -76,7 +78,6 @@
   outputs =
     inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      debug = true;
       systems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -88,8 +89,9 @@
         inputs.home-manager.flakeModules.home-manager
         inputs.treefmt-nix.flakeModule
         (inputs.import-tree [
-          ./modules
           ./hosts
+          ./modules
+          ./packages
         ])
       ];
     };

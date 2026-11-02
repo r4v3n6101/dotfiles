@@ -18,86 +18,82 @@ in
     };
 
     modules.nixos = {
-      privex-hardware =
-        { ... }:
-        {
-          imports = [
-            inputs.disko.nixosModules.disko
+      privex-hardware = {
+        imports = [
+          inputs.disko.nixosModules.disko
+        ];
+
+        boot = {
+          loader.grub = {
+            enable = true;
+            efiSupport = false;
+          };
+          initrd.availableKernelModules = [
+            "virtio"
+            "virtio_pci"
+            "virtio_blk"
+            "virtio_scsi"
           ];
 
-          boot = {
-            loader.grub = {
-              enable = true;
-              efiSupport = false;
-            };
-            initrd = {
-              verbose = true;
-              availableKernelModules = [
-                "virtio"
-                "virtio_pci"
-                "virtio_blk"
-                "virtio_scsi"
-              ];
-            };
-            kernelParams = [ "console=ttyS0" ];
-            kernel.sysctl = {
-              "net.ipv4.ip_forward" = 1;
-              "net.ipv6.conf.all.forwarding" = 1;
-              "net.core.default_qdisc" = "fq";
-              "net.ipv4.tcp_congestion_control" = "bbr";
-            };
+          kernelParams = [ "console=ttyS0" ];
+          kernel.sysctl = {
+            "net.ipv4.ip_forward" = 1;
+            "net.ipv6.conf.all.forwarding" = 1;
+            "net.core.default_qdisc" = "fq";
+            "net.ipv4.tcp_congestion_control" = "bbr";
           };
+        };
 
-          disko.devices.disk.main = {
-            type = "disk";
-            device = "/dev/sda";
+        disko.devices.disk.main = {
+          type = "disk";
+          device = "/dev/sda";
 
-            content = {
-              type = "gpt";
+          content = {
+            type = "gpt";
 
-              partitions = {
-                bios = {
-                  size = "1M";
-                  type = "EF02";
+            partitions = {
+              bios = {
+                size = "1M";
+                type = "EF02";
+              };
+
+              boot = {
+                size = "1G";
+
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/boot";
                 };
+              };
 
-                boot = {
-                  size = "1G";
+              swap = {
+                size = "2G";
 
-                  content = {
-                    type = "filesystem";
-                    format = "ext4";
-                    mountpoint = "/boot";
-                  };
+                content = {
+                  type = "swap";
                 };
+              };
 
-                swap = {
-                  size = "2G";
+              root = {
+                size = "100%";
 
-                  content = {
-                    type = "swap";
-                  };
-                };
-
-                root = {
-                  size = "100%";
-
-                  content = {
-                    type = "filesystem";
-                    format = "ext4";
-                    mountpoint = "/";
-                  };
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/";
                 };
               };
             };
           };
-
-          services.cloud-init = {
-            enable = true;
-            network.enable = true;
-            ext4.enable = true;
-          };
         };
+
+        services.cloud-init = {
+          enable = true;
+          network.enable = true;
+          ext4.enable = true;
+        };
+      };
 
       pvxsrv =
         {
@@ -110,6 +106,14 @@ in
             inputs.agenix.nixosModules.default
             inputs.agenix-rekey.nixosModules.default
             ../yank/telemt.nix
+          ];
+
+          nixpkgs.overlays = [
+            (_: prev: {
+              radicle-node = prev.radicle-node.overrideAttrs {
+                doCheck = false;
+              };
+            })
           ];
 
           age = {
