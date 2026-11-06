@@ -48,10 +48,4 @@ in
       profiles.system = mkProfile "x96q";
     };
   };
-
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.deploy-rs = pkgs.deploy-rs;
-    };
 }

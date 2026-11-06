@@ -94,9 +94,11 @@ in
             enable = true;
             settings = {
               Peers = [
-                "tcp://ygg-msk-1.averyan.ru:8363"
-                "tcp://yggno.de:18226"
-                "tcp://box.paulll.cc:13337"
+                "quic://ygg-msk-1.averyan.ru:8364"
+                "tls://cm1.wwire.su:2231"
+                "tls://ygg-msk-1.averyan.ru:8362"
+                "tls://box.paulll.cc:13338"
+                "tls://yggno.de:18227"
               ];
             };
           };

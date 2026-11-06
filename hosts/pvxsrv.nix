@@ -108,13 +108,18 @@ in
             ../yank/telemt.nix
           ];
 
-          nixpkgs.overlays = [
-            (_: prev: {
-              radicle-node = prev.radicle-node.overrideAttrs {
-                doCheck = false;
-              };
-            })
-          ];
+          nixpkgs = {
+            config.permittedInsecurePackages = [
+              "radicle-node-1.10.3"
+            ];
+            overlays = [
+              (_: prev: {
+                radicle-node = prev.radicle-node.overrideAttrs {
+                  doCheck = false;
+                };
+              })
+            ];
+          };
 
           age = {
             rekey = rec {
@@ -126,7 +131,7 @@ in
               ];
 
               masterIdentities = [ ];
-              hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEjxBkmR4HWYXJdvcvd4r+WL+TWttqbLFsmd/BYtImNB";
+              hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElQRo7iSxrQ/rnEuLQh/srSVzhcS6ziZGcschAjlATC";
               extraEncryptionPubkeys = [
                 "age1gpg129dtszlf0fkewgzxd9d6qe680rvu5ttl9cdads"
                 hostPubkey
@@ -134,10 +139,15 @@ in
             };
 
             secrets = {
-              "yggdrasil.key".file = inputs.secrets + "/pvxsrv/yggdrasil.key.age";
-              "sing-box.json".file = inputs.secrets + "/pvxsrv/sing-box.json.age";
-              "telemt.conf".file = inputs.secrets + "/pvxsrv/telemt.conf.age";
-              "radicle.key".file = inputs.secrets + "/pvxsrv/radicle.key.age";
+              "wg.key" = {
+                file = "${inputs.secrets}/pvxsrv/wg.key.age";
+                owner = "root";
+                mode = "0400";
+              };
+              "yggdrasil.key".file = "${inputs.secrets}/pvxsrv/yggdrasil.key.age";
+              "sing-box.json".file = "${inputs.secrets}/pvxsrv/sing-box.json.age";
+              "telemt.conf".file = "${inputs.secrets}/pvxsrv/telemt.conf.age";
+              "radicle.key".file = "${inputs.secrets}/pvxsrv/radicle.key.age";
             };
           };
 
@@ -162,20 +172,6 @@ in
             };
           };
 
-          networking = {
-            hostName = "pvxsrv";
-            domain = "pivozavr.store";
-            firewall = {
-              allowedTCPPorts = [
-                80
-                443
-              ];
-              allowedUDPPorts = [
-                443
-              ];
-            };
-          };
-
           security.sudo = {
             enable = true;
             wheelNeedsPassword = false;
@@ -185,7 +181,8 @@ in
             admin = {
               isNormalUser = true;
               extraGroups = [ "wheel" ];
-              hashedPassword = "!";
+              # toor
+              hashedPassword = "$6$wtkmlmnTodWBnkbB$Sf2/xKlSw1lLThihRDIsViHw/BHmEaRcfp6AYmCo4ffaYwh4a4sOIYPMSNu8J2s2cAuVQL3W8FawIxNbW/YSU0";
               openssh.authorizedKeys.keyFiles = [
                 ../keys/id_r4mac.pub
                 ../keys/id_rskey.pub
@@ -195,14 +192,50 @@ in
             sing-box.extraGroups = [ "caddy" ];
           };
 
+          networking = {
+            hostName = "pvxsrv";
+            domain = "pivozavr.store";
+            firewall = {
+              interfaces.tun0.allowedUDPPorts = [ 51820 ];
+              allowedTCPPorts = [
+                80
+                443
+              ];
+              allowedUDPPorts = [
+                443
+              ];
+            };
+
+            nat = {
+              enable = true;
+              externalInterface = "eth0";
+              internalInterfaces = [ "wg0" ];
+            };
+
+            wireguard.interfaces.wg0 = {
+              ips = [ "10.0.0.1/32" ];
+              listenPort = 51820;
+              mtu = 1200;
+
+              privateKeyFile = config.age.secrets."wg.key".path;
+              peers = [
+                {
+                  publicKey = "9a4HgmdPX8supsgLSxJbOahaczIBynXJ76mHqMj5VlQ=";
+                  allowedIPs = [ "10.0.0.2/32" ];
+                }
+              ];
+            };
+          };
+
           services = {
             openssh = {
               enable = true;
               openFirewall = true;
               ports = [ 20000 ];
               settings = {
-                PermitRootLogin = "prohibit-password";
                 PasswordAuthentication = false;
+                KbdInteractiveAuthentication = false;
+                PermitRootLogin = "no";
               };
             };
 
@@ -218,7 +251,16 @@ in
                 ];
               };
             };
-            yggdrasil-jumper.enable = true;
+            yggdrasil-jumper = {
+              enable = true;
+              logLevel = "info";
+
+              settings = {
+                listen_port = 4701;
+                yggdrasil_admin_reconnect = true;
+                wireguard = false;
+              };
+            };
 
             sing-box = {
               enable = true;

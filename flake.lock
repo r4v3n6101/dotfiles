@@ -361,11 +361,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793193205,
-        "narHash": "sha256-X6xa6sGA7RnJQuZGbFMC+K+KToWAlBDCCjJXfTwEPsw=",
+        "lastModified": 1793757180,
+        "narHash": "sha256-gyV7AtCwLnOImcrfSETP4J3Ie96bz19DY47B7m7Y3HM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "095fef2f265c3c0da4fe315efba8f8a04495ab34",
+        "rev": "b787c48e2ec57a9d098f5c2721882a3bc1e16f97",
         "type": "github"
       },
       "original": {
@@ -484,11 +484,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793355509,
-        "narHash": "sha256-/Zs18x+IW4LuVH0rKxra0WPRgsk0DQsi0Bwkf8sOC5c=",
+        "lastModified": 1793871777,
+        "narHash": "sha256-DbFyxXHjP4SJDWVVIILkgrUZxj29cDusi8ULXoQGuZ8=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "04c6b94fa104bc23650983a4513aea196794d321",
+        "rev": "d645c71a58dbae3eb17ff551a07aea13a541cb1a",
         "type": "github"
       },
       "original": {
@@ -578,11 +578,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1793646333,
-        "narHash": "sha256-Oro+oB+1rTrflBgnAlvc4P2GNrOeV2F4zxz96PzroqI=",
+        "lastModified": 1793826729,
+        "narHash": "sha256-D5H7H+qMoTGI/jJtxKP4u7BdjkFnUyhOovTrf3pTOr0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "55f27947ec82e39df1e98de842864220781f9df0",
+        "rev": "6dadaf4375be35033e1c84395adbd53ff5fded96",
         "type": "github"
       },
       "original": {
@@ -681,11 +681,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1793105094,
-        "narHash": "sha256-fzbpZPpcgOvekjqDJzCFT4Tnztd+zw5CQ+UWuddL7o0=",
+        "lastModified": 1793994320,
+        "narHash": "sha256-zAZ/Eoj52kQjnvFk60jlGENIydzqnn4zTZPgeSMCEBA=",
         "ref": "refs/heads/master",
-        "rev": "a2e3ab44a68a25710d23ac1d97d6b9221fd4d791",
-        "revCount": 53,
+        "rev": "bddad18fe33329e6ee6857f6ed4c269a3cd35810",
+        "revCount": 55,
         "type": "git",
         "url": "ssh://git@github.com/r4v3n6101/secrets.git"
       },
